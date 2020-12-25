@@ -19,3 +19,11 @@ Ojo esta obra de [arte](https://youtu.be/7x-Y0yvRwpc).
 ## ¿Cuál es la versión de Unity?
 
 Unity 2019.4.17f1 LTS.
+
+## Cosas cool
+
+- Sería genial que todo corriese en Webgl, para compartirlo fácil en la red, pero
+  si no se puede no hay problema.
+
+- También cuando haga commit, cuando agregue assets raros o etc, que verifique
+  que el proyecto no se caiga, al menos que corra sin problemas en el editor.
