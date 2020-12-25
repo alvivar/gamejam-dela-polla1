@@ -15,3 +15,7 @@ como se pueda en una colleción bien polla.
 ## ¿Porqué el nombre?
 
 Ojo esta obra de (arte)[https://youtu.be/7x-Y0yvRwpc].
+
+## ¿Cuál es la versión de Unity?
+
+Unity 2019.4.17f1 LTS.
