@@ -26,8 +26,8 @@ Unity 2019.4.17f1 LTS.
 
 ## Cosas cool
 
-- Sería genial que todo corriese en Webgl, para compartirlo fácil en la red, pero
-  si no se puede no hay problema.
+- Sería genial que todo corriese en Webgl, para compartirlo fácil en la red,
+  pero si no se puede no hay problema.
 
-- También cuando haga commit, cuando agregue assets raros o etc, que verifique
-  que el proyecto no se caiga, al menos que corra sin problemas en el editor.
+- También cuando hagan commit, cuando agreguen assets raros o etc, verifiquen
+  que el proyecto corra sin problemas en el editor.
