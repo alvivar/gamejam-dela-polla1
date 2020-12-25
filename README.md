@@ -20,6 +20,10 @@ Ojo esta obra de [arte](https://youtu.be/7x-Y0yvRwpc).
 
 Unity 2019.4.17f1 LTS.
 
+## Assets compartidos
+
+- El famoso DOTween.
+
 ## Cosas cool
 
 - Sería genial que todo corriese en Webgl, para compartirlo fácil en la red, pero
