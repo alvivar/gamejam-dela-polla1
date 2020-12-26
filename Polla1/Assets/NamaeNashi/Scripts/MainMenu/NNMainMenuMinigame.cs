@@ -1,4 +1,5 @@
 ﻿using NamaeNashi;
+using System.Collections;
 using UnityEngine;
 using DG.Tweening;
 
@@ -77,4 +78,6 @@ namespace NamaeNashi {
             }
         }
     }
+
+    //public I
 }
