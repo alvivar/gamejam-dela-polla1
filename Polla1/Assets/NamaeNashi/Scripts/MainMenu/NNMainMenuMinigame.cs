@@ -6,66 +6,96 @@ using DG.Tweening;
 namespace NamaeNashi {
     public class NNMainMenuMinigame : MonoBehaviour {
 
+        [System.Serializable]
+        public struct LevelItems{
+            public GameObject level;
+            public RectTransform levelButton;
+            public RectTransform[] extraItems;
+        }
+
         public NNMainMenu mainMenu;
         public NNMainMenuLevelScriptable mainMenuScriptable;
         public GameObject pityMenu;
-        public GameObject[] levels;
-        public GameObject[] levelButton;
-        public GameObject[] correctTriesGO;
-
+        public LevelItems[] levelItems;        
+       // public GameObject[] correctTriesGO;
         private int currentLvl=-1;
         private int wrongTries=3;
         private int correctTries = 0;
 
+        private IEnumerator correctButtonCoroutine;
+        private IEnumerator extraItemsCoroutine;
+
         public void SelectedCorrect(){
-            correctTries++;
+            /*correctTries++;
             if(correctTries!=mainMenuScriptable.correctAnswersToEnterGame) {
                 GoToNextLevel();
             }else{
                 mainMenu.StartGame();
-            }
+            }*/
+
+            GoToNextLevel();
         }
 
         public void StartMiniGame() {
             correctTries=0;
             wrongTries=mainMenuScriptable.wrongTries;
             currentLvl=0;
-            for(int x=0;x<levels.Length;++x) {
-                levels[x].SetActive(false);
+            for(int x=0;x<levelItems.Length;++x) {
+                if(levelItems[x].level!=null){
+                    levelItems[x].level.SetActive(false);
+                }
             }
-            RefreshCorrectTries();
+            //RefreshCorrectTries();
             StartLevel();
         }
 
-        public void StartLevel(){
-            RefreshCorrectTries();
-            if (currentLvl!=0){
-                levels[currentLvl-1].SetActive(false);
-            }
-            levels[0].SetActive(true);
-        }
+        public void StartLevel() {
 
+            correctButtonCoroutine=MovingItems();
+            extraItemsCoroutine=MovingExtraItems();
+            StartCoroutine(correctButtonCoroutine);
+            StartCoroutine(extraItemsCoroutine);
+            //RefreshCorrectTries();
+            for (int x = 0; x<levelItems.Length; ++x) {
+                if (levelItems[x].level!=null) {
+                    levelItems[x].level.SetActive(false);
+                }
+            }
+            levelItems[currentLvl].level.SetActive(true);
+
+        }
+        /*
         public void SelectedWrongOption(){
             --wrongTries;
             if(wrongTries>0){
                 GoToNextLevel();
             }else {
-                for (int x = 0; x<levels.Length; ++x) {
-                    levels[x].SetActive(false);
+                for (int x = 0; x<levelItems.Length; ++x) {
+                    levelItems[x].level.SetActive(false);
                 }
                 pityMenu.SetActive(true);
             }
+        }*/
+
+        public void SelectedWrong(){ 
+            /*TO DO*/
         }
 
         public void GoToNextLevel(){
-            ++currentLvl;
-            StartLevel();
+            if(currentLvl<levelItems.Length) {
+                StopCoroutine(correctButtonCoroutine);
+                StopCoroutine(extraItemsCoroutine);
+                ++currentLvl;
+                StartLevel();
+            }else{ 
+            
+            }
         }
 
         public void RestartMinigame(){
             StartMiniGame();
         }
-
+        /*
         private void RefreshCorrectTries(){
             bool tempValue;
             for (int x = 0; x<correctTriesGO.Length; ++x) {
@@ -76,8 +106,42 @@ namespace NamaeNashi {
                 }
                 correctTriesGO[x].SetActive(tempValue);
             }
+        }*/
+
+        private IEnumerator MovingItems() {
+            int currentAnimNumber = mainMenuScriptable.movementLocations[currentLvl].startingNum;
+            levelItems[currentLvl].levelButton.anchoredPosition=mainMenuScriptable.movementLocations[currentLvl].locationsPoint[currentAnimNumber];            
+            while (true){
+                ++currentAnimNumber;
+                if (currentAnimNumber>=mainMenuScriptable.movementLocations[currentLvl].locationsPoint.Length) {
+                    currentAnimNumber=0;
+                }
+                levelItems[currentLvl].levelButton.DOAnchorPos(mainMenuScriptable.movementLocations[currentLvl].locationsPoint[currentAnimNumber], mainMenuScriptable.movementLocations[currentLvl].timeMovement).SetEase(Ease.Linear); ;
+                yield return new WaitForSeconds(mainMenuScriptable.movementLocations[currentLvl].timeMovement);
+            }
+        }
+
+        private IEnumerator MovingExtraItems() {
+            NNMainMenuLevelScriptable.MainMenuMovingItems[] tempLevelData;
+            tempLevelData=mainMenuScriptable.movementLocations[currentLvl].movingExtraItems;
+            int[] currentAnimNumber = new int[tempLevelData.Length];
+            for (int x = 0; x<tempLevelData.Length; ++x) {
+                currentAnimNumber[x]=tempLevelData[x].startingNum;
+                Debug.Log(x+" x");
+                Debug.Log(currentAnimNumber[x]+" currentAnimNumber[x]");
+
+                levelItems[currentLvl].extraItems[x].anchoredPosition=tempLevelData[x].locationsPoint[currentAnimNumber[x]];
+            }
+            while (true) {
+                for(int x=0;x<tempLevelData.Length;++x){
+                    ++currentAnimNumber[x];
+                    if(currentAnimNumber[x]>=tempLevelData[x].locationsPoint.Length) {
+                        currentAnimNumber[x]=0;
+                    }
+                    levelItems[currentLvl].extraItems[x].DOAnchorPos(tempLevelData[x].locationsPoint[currentAnimNumber[x]], mainMenuScriptable.movementLocations[currentLvl].timeMovement).SetEase(Ease.Linear);
+                }
+                yield return new WaitForSeconds(mainMenuScriptable.movementLocations[currentLvl].timeMovement);
+            }
         }
     }
-
-    //public I
 }
