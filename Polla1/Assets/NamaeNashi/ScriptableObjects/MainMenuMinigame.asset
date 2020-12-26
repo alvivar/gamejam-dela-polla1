@@ -14,44 +14,131 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   correctAnswersToEnterGame: 5
   movementLocations:
-  - timeMovement: 0
-    locationsPoint: []
+  - timeMovement: 2
+    locationsPoint:
+    - {x: 0, y: -300}
     startingNum: 0
-    timeToNextTask: 0
-  - timeMovement: 0
-    locationsPoint: []
+    movingExtraItems: []
+  - timeMovement: 2
+    locationsPoint:
+    - {x: -500, y: 300}
+    - {x: 500, y: 300}
+    - {x: 500, y: -300}
+    - {x: -500, y: -300}
     startingNum: 0
-    timeToNextTask: 0
-  - timeMovement: 0
-    locationsPoint: []
+    movingExtraItems: []
+  - timeMovement: 2
+    locationsPoint:
+    - {x: -500, y: 300}
+    - {x: 500, y: 300}
+    - {x: 500, y: -300}
+    - {x: -500, y: -300}
     startingNum: 0
-    timeToNextTask: 0
-  - timeMovement: 0
-    locationsPoint: []
+    movingExtraItems:
+    - locationsPoint:
+      - {x: -500, y: 300}
+      - {x: 500, y: 300}
+      - {x: 500, y: -300}
+      - {x: -500, y: -300}
+      startingNum: 1
+  - timeMovement: 2
+    locationsPoint:
+    - {x: 300, y: 300}
+    - {x: 600, y: 0}
+    - {x: 300, y: -300}
+    - {x: -300, y: -300}
+    - {x: -600, y: 0}
+    - {x: -300, y: 300}
     startingNum: 0
-    timeToNextTask: 0
-  - timeMovement: 0
-    locationsPoint: []
+    movingExtraItems:
+    - locationsPoint:
+      - {x: 300, y: 300}
+      - {x: 600, y: 0}
+      - {x: 300, y: -300}
+      - {x: -300, y: -300}
+      - {x: -600, y: 0}
+      - {x: -300, y: 300}
+      startingNum: 1
+    - locationsPoint:
+      - {x: 300, y: 300}
+      - {x: 600, y: 0}
+      - {x: 300, y: -300}
+      - {x: -300, y: -300}
+      - {x: -600, y: 0}
+      - {x: -300, y: 300}
+      startingNum: 2
+    - locationsPoint:
+      - {x: 300, y: 300}
+      - {x: 600, y: 0}
+      - {x: 300, y: -300}
+      - {x: -300, y: -300}
+      - {x: -600, y: 0}
+      - {x: -300, y: 300}
+      startingNum: 3
+    - locationsPoint:
+      - {x: 300, y: 300}
+      - {x: 600, y: 0}
+      - {x: 300, y: -300}
+      - {x: -300, y: -300}
+      - {x: -600, y: 0}
+      - {x: -300, y: 300}
+      startingNum: 4
+    - locationsPoint:
+      - {x: 300, y: 300}
+      - {x: 600, y: 0}
+      - {x: 300, y: -300}
+      - {x: -300, y: -300}
+      - {x: -600, y: 0}
+      - {x: -300, y: 300}
+      startingNum: 5
+  - timeMovement: 2
+    locationsPoint:
+    - {x: 300, y: 300}
+    - {x: 600, y: 0}
+    - {x: 300, y: -300}
+    - {x: -300, y: -300}
+    - {x: -600, y: 0}
+    - {x: -300, y: 300}
     startingNum: 0
-    timeToNextTask: 0
-  - timeMovement: 0
-    locationsPoint: []
-    startingNum: 0
-    timeToNextTask: 0
-  - timeMovement: 0
-    locationsPoint: []
-    startingNum: 0
-    timeToNextTask: 0
-  - timeMovement: 0
-    locationsPoint: []
-    startingNum: 0
-    timeToNextTask: 0
-  - timeMovement: 0
-    locationsPoint: []
-    startingNum: 0
-    timeToNextTask: 0
-  - timeMovement: 0
-    locationsPoint: []
-    startingNum: 0
-    timeToNextTask: 0
+    movingExtraItems:
+    - locationsPoint:
+      - {x: 300, y: 300}
+      - {x: 600, y: 0}
+      - {x: 300, y: -300}
+      - {x: -300, y: -300}
+      - {x: -600, y: 0}
+      - {x: -300, y: 300}
+      startingNum: 1
+    - locationsPoint:
+      - {x: 300, y: 300}
+      - {x: 600, y: 0}
+      - {x: 300, y: -300}
+      - {x: -300, y: -300}
+      - {x: -600, y: 0}
+      - {x: -300, y: 300}
+      startingNum: 2
+    - locationsPoint:
+      - {x: 300, y: 300}
+      - {x: 600, y: 0}
+      - {x: 300, y: -300}
+      - {x: -300, y: -300}
+      - {x: -600, y: 0}
+      - {x: -300, y: 300}
+      startingNum: 3
+    - locationsPoint:
+      - {x: 300, y: 300}
+      - {x: 600, y: 0}
+      - {x: 300, y: -300}
+      - {x: -300, y: -300}
+      - {x: -600, y: 0}
+      - {x: -300, y: 300}
+      startingNum: 4
+    - locationsPoint:
+      - {x: 300, y: 300}
+      - {x: 600, y: 0}
+      - {x: 300, y: -300}
+      - {x: -300, y: -300}
+      - {x: -600, y: 0}
+      - {x: -300, y: 300}
+      startingNum: 5
   wrongTries: 0
