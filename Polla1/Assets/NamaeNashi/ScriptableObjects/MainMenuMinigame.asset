@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5532b147bee8f5f4c8feaac27f4b6a4c, type: 3}
+  m_Name: MainMenuMinigame
+  m_EditorClassIdentifier: 
+  correctAnswersToEnterGame: 5
+  movementLocations:
+  - timeMovement: 0
+    locationsPoint: []
+    startingNum: 0
+    timeToNextTask: 0
+  - timeMovement: 0
+    locationsPoint: []
+    startingNum: 0
+    timeToNextTask: 0
+  - timeMovement: 0
+    locationsPoint: []
+    startingNum: 0
+    timeToNextTask: 0
+  - timeMovement: 0
+    locationsPoint: []
+    startingNum: 0
+    timeToNextTask: 0
+  - timeMovement: 0
+    locationsPoint: []
+    startingNum: 0
+    timeToNextTask: 0
+  - timeMovement: 0
+    locationsPoint: []
+    startingNum: 0
+    timeToNextTask: 0
+  - timeMovement: 0
+    locationsPoint: []
+    startingNum: 0
+    timeToNextTask: 0
+  - timeMovement: 0
+    locationsPoint: []
+    startingNum: 0
+    timeToNextTask: 0
+  - timeMovement: 0
+    locationsPoint: []
+    startingNum: 0
+    timeToNextTask: 0
+  - timeMovement: 0
+    locationsPoint: []
+    startingNum: 0
+    timeToNextTask: 0
+  wrongTries: 0
