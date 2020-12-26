@@ -147,11 +147,147 @@ using UnityEngine;
             return MainMessages.Elements[index];
         }
 
+        // VoidDetection
+
+        public static Arrayx<int> VoidDetectionIds = new Arrayx<int>();
+        public static Arrayx<VoidDetection> VoidDetections = new Arrayx<VoidDetection>();
+
+        public static void AddVoidDetection(VoidDetection component, bool componentEnabled = true)
+        {
+            // Setup
+
+            if (VoidDetectionIds.Elements == null)
+            {
+                VoidDetectionIds.Size = 8;
+                VoidDetectionIds.Elements = new int[VoidDetectionIds.Size];
+            }
+
+            if (VoidDetections.Elements == null)
+            {
+                VoidDetections.Size = 8;
+                VoidDetections.Elements = new VoidDetection[VoidDetections.Size];
+            }
+
+            // Add
+
+            VoidDetectionIds.Elements[VoidDetectionIds.Length++] = component.gameObject.GetInstanceID();
+            VoidDetections.Elements[VoidDetections.Length++] = component;
+
+            // Resize check
+
+            if (VoidDetectionIds.Length >= VoidDetectionIds.Size)
+            {
+                VoidDetectionIds.Size *= 2;
+                Array.Resize(ref VoidDetectionIds.Elements, VoidDetectionIds.Size);
+
+                VoidDetections.Size *= 2;
+                Array.Resize(ref VoidDetections.Elements, VoidDetections.Size);
+            }
+
+            // Enable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static void RemoveVoidDetection(VoidDetection component, bool componentEnabled = false)
+        {
+            // Index
+
+            var id = component.gameObject.GetInstanceID();
+            var indexToRemove = -1;
+            for (int i = 0; i < VoidDetectionIds.Length; i++)
+            {
+                if (VoidDetectionIds.Elements[i] == id)
+                {
+                    indexToRemove = i;
+                    break;
+                }
+            }
+
+            // Overwrite
+
+            Array.Copy(
+                VoidDetectionIds.Elements, indexToRemove + 1,
+                VoidDetectionIds.Elements, indexToRemove,
+                VoidDetectionIds.Length - indexToRemove - 1);
+            VoidDetectionIds.Length--;
+
+            Array.Copy(
+                VoidDetections.Elements, indexToRemove + 1,
+                VoidDetections.Elements, indexToRemove,
+                VoidDetections.Length - indexToRemove - 1);
+            VoidDetections.Length--;
+
+            // Cache clean up
+
+            VoidDetectionIdCache.Clear();
+
+            // Disable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static Arrayx<VoidDetection> GetVoidDetection(params Arrayx<int>[] ids)
+        {
+            // VoidDetectionIds needs to be the first in the array parameter,
+            // that's how Gigas.Get relates the ids to the components
+
+            Arrayx<int>[] VoidDetectionPlusIds = new Arrayx<int>[ids.Length + 1];
+            VoidDetectionPlusIds[0] = VoidDetectionIds;
+            Array.Copy(ids, 0, VoidDetectionPlusIds, 1, ids.Length);
+
+            return Gigas.Get<VoidDetection>(VoidDetectionPlusIds, EntitySet.VoidDetections);
+        }
+
+        public static VoidDetection GetVoidDetection(MonoBehaviour component)
+        {
+            return GetVoidDetection(component.gameObject.GetInstanceID());
+        }
+
+        public static VoidDetection GetVoidDetection(GameObject gameobject)
+        {
+            return GetVoidDetection(gameobject.GetInstanceID());
+        }
+
+        private static Dictionary<int, int> VoidDetectionIdCache = new Dictionary<int, int>();
+        public static VoidDetection GetVoidDetection(int instanceID)
+        {
+            var id = instanceID;
+
+            // Cache
+
+            if (VoidDetectionIdCache.ContainsKey(id))
+                return VoidDetections.Elements[VoidDetectionIdCache[id]];
+
+            // Index of
+
+            var index = -1;
+            for (int i = 0; i < VoidDetectionIds.Length; i++)
+            {
+                if (VoidDetectionIds.Elements[i] == id)
+                {
+                    index = i;
+                    VoidDetectionIdCache[id] = i; // Cache
+                    break;
+                }
+            }
+
+            // Value
+
+            if (index < 0)
+                return null;
+
+            return VoidDetections.Elements[index];
+        }
+
 
         public static void Clear()
         {
             MainMessageIds.Length = 0;
             MainMessages.Length = 0;
+
+            VoidDetectionIds.Length = 0;
+            VoidDetections.Length = 0;
         }
 
         public static void ClearAlt()
