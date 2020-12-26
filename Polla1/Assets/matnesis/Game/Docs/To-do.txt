@@ -1,0 +1,2 @@
+
+A 3D character that walks and idle.
