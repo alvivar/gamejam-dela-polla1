@@ -1,2 +1,5 @@
 
+A message text field to communicate with the player.
 A 3D character that walks and idle.
+The house asset.
+Dialog system.
