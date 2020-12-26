@@ -18,6 +18,12 @@ public class GameStart : MonoBehaviour
             })
             .Add(6, () =>
             {
+                mainMessage.damp = 0.1f;
+                mainMessage.show = false;
+                mainMessage.mainText.text = "";
+            })
+            .Add(1, () =>
+            {
                 this.tt("FadingMemories").Play();
             });
 
@@ -26,9 +32,6 @@ public class GameStart : MonoBehaviour
             .Pause()
             .Add(() => Random.Range(1f, 2f), t =>
             {
-                mainMessage.damp = 0.1f;
-                mainMessage.show = false;
-
                 var memory = Texts.FADING_MEMORIES[index++];
                 mainMessage.mainText.text = memory;
 

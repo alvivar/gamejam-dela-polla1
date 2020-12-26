@@ -17,11 +17,14 @@
         "\t\t\tWho loves me?",
         "\t\t\tI wasn't enough",
         "\t\t\tDoes it stink like rotten meat?",
-        "\t\t\t(WHAT HAPPENS TO A DREAM DEFERRED?)",
+        "\t\t(What happens to a dream deferred?)",
         "\t\t\tWho said that?",
     };
     public static string[] VOID_REJECTS_YOU = new string[]
     {
         "\t\tThe Void rejects you",
+        "\t\tThe Void rejects you\n\n\t\t\tYou remembered that time\n\t\t\twhen you wanted something and failed",
+        "\t\tThe Void rejects you\n\n\t\t\tYou remembered that time\n\t\t\twhen you wanted something and failed\n\n\t\t\t\tYou haven't learned",
+        "\t\tYour third eye is hungry for love"
     };
 }
