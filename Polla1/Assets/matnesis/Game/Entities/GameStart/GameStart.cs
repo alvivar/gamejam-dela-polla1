@@ -7,39 +7,35 @@ public class GameStart : MonoBehaviour
 
     void Start()
     {
-        {
-            this.tt("Intro")
-                .Wait(() => ready)
-                .Add(1, () =>
-                {
-                    mainMessage = EntitySet.MainMessages.Elements[0];
-                    mainMessage.mainText.text = Texts.INTRO;
-                    mainMessage.damp = 10f;
-                    mainMessage.show = true;
-                })
-                .Add(6, () =>
-                {
-                    mainMessage.damp = 0.1f;
-                    mainMessage.show = false;
+        this.tt("Intro")
+            .Wait(() => ready)
+            .Add(1, () =>
+            {
+                mainMessage = EntitySet.MainMessages.Elements[0];
+                mainMessage.mainText.text = Texts.INTRO;
+                mainMessage.damp = 10f;
+                mainMessage.show = true;
+            })
+            .Add(6, () =>
+            {
+                this.tt("FadingMemories").Play();
+            });
 
-                    this.tt("FadingMemories").Play();
-                });
-        }
+        var index = 0;
+        this.tt("FadingMemories")
+            .Pause()
+            .Add(() => Random.Range(1f, 2f), t =>
+            {
+                mainMessage.damp = 0.1f;
+                mainMessage.show = false;
 
-        {
-            var index = 0;
-            this.tt("FadingMemories")
-                .Pause()
-                .Add(() => Random.Range(1f, 2f), t =>
-                {
-                    var memory = Texts.FADING_MEMORIES[index++];
-                    mainMessage.mainText.text = memory;
+                var memory = Texts.FADING_MEMORIES[index++];
+                mainMessage.mainText.text = memory;
 
-                    if (index >= Texts.FADING_MEMORIES.Length)
-                        t.self.Stop();
-                })
-                .Repeat();
-        }
+                if (index >= Texts.FADING_MEMORIES.Length)
+                    t.self.Stop();
+            })
+            .Repeat();
 
     }
 
