@@ -328,7 +328,7 @@ MonoBehaviour:
     - locationsPoint:
       - {x: 335, y: -298.5}
       - {x: 349, y: -298.5}
-      startingNum: 1
+      startingNum: 0
     - locationsPoint:
       - {x: 60, y: -28.2}
       - {x: 81, y: -28.2}
@@ -337,4 +337,14 @@ MonoBehaviour:
       - {x: -600, y: 403.8}
       - {x: -630, y: 403.8}
       startingNum: 1
+  - timeMovement: 5
+    locationsPoint:
+    - {x: 0, y: -300}
+    startingNum: 0
+    movingExtraItems: []
+  - timeMovement: 5
+    locationsPoint:
+    - {x: 0, y: -300}
+    startingNum: 0
+    movingExtraItems: []
   wrongTries: 0
