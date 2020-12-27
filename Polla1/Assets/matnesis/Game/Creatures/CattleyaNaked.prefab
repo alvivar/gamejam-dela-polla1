@@ -2560,7 +2560,7 @@ GameObject:
   - component: {fileID: 3121262511855480050}
   - component: {fileID: 3030000881185803080}
   m_Layer: 0
-  m_Name: LalaNaked
+  m_Name: CattleyaNaked
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
