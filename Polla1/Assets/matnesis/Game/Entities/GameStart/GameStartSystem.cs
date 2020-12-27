@@ -2,12 +2,11 @@
 
 public class GameStartSystem : MonoBehaviour
 {
-    [Header("Debug")]
-    public bool skipIntro = false;
-
     [Header("Internal")]
     public bool ready = false;
     public MainMessage mainMessage;
+
+    bool skipIntro = true;
 
     void Start()
     {
@@ -29,7 +28,7 @@ public class GameStartSystem : MonoBehaviour
             })
             .Add(1, () =>
             {
-                this.tt("FadingMemories").Play();
+                // this.tt("FadingMemories").Play();
             });
 
         var index = 0;

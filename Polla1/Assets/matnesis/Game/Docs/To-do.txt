@@ -1,7 +1,10 @@
 
-A rifle / Gun
+Dialog system
+The player can pick up the rifle
+The player can shoot the rifle
 A 3D character that walks and idle
 
+x A rifle / Gun
 x The tower for the gun
 x The girl near the shore
 x The house girls

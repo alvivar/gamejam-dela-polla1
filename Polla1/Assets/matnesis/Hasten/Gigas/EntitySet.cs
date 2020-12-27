@@ -147,6 +147,139 @@ using UnityEngine;
             return MainMessages.Elements[index];
         }
 
+        // Telepoint
+
+        public static Arrayx<int> TelepointIds = new Arrayx<int>();
+        public static Arrayx<Telepoint> Telepoints = new Arrayx<Telepoint>();
+
+        public static void AddTelepoint(Telepoint component, bool componentEnabled = true)
+        {
+            // Setup
+
+            if (TelepointIds.Elements == null)
+            {
+                TelepointIds.Size = 8;
+                TelepointIds.Elements = new int[TelepointIds.Size];
+            }
+
+            if (Telepoints.Elements == null)
+            {
+                Telepoints.Size = 8;
+                Telepoints.Elements = new Telepoint[Telepoints.Size];
+            }
+
+            // Add
+
+            TelepointIds.Elements[TelepointIds.Length++] = component.gameObject.GetInstanceID();
+            Telepoints.Elements[Telepoints.Length++] = component;
+
+            // Resize check
+
+            if (TelepointIds.Length >= TelepointIds.Size)
+            {
+                TelepointIds.Size *= 2;
+                Array.Resize(ref TelepointIds.Elements, TelepointIds.Size);
+
+                Telepoints.Size *= 2;
+                Array.Resize(ref Telepoints.Elements, Telepoints.Size);
+            }
+
+            // Enable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static void RemoveTelepoint(Telepoint component, bool componentEnabled = false)
+        {
+            // Index
+
+            var id = component.gameObject.GetInstanceID();
+            var indexToRemove = -1;
+            for (int i = 0; i < TelepointIds.Length; i++)
+            {
+                if (TelepointIds.Elements[i] == id)
+                {
+                    indexToRemove = i;
+                    break;
+                }
+            }
+
+            // Overwrite
+
+            Array.Copy(
+                TelepointIds.Elements, indexToRemove + 1,
+                TelepointIds.Elements, indexToRemove,
+                TelepointIds.Length - indexToRemove - 1);
+            TelepointIds.Length--;
+
+            Array.Copy(
+                Telepoints.Elements, indexToRemove + 1,
+                Telepoints.Elements, indexToRemove,
+                Telepoints.Length - indexToRemove - 1);
+            Telepoints.Length--;
+
+            // Cache clean up
+
+            TelepointIdCache.Clear();
+
+            // Disable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static Arrayx<Telepoint> GetTelepoint(params Arrayx<int>[] ids)
+        {
+            // TelepointIds needs to be the first in the array parameter,
+            // that's how Gigas.Get relates the ids to the components
+
+            Arrayx<int>[] TelepointPlusIds = new Arrayx<int>[ids.Length + 1];
+            TelepointPlusIds[0] = TelepointIds;
+            Array.Copy(ids, 0, TelepointPlusIds, 1, ids.Length);
+
+            return Gigas.Get<Telepoint>(TelepointPlusIds, EntitySet.Telepoints);
+        }
+
+        public static Telepoint GetTelepoint(MonoBehaviour component)
+        {
+            return GetTelepoint(component.gameObject.GetInstanceID());
+        }
+
+        public static Telepoint GetTelepoint(GameObject gameobject)
+        {
+            return GetTelepoint(gameobject.GetInstanceID());
+        }
+
+        private static Dictionary<int, int> TelepointIdCache = new Dictionary<int, int>();
+        public static Telepoint GetTelepoint(int instanceID)
+        {
+            var id = instanceID;
+
+            // Cache
+
+            if (TelepointIdCache.ContainsKey(id))
+                return Telepoints.Elements[TelepointIdCache[id]];
+
+            // Index of
+
+            var index = -1;
+            for (int i = 0; i < TelepointIds.Length; i++)
+            {
+                if (TelepointIds.Elements[i] == id)
+                {
+                    index = i;
+                    TelepointIdCache[id] = i; // Cache
+                    break;
+                }
+            }
+
+            // Value
+
+            if (index < 0)
+                return null;
+
+            return Telepoints.Elements[index];
+        }
+
         // VoidPlayer
 
         public static Arrayx<int> VoidPlayerIds = new Arrayx<int>();
@@ -285,6 +418,9 @@ using UnityEngine;
         {
             MainMessageIds.Length = 0;
             MainMessages.Length = 0;
+
+            TelepointIds.Length = 0;
+            Telepoints.Length = 0;
 
             VoidPlayerIds.Length = 0;
             VoidPlayers.Length = 0;
