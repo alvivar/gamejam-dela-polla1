@@ -14,49 +14,141 @@ public class ChatFirst : ChatComponentOptions
     //public Transform characterPoint;
     //public DoorComponent door;
 
+    public r_start_component starting;
     public bool finished = false;
 
     public void SetFinished(bool target)
     {
         finished = target;
     }
-    
 
-    //TeaTime teat(bool open) {
-    //    return this.tt()
-    //                    .Add(0.0f, () => { print("1"); animCam.thisLook = targetPoint; })
-    //                    .Add(0.1f, () =>
-    //                    {
-    //                        door.isOpen = open;
-    //                    })
-    //                    .Add(1.0f, () =>
-    //                    {
-    //                        animCam.thisLook = characterPoint;
-    //                    })
-    //                    .Add(0, () =>
-    //                    { 
-    //                        print("3");
-    //                        wholePanel.localScale = Vector3.one;
-    //                        finished = true;
-    //                    });
-    //}
+
+
+
+
 
     public override FluentNode Create()
     {
         return
         Show()
-        * Write("Hola buenas mucho gusto, que se le ofrece?")
+
+        * Write("Bienvenido humano")
             * Do(() => {
                 finished = false;
             })
         * ContinueWhen(() => finished)
-        * Write("Hola buenas mucho gusto, que se le ofrece?")
+
+        * Write("Soy Tangerine")
             * Do(() => {
                 finished = false;
             })
         * ContinueWhen(() => finished)
+
+        * Write("Te invito a jugar el juego de las semillas que caen del cielo")
+            * Do(() => {
+                finished = false;
+            })
+        * ContinueWhen(() => finished)
+        * Write("En el tiras semillas del cielo")
+            * Do(() => {
+                finished = false;
+            })
+        * ContinueWhen(() => finished)
+
+        * Write("Y debes evitar que toquen las nubes")
+            * Do(() => {
+                finished = false;
+            })
+        * ContinueWhen(() => finished)
+
+        * Write("Como cuando no habia razón para nada")
+            * Do(() => {
+                finished = false;
+            })
+        * ContinueWhen(() => finished)
+
+        * Write("Ahora el cielo es lo unico que hay que alcanzar")
+            * Do(() => {
+                finished = false;
+            })
+        * ContinueWhen(() => finished)
+
+        * Write("Cuando logras que una semilla toque la tierra")
+            * Do(() => {
+                finished = false;
+            })
+        * ContinueWhen(() => finished)
+
+        * Write("Veras que nacera un arbol")
+            * Do(() => {
+                finished = false;
+            })
+        * ContinueWhen(() => finished)
+
+        * Write("Este arbol durara exactamente un minuto en crecer ")
+            * Do(() => {
+                finished = false;
+            })
+        * ContinueWhen(() => finished)
+
+        * Write("Y sus frutos produciran mas capacidad para semilla")
+            * Do(() => {
+                finished = false;
+            })
+        * ContinueWhen(() => finished)
+
+        * Write("y tu poder de semilla incrementara")
+            * Do(() => {
+                finished = false;
+            })
+        * ContinueWhen(() => finished)
+
+        * Write("Los humanos se encuentran entusiasmados por las cosechas de mandarinas")
+            * Do(() => {
+                finished = false;
+            })
+        * ContinueWhen(() => finished)
+
+        * Write("Vamos a por ellos!")
+            * Do(() => {
+                finished = false;
+            })
+        * ContinueWhen(() => finished)
+
+        //* Write("Tambien este juego es infinito, entonces no vallas por ahí buscando ningún final")
+        //    * Do(() => {
+        //        finished = false;
+        //    })
+        //* ContinueWhen(() => finished)
+
+        //* Write("Hasta luego.")
+        //    * Do(() => {
+        //        finished = false;
+        //    })
+        //* ContinueWhen(() => finished)
+
+        /// * Write("Por cierto, este juego lo jugaras hasta tu aburrimiento, ya que no tiene fin")
+        //    * Do(() => {
+        //        finished = false;
+        //    })
+        /// * ContinueWhen(() => finished)
+
+
+        /// * Write("Hahahahaha...")
+        //    * Do(() => {
+        //        finished = false;
+        //    })
+        /// * ContinueWhen(() => finished)
+
+
         * Hide()
+
+        * Do(() => { 
+                starting.SetReady();
+        })
+
         * End();
+
     }
 
 }
