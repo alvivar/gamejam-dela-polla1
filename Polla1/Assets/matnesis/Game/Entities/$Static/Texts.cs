@@ -1,6 +1,7 @@
 ﻿public class Texts
 {
     public static string INTRO = "\t\tYOU JUST DIED\n\t\tand HELL awaits\n\n\t\tYou have been cursed\n\t\twith THE EYE OF MINDS";
+
     public static string[] FADING_MEMORIES = new string[]
     {
         "\t\t\tMy mother voice?",
@@ -20,6 +21,7 @@
         "\t\t(What happens to a dream deferred?)",
         "\t\t\tWho said that?",
     };
+
     public static string[] VOID_REJECTS_YOU = new string[]
     {
         "\t\tThe Void rejects you",

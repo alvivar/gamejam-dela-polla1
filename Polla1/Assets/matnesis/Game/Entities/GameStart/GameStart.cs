@@ -8,6 +8,7 @@ public class GameStart : MonoBehaviour
     void Start()
     {
         this.tt("Intro")
+            .Reset()
             .Wait(() => ready)
             .Add(1, () =>
             {
@@ -29,6 +30,7 @@ public class GameStart : MonoBehaviour
 
         var index = 0;
         this.tt("FadingMemories")
+            .Reset()
             .Pause()
             .Add(() => Random.Range(1f, 2f), t =>
             {
