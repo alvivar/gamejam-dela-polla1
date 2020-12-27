@@ -147,41 +147,41 @@ using UnityEngine;
             return MainMessages.Elements[index];
         }
 
-        // VoidDetection
+        // Telepoint
 
-        public static Arrayx<int> VoidDetectionIds = new Arrayx<int>();
-        public static Arrayx<VoidDetection> VoidDetections = new Arrayx<VoidDetection>();
+        public static Arrayx<int> TelepointIds = new Arrayx<int>();
+        public static Arrayx<Telepoint> Telepoints = new Arrayx<Telepoint>();
 
-        public static void AddVoidDetection(VoidDetection component, bool componentEnabled = true)
+        public static void AddTelepoint(Telepoint component, bool componentEnabled = true)
         {
             // Setup
 
-            if (VoidDetectionIds.Elements == null)
+            if (TelepointIds.Elements == null)
             {
-                VoidDetectionIds.Size = 8;
-                VoidDetectionIds.Elements = new int[VoidDetectionIds.Size];
+                TelepointIds.Size = 8;
+                TelepointIds.Elements = new int[TelepointIds.Size];
             }
 
-            if (VoidDetections.Elements == null)
+            if (Telepoints.Elements == null)
             {
-                VoidDetections.Size = 8;
-                VoidDetections.Elements = new VoidDetection[VoidDetections.Size];
+                Telepoints.Size = 8;
+                Telepoints.Elements = new Telepoint[Telepoints.Size];
             }
 
             // Add
 
-            VoidDetectionIds.Elements[VoidDetectionIds.Length++] = component.gameObject.GetInstanceID();
-            VoidDetections.Elements[VoidDetections.Length++] = component;
+            TelepointIds.Elements[TelepointIds.Length++] = component.gameObject.GetInstanceID();
+            Telepoints.Elements[Telepoints.Length++] = component;
 
             // Resize check
 
-            if (VoidDetectionIds.Length >= VoidDetectionIds.Size)
+            if (TelepointIds.Length >= TelepointIds.Size)
             {
-                VoidDetectionIds.Size *= 2;
-                Array.Resize(ref VoidDetectionIds.Elements, VoidDetectionIds.Size);
+                TelepointIds.Size *= 2;
+                Array.Resize(ref TelepointIds.Elements, TelepointIds.Size);
 
-                VoidDetections.Size *= 2;
-                Array.Resize(ref VoidDetections.Elements, VoidDetections.Size);
+                Telepoints.Size *= 2;
+                Array.Resize(ref Telepoints.Elements, Telepoints.Size);
             }
 
             // Enable
@@ -189,15 +189,15 @@ using UnityEngine;
             component.enabled = componentEnabled;
         }
 
-        public static void RemoveVoidDetection(VoidDetection component, bool componentEnabled = false)
+        public static void RemoveTelepoint(Telepoint component, bool componentEnabled = false)
         {
             // Index
 
             var id = component.gameObject.GetInstanceID();
             var indexToRemove = -1;
-            for (int i = 0; i < VoidDetectionIds.Length; i++)
+            for (int i = 0; i < TelepointIds.Length; i++)
             {
-                if (VoidDetectionIds.Elements[i] == id)
+                if (TelepointIds.Elements[i] == id)
                 {
                     indexToRemove = i;
                     break;
@@ -207,67 +207,67 @@ using UnityEngine;
             // Overwrite
 
             Array.Copy(
-                VoidDetectionIds.Elements, indexToRemove + 1,
-                VoidDetectionIds.Elements, indexToRemove,
-                VoidDetectionIds.Length - indexToRemove - 1);
-            VoidDetectionIds.Length--;
+                TelepointIds.Elements, indexToRemove + 1,
+                TelepointIds.Elements, indexToRemove,
+                TelepointIds.Length - indexToRemove - 1);
+            TelepointIds.Length--;
 
             Array.Copy(
-                VoidDetections.Elements, indexToRemove + 1,
-                VoidDetections.Elements, indexToRemove,
-                VoidDetections.Length - indexToRemove - 1);
-            VoidDetections.Length--;
+                Telepoints.Elements, indexToRemove + 1,
+                Telepoints.Elements, indexToRemove,
+                Telepoints.Length - indexToRemove - 1);
+            Telepoints.Length--;
 
             // Cache clean up
 
-            VoidDetectionIdCache.Clear();
+            TelepointIdCache.Clear();
 
             // Disable
 
             component.enabled = componentEnabled;
         }
 
-        public static Arrayx<VoidDetection> GetVoidDetection(params Arrayx<int>[] ids)
+        public static Arrayx<Telepoint> GetTelepoint(params Arrayx<int>[] ids)
         {
-            // VoidDetectionIds needs to be the first in the array parameter,
+            // TelepointIds needs to be the first in the array parameter,
             // that's how Gigas.Get relates the ids to the components
 
-            Arrayx<int>[] VoidDetectionPlusIds = new Arrayx<int>[ids.Length + 1];
-            VoidDetectionPlusIds[0] = VoidDetectionIds;
-            Array.Copy(ids, 0, VoidDetectionPlusIds, 1, ids.Length);
+            Arrayx<int>[] TelepointPlusIds = new Arrayx<int>[ids.Length + 1];
+            TelepointPlusIds[0] = TelepointIds;
+            Array.Copy(ids, 0, TelepointPlusIds, 1, ids.Length);
 
-            return Gigas.Get<VoidDetection>(VoidDetectionPlusIds, EntitySet.VoidDetections);
+            return Gigas.Get<Telepoint>(TelepointPlusIds, EntitySet.Telepoints);
         }
 
-        public static VoidDetection GetVoidDetection(MonoBehaviour component)
+        public static Telepoint GetTelepoint(MonoBehaviour component)
         {
-            return GetVoidDetection(component.gameObject.GetInstanceID());
+            return GetTelepoint(component.gameObject.GetInstanceID());
         }
 
-        public static VoidDetection GetVoidDetection(GameObject gameobject)
+        public static Telepoint GetTelepoint(GameObject gameobject)
         {
-            return GetVoidDetection(gameobject.GetInstanceID());
+            return GetTelepoint(gameobject.GetInstanceID());
         }
 
-        private static Dictionary<int, int> VoidDetectionIdCache = new Dictionary<int, int>();
-        public static VoidDetection GetVoidDetection(int instanceID)
+        private static Dictionary<int, int> TelepointIdCache = new Dictionary<int, int>();
+        public static Telepoint GetTelepoint(int instanceID)
         {
             var id = instanceID;
 
             // Cache
 
-            if (VoidDetectionIdCache.ContainsKey(id))
-                return VoidDetections.Elements[VoidDetectionIdCache[id]];
+            if (TelepointIdCache.ContainsKey(id))
+                return Telepoints.Elements[TelepointIdCache[id]];
 
             // Index of
 
             var index = -1;
-            for (int i = 0; i < VoidDetectionIds.Length; i++)
+            for (int i = 0; i < TelepointIds.Length; i++)
             {
-                if (VoidDetectionIds.Elements[i] == id)
+                if (TelepointIds.Elements[i] == id)
                 {
                     index = i;
-                    VoidDetectionIdCache[id] = i; // Cache
+                    TelepointIdCache[id] = i; // Cache
                     break;
                 }
             }
@@ -277,7 +277,140 @@ using UnityEngine;
             if (index < 0)
                 return null;
 
-            return VoidDetections.Elements[index];
+            return Telepoints.Elements[index];
+        }
+
+        // VoidPlayer
+
+        public static Arrayx<int> VoidPlayerIds = new Arrayx<int>();
+        public static Arrayx<VoidPlayer> VoidPlayers = new Arrayx<VoidPlayer>();
+
+        public static void AddVoidPlayer(VoidPlayer component, bool componentEnabled = true)
+        {
+            // Setup
+
+            if (VoidPlayerIds.Elements == null)
+            {
+                VoidPlayerIds.Size = 8;
+                VoidPlayerIds.Elements = new int[VoidPlayerIds.Size];
+            }
+
+            if (VoidPlayers.Elements == null)
+            {
+                VoidPlayers.Size = 8;
+                VoidPlayers.Elements = new VoidPlayer[VoidPlayers.Size];
+            }
+
+            // Add
+
+            VoidPlayerIds.Elements[VoidPlayerIds.Length++] = component.gameObject.GetInstanceID();
+            VoidPlayers.Elements[VoidPlayers.Length++] = component;
+
+            // Resize check
+
+            if (VoidPlayerIds.Length >= VoidPlayerIds.Size)
+            {
+                VoidPlayerIds.Size *= 2;
+                Array.Resize(ref VoidPlayerIds.Elements, VoidPlayerIds.Size);
+
+                VoidPlayers.Size *= 2;
+                Array.Resize(ref VoidPlayers.Elements, VoidPlayers.Size);
+            }
+
+            // Enable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static void RemoveVoidPlayer(VoidPlayer component, bool componentEnabled = false)
+        {
+            // Index
+
+            var id = component.gameObject.GetInstanceID();
+            var indexToRemove = -1;
+            for (int i = 0; i < VoidPlayerIds.Length; i++)
+            {
+                if (VoidPlayerIds.Elements[i] == id)
+                {
+                    indexToRemove = i;
+                    break;
+                }
+            }
+
+            // Overwrite
+
+            Array.Copy(
+                VoidPlayerIds.Elements, indexToRemove + 1,
+                VoidPlayerIds.Elements, indexToRemove,
+                VoidPlayerIds.Length - indexToRemove - 1);
+            VoidPlayerIds.Length--;
+
+            Array.Copy(
+                VoidPlayers.Elements, indexToRemove + 1,
+                VoidPlayers.Elements, indexToRemove,
+                VoidPlayers.Length - indexToRemove - 1);
+            VoidPlayers.Length--;
+
+            // Cache clean up
+
+            VoidPlayerIdCache.Clear();
+
+            // Disable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static Arrayx<VoidPlayer> GetVoidPlayer(params Arrayx<int>[] ids)
+        {
+            // VoidPlayerIds needs to be the first in the array parameter,
+            // that's how Gigas.Get relates the ids to the components
+
+            Arrayx<int>[] VoidPlayerPlusIds = new Arrayx<int>[ids.Length + 1];
+            VoidPlayerPlusIds[0] = VoidPlayerIds;
+            Array.Copy(ids, 0, VoidPlayerPlusIds, 1, ids.Length);
+
+            return Gigas.Get<VoidPlayer>(VoidPlayerPlusIds, EntitySet.VoidPlayers);
+        }
+
+        public static VoidPlayer GetVoidPlayer(MonoBehaviour component)
+        {
+            return GetVoidPlayer(component.gameObject.GetInstanceID());
+        }
+
+        public static VoidPlayer GetVoidPlayer(GameObject gameobject)
+        {
+            return GetVoidPlayer(gameobject.GetInstanceID());
+        }
+
+        private static Dictionary<int, int> VoidPlayerIdCache = new Dictionary<int, int>();
+        public static VoidPlayer GetVoidPlayer(int instanceID)
+        {
+            var id = instanceID;
+
+            // Cache
+
+            if (VoidPlayerIdCache.ContainsKey(id))
+                return VoidPlayers.Elements[VoidPlayerIdCache[id]];
+
+            // Index of
+
+            var index = -1;
+            for (int i = 0; i < VoidPlayerIds.Length; i++)
+            {
+                if (VoidPlayerIds.Elements[i] == id)
+                {
+                    index = i;
+                    VoidPlayerIdCache[id] = i; // Cache
+                    break;
+                }
+            }
+
+            // Value
+
+            if (index < 0)
+                return null;
+
+            return VoidPlayers.Elements[index];
         }
 
 
@@ -286,8 +419,11 @@ using UnityEngine;
             MainMessageIds.Length = 0;
             MainMessages.Length = 0;
 
-            VoidDetectionIds.Length = 0;
-            VoidDetections.Length = 0;
+            TelepointIds.Length = 0;
+            Telepoints.Length = 0;
+
+            VoidPlayerIds.Length = 0;
+            VoidPlayers.Length = 0;
         }
 
         public static void ClearAlt()
