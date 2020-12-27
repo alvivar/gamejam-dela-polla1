@@ -1,9 +1,7 @@
 
-
-VOID detection and narrative
-
 A 3D character that walks and idle
-The house party asset
 
+x The house party asset
+x VOID detection and narrative
 x Dialog system
 x A message text field to communicate with the player

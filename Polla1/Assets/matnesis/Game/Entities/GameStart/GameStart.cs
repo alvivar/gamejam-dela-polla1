@@ -2,6 +2,9 @@
 
 public class GameStart : MonoBehaviour
 {
+    [Header("Debug")]
+    public bool skipIntro = false;
+
     [Header("Internal")]
     public bool ready = false;
     public MainMessage mainMessage;
@@ -18,7 +21,7 @@ public class GameStart : MonoBehaviour
                 mainMessage.damp = 10f;
                 mainMessage.show = true;
             })
-            .Add(6, () =>
+            .Add(!skipIntro ? 6 : 1, () =>
             {
                 mainMessage.damp = 0.1f;
                 mainMessage.show = false;
