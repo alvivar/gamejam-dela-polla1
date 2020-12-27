@@ -14,7 +14,7 @@ public class TelepointSystem : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         {
             player.fps.enabled = false;
-            player.transform.position = EntitySet.Telepoints.Elements[index].transform.position + new Vector3(0, 10, 0);
+            player.transform.position = EntitySet.Telepoints.Elements[index].transform.position + new Vector3(0, 1, 0);
             index = ++index % EntitySet.Telepoints.Length;
 
             this.tt("EnableFPS")
