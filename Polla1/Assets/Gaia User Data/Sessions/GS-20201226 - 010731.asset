@@ -953,6 +953,17 @@ MonoBehaviour:
     sessionPlaybackState: 1
     m_terrainsFoldedOut: 0
     m_serializedExternalAction: 
+  - m_description: Spawning - Multiple Spawners (4)
+    m_operationType: 7
+    m_isActive: 1
+    m_affectedTerrainNames:
+    - Terrain_0_0-20201226 - 010731
+    m_operationDateTime: 12/26/2020 6:58:31 PM
+    scriptableObjectAssetGUID: ca5a3d73d7f0f904dba0799ff38185bd
+    m_isFoldedOut: 0
+    sessionPlaybackState: 1
+    m_terrainsFoldedOut: 0
+    m_serializedExternalAction: 
   m_terrainMinMaxCache:
   - guid: 25cb0008a4916914f9f1b10dd405e58b
     isWorldmap: 0

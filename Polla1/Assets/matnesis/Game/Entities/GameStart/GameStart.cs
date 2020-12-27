@@ -2,6 +2,7 @@
 
 public class GameStart : MonoBehaviour
 {
+    [Header("Internal")]
     public bool ready = false;
     public MainMessage mainMessage;
 
@@ -25,7 +26,7 @@ public class GameStart : MonoBehaviour
             })
             .Add(1, () =>
             {
-                this.tt("FadingMemories").Play();
+                // this.tt("FadingMemories").Play();
             });
 
         var index = 0;
