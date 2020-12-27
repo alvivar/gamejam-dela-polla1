@@ -16,7 +16,7 @@ public class GameStartSystem : MonoBehaviour
             .Add(1, () =>
             {
                 mainMessage = EntitySet.MainMessages.Elements[0];
-                mainMessage.mainText.text = Texts.INTRO;
+                mainMessage.main.text = Texts.INTRO;
                 mainMessage.damp = 10f;
                 mainMessage.show = true;
             })
@@ -24,7 +24,7 @@ public class GameStartSystem : MonoBehaviour
             {
                 mainMessage.damp = 0.1f;
                 mainMessage.show = false;
-                mainMessage.mainText.text = "";
+                mainMessage.main.text = "";
             })
             .Add(1, () =>
             {
@@ -38,7 +38,7 @@ public class GameStartSystem : MonoBehaviour
             .Add(() => Random.Range(1f, 2f), t =>
             {
                 var memory = Texts.FADING_MEMORIES[index++];
-                mainMessage.mainText.text = memory;
+                mainMessage.main.text = memory;
 
                 if (index >= Texts.FADING_MEMORIES.Length)
                     t.self.Stop();

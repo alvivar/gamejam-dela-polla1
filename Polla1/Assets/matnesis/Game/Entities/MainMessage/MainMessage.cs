@@ -10,8 +10,10 @@ public class MainMessage : MonoBehaviour
 
     [Header("Children References")]
     public Canvas canvas;
-    public TextMeshProUGUI mainText;
+    public TextMeshProUGUI main;
+    public TextMeshProUGUI conversation;
     public Image background;
+    public Image conversationBackground;
 
     private void OnEnable()
     {

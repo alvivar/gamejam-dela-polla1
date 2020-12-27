@@ -26,29 +26,29 @@ public class VoidDetectionSystem : MonoBehaviour
                 atLeastOneVoid = true;
 
                 mainMessage.damp = 3;
-                mainMessage.mainText.text = "";
+                mainMessage.main.text = "";
                 mainMessage.show = true;
 
                 this.tt("IntoTheVoid")
                     .Reset()
                     .Add(3, t =>
                     {
-                        mainMessage.mainText.text = Texts.VOID_REJECTS_YOU[0];
+                        mainMessage.main.text = Texts.VOID_REJECTS_YOU[0];
                     })
                     .Add(2, () =>
                     {
-                        mainMessage.mainText.text = Texts.VOID_REJECTS_YOU[1];
+                        mainMessage.main.text = Texts.VOID_REJECTS_YOU[1];
                     })
                     .Add(3, () =>
                     {
-                        mainMessage.mainText.text = Texts.VOID_REJECTS_YOU[2];
+                        mainMessage.main.text = Texts.VOID_REJECTS_YOU[2];
                     })
                     .Add(3, () =>
                     {
                         voidDetection.fps.enabled = false;
                         voidDetection.transform.position = new Vector3(0, 100, 0);
 
-                        mainMessage.mainText.text = Texts.VOID_REJECTS_YOU[3];
+                        mainMessage.main.text = Texts.VOID_REJECTS_YOU[3];
                     })
                     .Add(1, () =>
                     {
