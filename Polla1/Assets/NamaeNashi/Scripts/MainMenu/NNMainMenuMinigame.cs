@@ -26,6 +26,9 @@ namespace NamaeNashi {
         private IEnumerator extraItemsCoroutine;
 
         public int startFromLevel=-1;
+        public AudioSource mainMenuSounds;
+        public AudioClip correctSound;
+        public AudioClip failSound;
 
         public void SelectedCorrect(){
             /*correctTries++;
@@ -34,7 +37,7 @@ namespace NamaeNashi {
             }else{
                 mainMenu.StartGame();
             }*/
-
+            mainMenuSounds.PlayOneShot(correctSound);
             GoToNextLevel();
         }
 
@@ -80,7 +83,8 @@ namespace NamaeNashi {
             }
         }*/
 
-        public void SelectedWrong(){ 
+        public void SelectedWrong() {
+            mainMenuSounds.PlayOneShot(failSound);
             /*TO DO*/
         }
 
