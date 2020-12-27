@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class GameStart : MonoBehaviour
+public class GameStartSystem : MonoBehaviour
 {
     [Header("Debug")]
     public bool skipIntro = false;
@@ -29,7 +29,7 @@ public class GameStart : MonoBehaviour
             })
             .Add(1, () =>
             {
-                // this.tt("FadingMemories").Play();
+                this.tt("FadingMemories").Play();
             });
 
         var index = 0;
