@@ -13,8 +13,4 @@ public class r_start_chat : MonoBehaviour
         write.b("this runs " + name);
     }
 
-    void Update()
-    {
-        
-    }
 }

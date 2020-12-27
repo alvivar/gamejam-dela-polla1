@@ -1,6 +1,8 @@
 
 A 3D character that walks and idle
 
+x The girl near the shore
+x The house girls
 x The house party asset
 x VOID detection and narrative
 x Dialog system
