@@ -4,11 +4,5 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes:
-  - enabled: 1
-    path: Assets/matnesis/Game/Scenes/TerrainTest.unity
-    guid: ebbd362a8edaa5b4e878c55e946ce16a
-  - enabled: 1
-    path: 
-    guid: 00000000000000000000000000000000
+  m_Scenes: []
   m_configObjects: {}

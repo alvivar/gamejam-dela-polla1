@@ -2,12 +2,17 @@
 
 public class GameStart : MonoBehaviour
 {
+    [Header("Debug")]
+    public bool skipIntro = false;
+
+    [Header("Internal")]
     public bool ready = false;
     public MainMessage mainMessage;
 
     void Start()
     {
         this.tt("Intro")
+            .Reset()
             .Wait(() => ready)
             .Add(1, () =>
             {
@@ -16,7 +21,7 @@ public class GameStart : MonoBehaviour
                 mainMessage.damp = 10f;
                 mainMessage.show = true;
             })
-            .Add(6, () =>
+            .Add(!skipIntro ? 6 : 1, () =>
             {
                 mainMessage.damp = 0.1f;
                 mainMessage.show = false;
@@ -24,11 +29,12 @@ public class GameStart : MonoBehaviour
             })
             .Add(1, () =>
             {
-                this.tt("FadingMemories").Play();
+                // this.tt("FadingMemories").Play();
             });
 
         var index = 0;
         this.tt("FadingMemories")
+            .Reset()
             .Pause()
             .Add(() => Random.Range(1f, 2f), t =>
             {
