@@ -25,6 +25,8 @@ namespace NamaeNashi {
         private IEnumerator correctButtonCoroutine;
         private IEnumerator extraItemsCoroutine;
 
+        public int startFromLevel=-1;
+
         public void SelectedCorrect(){
             /*correctTries++;
             if(correctTries!=mainMenuScriptable.correctAnswersToEnterGame) {
@@ -39,8 +41,9 @@ namespace NamaeNashi {
         public void StartMiniGame() {
             correctTries=0;
             wrongTries=mainMenuScriptable.wrongTries;
-            currentLvl=0;
-            for(int x=0;x<levelItems.Length;++x) {
+            currentLvl=startFromLevel;
+            AudioMaster.Instance.ChangeSongLevel(0);
+            for (int x=0;x<levelItems.Length;++x) {
                 if(levelItems[x].level!=null){
                     levelItems[x].level.SetActive(false);
                 }
@@ -86,9 +89,25 @@ namespace NamaeNashi {
                 StopCoroutine(correctButtonCoroutine);
                 StopCoroutine(extraItemsCoroutine);
                 ++currentLvl;
+                RefreshSound();
                 StartLevel();
             }else{ 
             
+            }
+        }
+
+        public void RefreshSound(){
+
+            float musicTier0= levelItems.Length/3;
+            float musicTier1= 2*levelItems.Length/3;
+
+
+            if (currentLvl<musicTier0) {
+                AudioMaster.Instance.ChangeSongLevel(0);
+            } else if(currentLvl<musicTier1) {
+                AudioMaster.Instance.ChangeSongLevel(1);
+            } else {
+                AudioMaster.Instance.ChangeSongLevel(2);
             }
         }
 
@@ -126,11 +145,7 @@ namespace NamaeNashi {
             tempLevelData=mainMenuScriptable.movementLocations[currentLvl].movingExtraItems;
             int[] currentAnimNumber = new int[tempLevelData.Length];
             for (int x = 0; x<tempLevelData.Length; ++x) {
-                currentAnimNumber[x]=tempLevelData[x].startingNum;
-                Debug.Log(x+" x");
-                Debug.Log(currentAnimNumber[x]+" currentAnimNumber[x]");
-
-                levelItems[currentLvl].extraItems[x].anchoredPosition=tempLevelData[x].locationsPoint[currentAnimNumber[x]];
+                currentAnimNumber[x]=tempLevelData[x].startingNum;levelItems[currentLvl].extraItems[x].anchoredPosition=tempLevelData[x].locationsPoint[currentAnimNumber[x]];
             }
             while (true) {
                 for(int x=0;x<tempLevelData.Length;++x){
