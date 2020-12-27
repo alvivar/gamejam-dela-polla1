@@ -249,8 +249,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 576144f2291c7e24bbf43cd0bdddf2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  show: 1
-  damp: 10
+  showMain: 1
+  showConversation: 0
+  mainDamp: 10
+  conversationDamp: 10
   canvas: {fileID: 7361796963732965870}
   main: {fileID: 7361796964955422565}
   conversation: {fileID: 6683724718340038441}

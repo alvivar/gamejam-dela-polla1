@@ -5,8 +5,10 @@ using UnityEngine.UI;
 // !Gigas
 public class MainMessage : MonoBehaviour
 {
-    public bool show = false;
-    public float damp = 3;
+    public bool showMain = false;
+    public bool showConversation = false;
+    public float mainDamp = 10;
+    public float conversationDamp = 10;
 
     [Header("Children References")]
     public Canvas canvas;

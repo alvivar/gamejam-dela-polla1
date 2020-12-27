@@ -25,9 +25,9 @@ public class VoidDetectionSystem : MonoBehaviour
                 intoTheVoid = true;
                 atLeastOneVoid = true;
 
-                mainMessage.damp = 3;
+                mainMessage.mainDamp = 3;
                 mainMessage.main.text = "";
-                mainMessage.show = true;
+                mainMessage.showMain = true;
 
                 this.tt("IntoTheVoid")
                     .Reset()
@@ -56,8 +56,8 @@ public class VoidDetectionSystem : MonoBehaviour
 
                         voidDetection.fps.enabled = true;
 
-                        mainMessage.damp = 1;
-                        mainMessage.show = false;
+                        mainMessage.mainDamp = 1;
+                        mainMessage.showMain = false;
                     });
             }
         }

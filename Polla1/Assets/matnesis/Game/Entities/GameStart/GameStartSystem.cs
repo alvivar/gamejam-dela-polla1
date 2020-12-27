@@ -17,13 +17,13 @@ public class GameStartSystem : MonoBehaviour
             {
                 mainMessage = EntitySet.MainMessages.Elements[0];
                 mainMessage.main.text = Texts.INTRO;
-                mainMessage.damp = 10f;
-                mainMessage.show = true;
+                mainMessage.mainDamp = 10f;
+                mainMessage.showMain = true;
             })
             .Add(!skipIntro ? 6 : 1, () =>
             {
-                mainMessage.damp = 0.1f;
-                mainMessage.show = false;
+                mainMessage.mainDamp = 0.1f;
+                mainMessage.showMain = false;
                 mainMessage.main.text = "";
             })
             .Add(1, () =>
