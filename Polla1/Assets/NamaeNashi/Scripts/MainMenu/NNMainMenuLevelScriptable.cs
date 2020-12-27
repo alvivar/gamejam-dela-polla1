@@ -45,6 +45,16 @@ namespace NamaeNashi {
             }
         }
 
+        [ContextMenu("duplicate list buttons")]
+        public void CopyLvl5(){ 
+            for(int x=0;x<movementLocations[4].movingExtraItems.Length;++x) {
+                movementLocations[4].movingExtraItems[x].locationsPoint=new Vector2[movementLocations[4].locationsPoint.Length];
+                for(int y=0;y<movementLocations[4].locationsPoint.Length; ++y){
+                    movementLocations[4].movingExtraItems[x].locationsPoint[y]=movementLocations[4].locationsPoint[y];
+                }
+            }
+        }
+
         public void Shuffle<T>(List<T> alpha) {
             for (int i = 0; i<alpha.Count; i++) {
                 T temp = alpha[i];
