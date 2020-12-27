@@ -12,7 +12,7 @@ public class VoidDetectionSystem : MonoBehaviour
         if (!mainMessage)
             mainMessage = EntitySet.MainMessages.Elements[0];
 
-        var voidDetections = EntitySet.VoidDetections;
+        var voidDetections = EntitySet.VoidPlayers;
         for (int i = 0; i < voidDetections.Length; i++)
         {
             var voidDetection = voidDetections.Elements[i];
