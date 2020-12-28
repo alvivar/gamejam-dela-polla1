@@ -67,26 +67,34 @@ namespace KamaliDebug
     
     public class FontColor
     {
+
         private static readonly Dictionary<string, Color> Colors = new Dictionary<string, Color>()
         {
-            // Built-in Colors
-            
-            {"red", "#ff0032".ToColor()},
-            {"yellow", "#ffc800".ToColor()},
-            {"green","#00b020".ToColor()},
-            {"blue","#0019ff".ToColor()},
+
+            // Dark
+            {"red", "#ff1c4b".ToColor()},
+            {"yellow", "#ff1c4b".ToColor()},
+            {"green","#00c223".ToColor()},
+            {"blue","#3378ff".ToColor()},
             {"cyan","#00c8ff".ToColor()},
             {"magenta","#f914fb".ToColor()},
-            
-            // Hex Example
-            
             {"orange","#ff5a00".ToColor()},
-            {"olive","#a7b062".ToColor()},
-            {"purple","#6400c8".ToColor()},
-            //{"darkred","#8B0000".ToColor()},
-            //{"darkgreen","#006400".ToColor()},
-            //{"darkorange","#006400".ToColor()},
-            {"gray","#5a5a69".ToColor()},
+            {"olive","#b3bc68".ToColor()},
+            {"purple","#8a4dff".ToColor()},
+            {"gray","#9696af".ToColor()},
+
+            // Light
+            {"theme_l_red", "#d50029".ToColor()},
+            {"theme_l_yellow", "#cfba18".ToColor()},
+            {"theme_l_green","#009a1c".ToColor()},
+            {"theme_l_blue","#0019ff".ToColor()},
+            {"theme_l_cyan","#0095c8".ToColor()},
+            {"theme_l_magenta","#a400a6".ToColor()},
+            {"theme_l_orange","#c15200".ToColor()},
+            {"theme_l_olive","#7b8248".ToColor()},
+            {"theme_l_purple","#5c00c8".ToColor()},
+            {"theme_l_gray","#5a5a69".ToColor()},
+
         };
         
         private static readonly Dictionary<string, Color> RainBowColors = new Dictionary<string, Color>()

@@ -14,6 +14,7 @@ public class ChatFirst : ChatComponentOptions
     //public Transform characterPoint;
     //public DoorComponent door;
 
+    public r_cloud_handler clouds;
     public r_start_component starting;
     public bool finished = false;
 
@@ -23,7 +24,11 @@ public class ChatFirst : ChatComponentOptions
     }
 
 
-
+    private void Start()
+    {
+        Run();
+        clouds.VisibleClouds(Color.clear);
+    }
 
 
 
@@ -144,7 +149,10 @@ public class ChatFirst : ChatComponentOptions
         * Hide()
 
         * Do(() => { 
+
                 starting.SetReady();
+                clouds.VisibleClouds(Color.white);
+
         })
 
         * End();

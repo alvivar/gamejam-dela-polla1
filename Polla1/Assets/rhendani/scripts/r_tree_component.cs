@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class r_tree_component : MonoBehaviour
 {
 
+    [HideInInspector]
     public float waiting;
     [ShowInfo("Trees")]
     public Sprite phase1;
@@ -16,6 +18,7 @@ public class r_tree_component : MonoBehaviour
     [ShowInfo("Tangerines")]
     public List<Transform> tangerines;
 
+    public Action tangerineActivation;
 
     int enabledTangerines = 0;
     //int tangerineTarget = 0;
@@ -54,10 +57,9 @@ public class r_tree_component : MonoBehaviour
             }).Add(waiting,
             (tt) => {
 
-
                 // 1
                 StartCoroutine(GenRandomTangerine());
-
+                tangerineActivation.Invoke();
 
             }).Add(waiting,
             (tt) => {
@@ -94,7 +96,7 @@ public class r_tree_component : MonoBehaviour
         while (working)
         {
 
-            int gen = Random.Range( 0, tangerines.Count);
+            int gen = UnityEngine.Random.Range( 0, tangerines.Count);
             yield return new WaitForFixedUpdate();
 
             if (!tangerinesGenerated.Contains(gen))
@@ -113,9 +115,6 @@ public class r_tree_component : MonoBehaviour
             }
 
         }
-
-
-
 
     }
 
