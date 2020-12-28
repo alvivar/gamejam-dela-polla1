@@ -45,7 +45,7 @@ public class WatchingTheSeaSystem : MonoBehaviour
             if (stage == Stage.Talking)
             {
                 var len = Vector3.Distance(player.position, interactPoint.transform.position);
-                var lenLimit = interactPoint.distance * 2;
+                var lenLimit = interactPoint.distance * 2.5f;
                 if (!conversation.once || len > lenLimit)
                 {
                     if (len > lenLimit)

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameStartSystem : MonoBehaviour
 {
@@ -50,5 +51,18 @@ public class GameStartSystem : MonoBehaviour
     void Update()
     {
         ready = true;
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            this.tt("TheEnd").Add(() =>
+            {
+                mainMessage.main.text = Texts.EXIT_GAME;
+                mainMessage.mainDamp = 10f;
+                mainMessage.showMain = true;
+            }).Add(2, () =>
+            {
+                SceneManager.LoadScene(0);
+            });
+        }
     }
 }

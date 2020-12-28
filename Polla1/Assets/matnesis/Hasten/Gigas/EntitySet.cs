@@ -14,6 +14,139 @@ using UnityEngine;
 //  {
     public static class EntitySet
     {
+        // BecauseOfReasons
+
+        public static Arrayx<int> BecauseOfReasonsIds = new Arrayx<int>();
+        public static Arrayx<BecauseOfReasons> BecauseOfReasonss = new Arrayx<BecauseOfReasons>();
+
+        public static void AddBecauseOfReasons(BecauseOfReasons component, bool componentEnabled = true)
+        {
+            // Setup
+
+            if (BecauseOfReasonsIds.Elements == null)
+            {
+                BecauseOfReasonsIds.Size = 8;
+                BecauseOfReasonsIds.Elements = new int[BecauseOfReasonsIds.Size];
+            }
+
+            if (BecauseOfReasonss.Elements == null)
+            {
+                BecauseOfReasonss.Size = 8;
+                BecauseOfReasonss.Elements = new BecauseOfReasons[BecauseOfReasonss.Size];
+            }
+
+            // Add
+
+            BecauseOfReasonsIds.Elements[BecauseOfReasonsIds.Length++] = component.gameObject.GetInstanceID();
+            BecauseOfReasonss.Elements[BecauseOfReasonss.Length++] = component;
+
+            // Resize check
+
+            if (BecauseOfReasonsIds.Length >= BecauseOfReasonsIds.Size)
+            {
+                BecauseOfReasonsIds.Size *= 2;
+                Array.Resize(ref BecauseOfReasonsIds.Elements, BecauseOfReasonsIds.Size);
+
+                BecauseOfReasonss.Size *= 2;
+                Array.Resize(ref BecauseOfReasonss.Elements, BecauseOfReasonss.Size);
+            }
+
+            // Enable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static void RemoveBecauseOfReasons(BecauseOfReasons component, bool componentEnabled = false)
+        {
+            // Index
+
+            var id = component.gameObject.GetInstanceID();
+            var indexToRemove = -1;
+            for (int i = 0; i < BecauseOfReasonsIds.Length; i++)
+            {
+                if (BecauseOfReasonsIds.Elements[i] == id)
+                {
+                    indexToRemove = i;
+                    break;
+                }
+            }
+
+            // Overwrite
+
+            Array.Copy(
+                BecauseOfReasonsIds.Elements, indexToRemove + 1,
+                BecauseOfReasonsIds.Elements, indexToRemove,
+                BecauseOfReasonsIds.Length - indexToRemove - 1);
+            BecauseOfReasonsIds.Length--;
+
+            Array.Copy(
+                BecauseOfReasonss.Elements, indexToRemove + 1,
+                BecauseOfReasonss.Elements, indexToRemove,
+                BecauseOfReasonss.Length - indexToRemove - 1);
+            BecauseOfReasonss.Length--;
+
+            // Cache clean up
+
+            BecauseOfReasonsIdCache.Clear();
+
+            // Disable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static Arrayx<BecauseOfReasons> GetBecauseOfReasons(params Arrayx<int>[] ids)
+        {
+            // BecauseOfReasonsIds needs to be the first in the array parameter,
+            // that's how Gigas.Get relates the ids to the components
+
+            Arrayx<int>[] BecauseOfReasonsPlusIds = new Arrayx<int>[ids.Length + 1];
+            BecauseOfReasonsPlusIds[0] = BecauseOfReasonsIds;
+            Array.Copy(ids, 0, BecauseOfReasonsPlusIds, 1, ids.Length);
+
+            return Gigas.Get<BecauseOfReasons>(BecauseOfReasonsPlusIds, EntitySet.BecauseOfReasonss);
+        }
+
+        public static BecauseOfReasons GetBecauseOfReasons(MonoBehaviour component)
+        {
+            return GetBecauseOfReasons(component.gameObject.GetInstanceID());
+        }
+
+        public static BecauseOfReasons GetBecauseOfReasons(GameObject gameobject)
+        {
+            return GetBecauseOfReasons(gameobject.GetInstanceID());
+        }
+
+        private static Dictionary<int, int> BecauseOfReasonsIdCache = new Dictionary<int, int>();
+        public static BecauseOfReasons GetBecauseOfReasons(int instanceID)
+        {
+            var id = instanceID;
+
+            // Cache
+
+            if (BecauseOfReasonsIdCache.ContainsKey(id))
+                return BecauseOfReasonss.Elements[BecauseOfReasonsIdCache[id]];
+
+            // Index of
+
+            var index = -1;
+            for (int i = 0; i < BecauseOfReasonsIds.Length; i++)
+            {
+                if (BecauseOfReasonsIds.Elements[i] == id)
+                {
+                    index = i;
+                    BecauseOfReasonsIdCache[id] = i; // Cache
+                    break;
+                }
+            }
+
+            // Value
+
+            if (index < 0)
+                return null;
+
+            return BecauseOfReasonss.Elements[index];
+        }
+
         // Conversation
 
         public static Arrayx<int> ConversationIds = new Arrayx<int>();
@@ -812,6 +945,139 @@ using UnityEngine;
             return Telepoints.Elements[index];
         }
 
+        // TheGun
+
+        public static Arrayx<int> TheGunIds = new Arrayx<int>();
+        public static Arrayx<TheGun> TheGuns = new Arrayx<TheGun>();
+
+        public static void AddTheGun(TheGun component, bool componentEnabled = true)
+        {
+            // Setup
+
+            if (TheGunIds.Elements == null)
+            {
+                TheGunIds.Size = 8;
+                TheGunIds.Elements = new int[TheGunIds.Size];
+            }
+
+            if (TheGuns.Elements == null)
+            {
+                TheGuns.Size = 8;
+                TheGuns.Elements = new TheGun[TheGuns.Size];
+            }
+
+            // Add
+
+            TheGunIds.Elements[TheGunIds.Length++] = component.gameObject.GetInstanceID();
+            TheGuns.Elements[TheGuns.Length++] = component;
+
+            // Resize check
+
+            if (TheGunIds.Length >= TheGunIds.Size)
+            {
+                TheGunIds.Size *= 2;
+                Array.Resize(ref TheGunIds.Elements, TheGunIds.Size);
+
+                TheGuns.Size *= 2;
+                Array.Resize(ref TheGuns.Elements, TheGuns.Size);
+            }
+
+            // Enable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static void RemoveTheGun(TheGun component, bool componentEnabled = false)
+        {
+            // Index
+
+            var id = component.gameObject.GetInstanceID();
+            var indexToRemove = -1;
+            for (int i = 0; i < TheGunIds.Length; i++)
+            {
+                if (TheGunIds.Elements[i] == id)
+                {
+                    indexToRemove = i;
+                    break;
+                }
+            }
+
+            // Overwrite
+
+            Array.Copy(
+                TheGunIds.Elements, indexToRemove + 1,
+                TheGunIds.Elements, indexToRemove,
+                TheGunIds.Length - indexToRemove - 1);
+            TheGunIds.Length--;
+
+            Array.Copy(
+                TheGuns.Elements, indexToRemove + 1,
+                TheGuns.Elements, indexToRemove,
+                TheGuns.Length - indexToRemove - 1);
+            TheGuns.Length--;
+
+            // Cache clean up
+
+            TheGunIdCache.Clear();
+
+            // Disable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static Arrayx<TheGun> GetTheGun(params Arrayx<int>[] ids)
+        {
+            // TheGunIds needs to be the first in the array parameter,
+            // that's how Gigas.Get relates the ids to the components
+
+            Arrayx<int>[] TheGunPlusIds = new Arrayx<int>[ids.Length + 1];
+            TheGunPlusIds[0] = TheGunIds;
+            Array.Copy(ids, 0, TheGunPlusIds, 1, ids.Length);
+
+            return Gigas.Get<TheGun>(TheGunPlusIds, EntitySet.TheGuns);
+        }
+
+        public static TheGun GetTheGun(MonoBehaviour component)
+        {
+            return GetTheGun(component.gameObject.GetInstanceID());
+        }
+
+        public static TheGun GetTheGun(GameObject gameobject)
+        {
+            return GetTheGun(gameobject.GetInstanceID());
+        }
+
+        private static Dictionary<int, int> TheGunIdCache = new Dictionary<int, int>();
+        public static TheGun GetTheGun(int instanceID)
+        {
+            var id = instanceID;
+
+            // Cache
+
+            if (TheGunIdCache.ContainsKey(id))
+                return TheGuns.Elements[TheGunIdCache[id]];
+
+            // Index of
+
+            var index = -1;
+            for (int i = 0; i < TheGunIds.Length; i++)
+            {
+                if (TheGunIds.Elements[i] == id)
+                {
+                    index = i;
+                    TheGunIdCache[id] = i; // Cache
+                    break;
+                }
+            }
+
+            // Value
+
+            if (index < 0)
+                return null;
+
+            return TheGuns.Elements[index];
+        }
+
         // VoidCam
 
         public static Arrayx<int> VoidCamIds = new Arrayx<int>();
@@ -1214,6 +1480,9 @@ using UnityEngine;
 
         public static void Clear()
         {
+            BecauseOfReasonsIds.Length = 0;
+            BecauseOfReasonss.Length = 0;
+
             ConversationIds.Length = 0;
             Conversations.Length = 0;
 
@@ -1231,6 +1500,9 @@ using UnityEngine;
 
             TelepointIds.Length = 0;
             Telepoints.Length = 0;
+
+            TheGunIds.Length = 0;
+            TheGuns.Length = 0;
 
             VoidCamIds.Length = 0;
             VoidCams.Length = 0;
