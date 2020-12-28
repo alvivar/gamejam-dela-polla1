@@ -5,20 +5,24 @@ using UnityEngine;
 public class r_start_component : MonoBehaviour
 {
 
-    public GameObject mouseComponent;
-    public GameObject cloudsComponent;
-    public GameObject tangerinePower;
-    public GameObject gameDirt;
-    public GameObject tangerine;
+
+    public List<GameObject> show;
+    public List<GameObject> hide;
 
 
     public void SetReady()
     {
-        mouseComponent.SetActive(true);
-        cloudsComponent.SetActive(true);
-        tangerinePower.SetActive(true);
-        gameDirt.SetActive(true);
-        tangerine.SetActive(false);
+
+        for (int i = 0; i < show.Count; i++)
+        {
+            show[i].SetActive(true);
+        }
+
+        for (int i = 0; i < hide.Count; i++)
+        {
+            hide[i].SetActive(false);
+        }
+
     }
 
 

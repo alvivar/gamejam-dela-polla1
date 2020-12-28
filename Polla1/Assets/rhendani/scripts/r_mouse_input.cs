@@ -25,9 +25,6 @@ public class r_mouse_input : MonoBehaviour
                 }
             }
 
-            //write.b("_ 0 " + activeSeedsNum);
-            //write.b("_ 0 " + seeds.Count);
-
             Vector3 pos = cam.ScreenToWorldPoint(Input.mousePosition);
             Vector3 targetPos = new Vector3(pos.x,pos.y,0);
 
