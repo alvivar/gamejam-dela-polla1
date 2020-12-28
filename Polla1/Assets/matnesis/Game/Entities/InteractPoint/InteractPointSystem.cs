@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class InteractPointSystem : MonoBehaviour
 {
+    public InteractPoint lockedBy;
+
     Transform player;
     Interact interact;
-
-    public int lockedBy = 0;
 
     void Update()
     {
@@ -21,28 +21,24 @@ public class InteractPointSystem : MonoBehaviour
         {
             var interactPoint = interactPoints.Elements[i];
 
-            Debug.Log($"Trying {interactPoint.GetInstanceID()} at {Time.time}");
-            if (lockedBy != 0 && lockedBy != interactPoint.GetInstanceID())
-            {
-                Debug.Log($"Rejected {interactPoint} {interactPoint.GetInstanceID()} at {Time.time}", interactPoint.transform);
-                return;
-            }
-
-            Debug.Log($"Inside {interactPoint} {interactPoint.GetInstanceID()} at {Time.time}", interactPoint.transform);
+            if (lockedBy != null && lockedBy != interactPoint)
+                continue;
 
             var len = Vector3.Distance(pos, interactPoint.transform.position);
-
             if (len < interactPoint.distance)
             {
-                lockedBy = interactPoint.GetInstanceID();
+                lockedBy = interactPoint;
 
                 interact.transform.position = interactPoint.transform.position;
                 interact.content.text = interact.prefix + interactPoint.content;
                 interact.show = true;
+
+                if (Input.GetKeyDown(KeyCode.E))
+                    interactPoint.clicked += 1;
             }
             else
             {
-                lockedBy = 0;
+                lockedBy = null;
 
                 interact.show = false;
             }

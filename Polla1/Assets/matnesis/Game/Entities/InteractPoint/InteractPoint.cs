@@ -3,6 +3,9 @@ using UnityEngine;
 // !Gigas
 public class InteractPoint : MonoBehaviour
 {
+    public int clicked = 0;
+
+    [Header("Config")]
     public string content = "[E] Interact";
     public float distance = 5;
 

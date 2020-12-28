@@ -413,6 +413,139 @@ using UnityEngine;
             return InteractPoints.Elements[index];
         }
 
+        // LookAtVoidPlayer
+
+        public static Arrayx<int> LookAtVoidPlayerIds = new Arrayx<int>();
+        public static Arrayx<LookAtVoidPlayer> LookAtVoidPlayers = new Arrayx<LookAtVoidPlayer>();
+
+        public static void AddLookAtVoidPlayer(LookAtVoidPlayer component, bool componentEnabled = true)
+        {
+            // Setup
+
+            if (LookAtVoidPlayerIds.Elements == null)
+            {
+                LookAtVoidPlayerIds.Size = 8;
+                LookAtVoidPlayerIds.Elements = new int[LookAtVoidPlayerIds.Size];
+            }
+
+            if (LookAtVoidPlayers.Elements == null)
+            {
+                LookAtVoidPlayers.Size = 8;
+                LookAtVoidPlayers.Elements = new LookAtVoidPlayer[LookAtVoidPlayers.Size];
+            }
+
+            // Add
+
+            LookAtVoidPlayerIds.Elements[LookAtVoidPlayerIds.Length++] = component.gameObject.GetInstanceID();
+            LookAtVoidPlayers.Elements[LookAtVoidPlayers.Length++] = component;
+
+            // Resize check
+
+            if (LookAtVoidPlayerIds.Length >= LookAtVoidPlayerIds.Size)
+            {
+                LookAtVoidPlayerIds.Size *= 2;
+                Array.Resize(ref LookAtVoidPlayerIds.Elements, LookAtVoidPlayerIds.Size);
+
+                LookAtVoidPlayers.Size *= 2;
+                Array.Resize(ref LookAtVoidPlayers.Elements, LookAtVoidPlayers.Size);
+            }
+
+            // Enable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static void RemoveLookAtVoidPlayer(LookAtVoidPlayer component, bool componentEnabled = false)
+        {
+            // Index
+
+            var id = component.gameObject.GetInstanceID();
+            var indexToRemove = -1;
+            for (int i = 0; i < LookAtVoidPlayerIds.Length; i++)
+            {
+                if (LookAtVoidPlayerIds.Elements[i] == id)
+                {
+                    indexToRemove = i;
+                    break;
+                }
+            }
+
+            // Overwrite
+
+            Array.Copy(
+                LookAtVoidPlayerIds.Elements, indexToRemove + 1,
+                LookAtVoidPlayerIds.Elements, indexToRemove,
+                LookAtVoidPlayerIds.Length - indexToRemove - 1);
+            LookAtVoidPlayerIds.Length--;
+
+            Array.Copy(
+                LookAtVoidPlayers.Elements, indexToRemove + 1,
+                LookAtVoidPlayers.Elements, indexToRemove,
+                LookAtVoidPlayers.Length - indexToRemove - 1);
+            LookAtVoidPlayers.Length--;
+
+            // Cache clean up
+
+            LookAtVoidPlayerIdCache.Clear();
+
+            // Disable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static Arrayx<LookAtVoidPlayer> GetLookAtVoidPlayer(params Arrayx<int>[] ids)
+        {
+            // LookAtVoidPlayerIds needs to be the first in the array parameter,
+            // that's how Gigas.Get relates the ids to the components
+
+            Arrayx<int>[] LookAtVoidPlayerPlusIds = new Arrayx<int>[ids.Length + 1];
+            LookAtVoidPlayerPlusIds[0] = LookAtVoidPlayerIds;
+            Array.Copy(ids, 0, LookAtVoidPlayerPlusIds, 1, ids.Length);
+
+            return Gigas.Get<LookAtVoidPlayer>(LookAtVoidPlayerPlusIds, EntitySet.LookAtVoidPlayers);
+        }
+
+        public static LookAtVoidPlayer GetLookAtVoidPlayer(MonoBehaviour component)
+        {
+            return GetLookAtVoidPlayer(component.gameObject.GetInstanceID());
+        }
+
+        public static LookAtVoidPlayer GetLookAtVoidPlayer(GameObject gameobject)
+        {
+            return GetLookAtVoidPlayer(gameobject.GetInstanceID());
+        }
+
+        private static Dictionary<int, int> LookAtVoidPlayerIdCache = new Dictionary<int, int>();
+        public static LookAtVoidPlayer GetLookAtVoidPlayer(int instanceID)
+        {
+            var id = instanceID;
+
+            // Cache
+
+            if (LookAtVoidPlayerIdCache.ContainsKey(id))
+                return LookAtVoidPlayers.Elements[LookAtVoidPlayerIdCache[id]];
+
+            // Index of
+
+            var index = -1;
+            for (int i = 0; i < LookAtVoidPlayerIds.Length; i++)
+            {
+                if (LookAtVoidPlayerIds.Elements[i] == id)
+                {
+                    index = i;
+                    LookAtVoidPlayerIdCache[id] = i; // Cache
+                    break;
+                }
+            }
+
+            // Value
+
+            if (index < 0)
+                return null;
+
+            return LookAtVoidPlayers.Elements[index];
+        }
+
         // MainMessage
 
         public static Arrayx<int> MainMessageIds = new Arrayx<int>();
@@ -945,6 +1078,139 @@ using UnityEngine;
             return VoidPlayers.Elements[index];
         }
 
+        // WatchingTheSea
+
+        public static Arrayx<int> WatchingTheSeaIds = new Arrayx<int>();
+        public static Arrayx<WatchingTheSea> WatchingTheSeas = new Arrayx<WatchingTheSea>();
+
+        public static void AddWatchingTheSea(WatchingTheSea component, bool componentEnabled = true)
+        {
+            // Setup
+
+            if (WatchingTheSeaIds.Elements == null)
+            {
+                WatchingTheSeaIds.Size = 8;
+                WatchingTheSeaIds.Elements = new int[WatchingTheSeaIds.Size];
+            }
+
+            if (WatchingTheSeas.Elements == null)
+            {
+                WatchingTheSeas.Size = 8;
+                WatchingTheSeas.Elements = new WatchingTheSea[WatchingTheSeas.Size];
+            }
+
+            // Add
+
+            WatchingTheSeaIds.Elements[WatchingTheSeaIds.Length++] = component.gameObject.GetInstanceID();
+            WatchingTheSeas.Elements[WatchingTheSeas.Length++] = component;
+
+            // Resize check
+
+            if (WatchingTheSeaIds.Length >= WatchingTheSeaIds.Size)
+            {
+                WatchingTheSeaIds.Size *= 2;
+                Array.Resize(ref WatchingTheSeaIds.Elements, WatchingTheSeaIds.Size);
+
+                WatchingTheSeas.Size *= 2;
+                Array.Resize(ref WatchingTheSeas.Elements, WatchingTheSeas.Size);
+            }
+
+            // Enable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static void RemoveWatchingTheSea(WatchingTheSea component, bool componentEnabled = false)
+        {
+            // Index
+
+            var id = component.gameObject.GetInstanceID();
+            var indexToRemove = -1;
+            for (int i = 0; i < WatchingTheSeaIds.Length; i++)
+            {
+                if (WatchingTheSeaIds.Elements[i] == id)
+                {
+                    indexToRemove = i;
+                    break;
+                }
+            }
+
+            // Overwrite
+
+            Array.Copy(
+                WatchingTheSeaIds.Elements, indexToRemove + 1,
+                WatchingTheSeaIds.Elements, indexToRemove,
+                WatchingTheSeaIds.Length - indexToRemove - 1);
+            WatchingTheSeaIds.Length--;
+
+            Array.Copy(
+                WatchingTheSeas.Elements, indexToRemove + 1,
+                WatchingTheSeas.Elements, indexToRemove,
+                WatchingTheSeas.Length - indexToRemove - 1);
+            WatchingTheSeas.Length--;
+
+            // Cache clean up
+
+            WatchingTheSeaIdCache.Clear();
+
+            // Disable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static Arrayx<WatchingTheSea> GetWatchingTheSea(params Arrayx<int>[] ids)
+        {
+            // WatchingTheSeaIds needs to be the first in the array parameter,
+            // that's how Gigas.Get relates the ids to the components
+
+            Arrayx<int>[] WatchingTheSeaPlusIds = new Arrayx<int>[ids.Length + 1];
+            WatchingTheSeaPlusIds[0] = WatchingTheSeaIds;
+            Array.Copy(ids, 0, WatchingTheSeaPlusIds, 1, ids.Length);
+
+            return Gigas.Get<WatchingTheSea>(WatchingTheSeaPlusIds, EntitySet.WatchingTheSeas);
+        }
+
+        public static WatchingTheSea GetWatchingTheSea(MonoBehaviour component)
+        {
+            return GetWatchingTheSea(component.gameObject.GetInstanceID());
+        }
+
+        public static WatchingTheSea GetWatchingTheSea(GameObject gameobject)
+        {
+            return GetWatchingTheSea(gameobject.GetInstanceID());
+        }
+
+        private static Dictionary<int, int> WatchingTheSeaIdCache = new Dictionary<int, int>();
+        public static WatchingTheSea GetWatchingTheSea(int instanceID)
+        {
+            var id = instanceID;
+
+            // Cache
+
+            if (WatchingTheSeaIdCache.ContainsKey(id))
+                return WatchingTheSeas.Elements[WatchingTheSeaIdCache[id]];
+
+            // Index of
+
+            var index = -1;
+            for (int i = 0; i < WatchingTheSeaIds.Length; i++)
+            {
+                if (WatchingTheSeaIds.Elements[i] == id)
+                {
+                    index = i;
+                    WatchingTheSeaIdCache[id] = i; // Cache
+                    break;
+                }
+            }
+
+            // Value
+
+            if (index < 0)
+                return null;
+
+            return WatchingTheSeas.Elements[index];
+        }
+
 
         public static void Clear()
         {
@@ -957,6 +1223,9 @@ using UnityEngine;
             InteractPointIds.Length = 0;
             InteractPoints.Length = 0;
 
+            LookAtVoidPlayerIds.Length = 0;
+            LookAtVoidPlayers.Length = 0;
+
             MainMessageIds.Length = 0;
             MainMessages.Length = 0;
 
@@ -968,6 +1237,9 @@ using UnityEngine;
 
             VoidPlayerIds.Length = 0;
             VoidPlayers.Length = 0;
+
+            WatchingTheSeaIds.Length = 0;
+            WatchingTheSeas.Length = 0;
         }
 
         public static void ClearAlt()
