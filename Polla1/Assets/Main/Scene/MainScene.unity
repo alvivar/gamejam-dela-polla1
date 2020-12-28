@@ -345,10 +345,10 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "todos nos encontramos en el deber encontrar la polla interior\nla construccion
-    social de la estigmatizacion de la mandarina\n\nMade by\n@ matnesis - Eye of
-    Minds\n@ namelessguy - Clickened\n@ rhendani - Tanger Mandess\n\nPolla Productions
-    \xA9"
+  m_Text: "En este jam hemos manifestado nuestros sentimientos mas profundos, dejando
+    ir cualquier tipo de protocolo estigmatizado.\nTodos nos encontramos en el deber
+    encontrar la polla interior.\n\nMade by \xA9\n@matnesis - Eye of Minds\n@namelessguy
+    - Clickened\n@rhendani - Tanger Mandess"
 --- !u!222 &153573684
 CanvasRenderer:
   m_ObjectHideFlags: 0
