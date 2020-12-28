@@ -27,7 +27,7 @@ public class BecauseOfReasonsSystem : MonoBehaviour
                 {
                     interactPoint.clicked = 0;
                     interactPoint.update = false;
-                    interact.content.text = "Why?";
+                    interact.content.text = Texts.WHY;
 
                     timer = 0;
                     stage = Stage.WhyKnocking;
@@ -39,7 +39,7 @@ public class BecauseOfReasonsSystem : MonoBehaviour
             if (stage == Stage.WhyKnocking)
             {
                 timer += Time.deltaTime;
-                if (timer > 3)
+                if (timer > 2f)
                 {
                     interactPoint.update = true;
                     stage = Stage.FirstKnock;

@@ -10,7 +10,7 @@ public class InteractPointSystem : MonoBehaviour
     void Update()
     {
         if (!player)
-            player = EntitySet.VoidPlayers.Elements[0].transform;
+            player = EntitySet.VoidCams.Elements[0].transform;
 
         if (!interact)
             interact = EntitySet.Interacts.Elements[0];
@@ -27,16 +27,25 @@ public class InteractPointSystem : MonoBehaviour
             if (lockedBy != null && lockedBy != interactPoint)
                 continue;
 
+            var dot = Vector3.Dot(player.forward, (interactPoint.transform.position - pos).normalized);
+            if (dot < 0.6f)
+            {
+                lockedBy = null;
+                continue;
+            }
+
             var len = Vector3.Distance(pos, interactPoint.transform.position);
             if (len < interactPoint.distance)
             {
                 lockedBy = interactPoint;
 
                 interact.transform.position = interactPoint.transform.position;
-                interact.content.text = interact.prefix + interactPoint.content;
+
+                var prefix = interactPoint.noPrefix ? "" : interact.prefix;
+                interact.content.text = prefix + interactPoint.content;
                 interact.show = true;
 
-                if (Input.GetKeyDown(KeyCode.E))
+                if (interactPoint.interactable && Input.GetKeyDown(KeyCode.E))
                     interactPoint.clicked += 1;
             }
             else
