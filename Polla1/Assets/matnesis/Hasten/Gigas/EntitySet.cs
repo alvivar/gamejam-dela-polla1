@@ -812,6 +812,139 @@ using UnityEngine;
             return Telepoints.Elements[index];
         }
 
+        // TheGun
+
+        public static Arrayx<int> TheGunIds = new Arrayx<int>();
+        public static Arrayx<TheGun> TheGuns = new Arrayx<TheGun>();
+
+        public static void AddTheGun(TheGun component, bool componentEnabled = true)
+        {
+            // Setup
+
+            if (TheGunIds.Elements == null)
+            {
+                TheGunIds.Size = 8;
+                TheGunIds.Elements = new int[TheGunIds.Size];
+            }
+
+            if (TheGuns.Elements == null)
+            {
+                TheGuns.Size = 8;
+                TheGuns.Elements = new TheGun[TheGuns.Size];
+            }
+
+            // Add
+
+            TheGunIds.Elements[TheGunIds.Length++] = component.gameObject.GetInstanceID();
+            TheGuns.Elements[TheGuns.Length++] = component;
+
+            // Resize check
+
+            if (TheGunIds.Length >= TheGunIds.Size)
+            {
+                TheGunIds.Size *= 2;
+                Array.Resize(ref TheGunIds.Elements, TheGunIds.Size);
+
+                TheGuns.Size *= 2;
+                Array.Resize(ref TheGuns.Elements, TheGuns.Size);
+            }
+
+            // Enable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static void RemoveTheGun(TheGun component, bool componentEnabled = false)
+        {
+            // Index
+
+            var id = component.gameObject.GetInstanceID();
+            var indexToRemove = -1;
+            for (int i = 0; i < TheGunIds.Length; i++)
+            {
+                if (TheGunIds.Elements[i] == id)
+                {
+                    indexToRemove = i;
+                    break;
+                }
+            }
+
+            // Overwrite
+
+            Array.Copy(
+                TheGunIds.Elements, indexToRemove + 1,
+                TheGunIds.Elements, indexToRemove,
+                TheGunIds.Length - indexToRemove - 1);
+            TheGunIds.Length--;
+
+            Array.Copy(
+                TheGuns.Elements, indexToRemove + 1,
+                TheGuns.Elements, indexToRemove,
+                TheGuns.Length - indexToRemove - 1);
+            TheGuns.Length--;
+
+            // Cache clean up
+
+            TheGunIdCache.Clear();
+
+            // Disable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static Arrayx<TheGun> GetTheGun(params Arrayx<int>[] ids)
+        {
+            // TheGunIds needs to be the first in the array parameter,
+            // that's how Gigas.Get relates the ids to the components
+
+            Arrayx<int>[] TheGunPlusIds = new Arrayx<int>[ids.Length + 1];
+            TheGunPlusIds[0] = TheGunIds;
+            Array.Copy(ids, 0, TheGunPlusIds, 1, ids.Length);
+
+            return Gigas.Get<TheGun>(TheGunPlusIds, EntitySet.TheGuns);
+        }
+
+        public static TheGun GetTheGun(MonoBehaviour component)
+        {
+            return GetTheGun(component.gameObject.GetInstanceID());
+        }
+
+        public static TheGun GetTheGun(GameObject gameobject)
+        {
+            return GetTheGun(gameobject.GetInstanceID());
+        }
+
+        private static Dictionary<int, int> TheGunIdCache = new Dictionary<int, int>();
+        public static TheGun GetTheGun(int instanceID)
+        {
+            var id = instanceID;
+
+            // Cache
+
+            if (TheGunIdCache.ContainsKey(id))
+                return TheGuns.Elements[TheGunIdCache[id]];
+
+            // Index of
+
+            var index = -1;
+            for (int i = 0; i < TheGunIds.Length; i++)
+            {
+                if (TheGunIds.Elements[i] == id)
+                {
+                    index = i;
+                    TheGunIdCache[id] = i; // Cache
+                    break;
+                }
+            }
+
+            // Value
+
+            if (index < 0)
+                return null;
+
+            return TheGuns.Elements[index];
+        }
+
         // VoidCam
 
         public static Arrayx<int> VoidCamIds = new Arrayx<int>();
@@ -1231,6 +1364,9 @@ using UnityEngine;
 
             TelepointIds.Length = 0;
             Telepoints.Length = 0;
+
+            TheGunIds.Length = 0;
+            TheGuns.Length = 0;
 
             VoidCamIds.Length = 0;
             VoidCams.Length = 0;
