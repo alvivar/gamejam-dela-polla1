@@ -1456,7 +1456,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Clicken
+  m_Text: Clickened
 --- !u!222 &167804727
 CanvasRenderer:
   m_ObjectHideFlags: 0
