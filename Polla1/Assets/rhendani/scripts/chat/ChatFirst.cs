@@ -16,12 +16,30 @@ public class ChatFirst : ChatComponentOptions
 
     public r_cloud_handler clouds;
     public r_start_component starting;
-    public bool finished = false;
+    public Animator tanger;
+    public RaySoundHandler sound;
 
-    public void SetFinished(bool target)
+    bool finishedStuff = true;
+
+    public void SetFinished()
     {
-        finished = target;
+        if (!finishedStuff)
+        {
+            sound.PlaySound("ui1");
+            tanger.enabled = true;
+            finishedStuff = true;
+        }
+        
     }
+
+
+    void Finish()
+    {
+        finishedStuff = false;
+        tanger.enabled = false;
+        tanger.transform.localScale = Vector3.one;
+    }
+
 
 
     private void Start()
@@ -37,115 +55,95 @@ public class ChatFirst : ChatComponentOptions
         return
         Show()
 
-        * Write("Bienvenido humano")
+        * Write("Bienvenido humano, mi nombre es Tanger.")
             * Do(() => {
-                finished = false;
+                Finish();
             })
-        * ContinueWhen(() => finished)
+        * ContinueWhen(() => finishedStuff)
 
-        * Write("Soy Tangerine")
+        * Write("Soy el alma de las mandarinas.")
             * Do(() => {
-                finished = false;
+                Finish();
             })
-        * ContinueWhen(() => finished)
+        * ContinueWhen(() => finishedStuff)
 
-        * Write("Te invito a jugar el juego de las semillas que caen del cielo")
+        * Write("Te invito a participar en el juego de las semillas que caen del cielo. (Tanger Madness)")
             * Do(() => {
-                finished = false;
+                Finish();
             })
-        * ContinueWhen(() => finished)
-        * Write("En el tiras semillas del cielo")
+        * ContinueWhen(() => finishedStuff)
+
+        * Write("Muy cotizado en la zona.")
             * Do(() => {
-                finished = false;
+                Finish();
             })
-        * ContinueWhen(() => finished)
+        * ContinueWhen(() => finishedStuff)
 
-        * Write("Y debes evitar que toquen las nubes")
+        * Write("En el tienes el poder de lanzar semillas del cielo, al dar click en la parte superior de la pantalla.")
             * Do(() => {
-                finished = false;
+                Finish();
             })
-        * ContinueWhen(() => finished)
+        * ContinueWhen(() => finishedStuff)
 
-        * Write("Como cuando no habia razón para nada")
+        * Write("Las semillas pueden sembrarse en el suelo, o tocaran las nubes, y esto las lanzara largo y desaparecerán.")
             * Do(() => {
-                finished = false;
+                Finish();
             })
-        * ContinueWhen(() => finished)
+        * ContinueWhen(() => finishedStuff)
 
-        * Write("Ahora el cielo es lo unico que hay que alcanzar")
+        * Write("Como cuando no habia razón para nada, Ahora el cielo es lo unico que hay que alcanzar.")
             * Do(() => {
-                finished = false;
+                Finish();
             })
-        * ContinueWhen(() => finished)
+        * ContinueWhen(() => finishedStuff)
 
-        * Write("Cuando logras que una semilla toque la tierra")
+        * Write("Cuando logras que una semilla toca la tierra, nacera un mistico arbol de mandarinas.")
             * Do(() => {
-                finished = false;
+                Finish();
             })
-        * ContinueWhen(() => finished)
+        * ContinueWhen(() => finishedStuff)
 
-        * Write("Veras que nacera un arbol")
+        * Write("Con todo su poder y esplendor.")
             * Do(() => {
-                finished = false;
+                Finish();
             })
-        * ContinueWhen(() => finished)
+        * ContinueWhen(() => finishedStuff)
 
-        * Write("Este arbol durara exactamente un minuto en crecer ")
+        * Write("Este arbol durara exactamente un minuto en crecer, y luego empezara a producir.")
             * Do(() => {
-                finished = false;
+                Finish();
             })
-        * ContinueWhen(() => finished)
+        * ContinueWhen(() => finishedStuff)
 
-        * Write("Y sus frutos produciran mas capacidad para semilla")
+        * Write("Sus frutos producirán mas capacidad para semilla, y tu poder de semilla incrementara.")
             * Do(() => {
-                finished = false;
+                Finish();
             })
-        * ContinueWhen(() => finished)
+        * ContinueWhen(() => finishedStuff)
 
-        * Write("y tu poder de semilla incrementara")
+        * Write("Dependiendo de si siembras muchos o pocos arboles, no habra diferencia una vez que consigas tener muchos.")
             * Do(() => {
-                finished = false;
+                Finish();
             })
-        * ContinueWhen(() => finished)
+        * ContinueWhen(() => finishedStuff)
 
-        * Write("Los humanos se encuentran entusiasmados por las cosechas de mandarinas")
+        * Write("Lo que significa que siembras sin fin.")
             * Do(() => {
-                finished = false;
+                Finish();
             })
-        * ContinueWhen(() => finished)
+        * ContinueWhen(() => finishedStuff)
 
-        * Write("Vamos a por ellos!")
+        * Write("Bueno me despido, eso ha sido todo, gracias por tu tiempo.")
             * Do(() => {
-                finished = false;
+                Finish();
             })
-        * ContinueWhen(() => finished)
+        * ContinueWhen(() => finishedStuff)
 
-        //* Write("Tambien este juego es infinito, entonces no vallas por ahí buscando ningún final")
-        //    * Do(() => {
-        //        finished = false;
-        //    })
-        //* ContinueWhen(() => finished)
-
-        //* Write("Hasta luego.")
-        //    * Do(() => {
-        //        finished = false;
-        //    })
-        //* ContinueWhen(() => finished)
-
-        /// * Write("Por cierto, este juego lo jugaras hasta tu aburrimiento, ya que no tiene fin")
-        //    * Do(() => {
-        //        finished = false;
-        //    })
-        /// * ContinueWhen(() => finished)
-
-
-        /// * Write("Hahahahaha...")
-        //    * Do(() => {
-        //        finished = false;
-        //    })
-        /// * ContinueWhen(() => finished)
-
-
+        * Write("Hasta luego y que tengas una agradable cosecha.")
+            * Do(() => {
+                Finish();
+            })
+        * ContinueWhen(() => finishedStuff)
         * Hide()
 
         * Do(() => { 
