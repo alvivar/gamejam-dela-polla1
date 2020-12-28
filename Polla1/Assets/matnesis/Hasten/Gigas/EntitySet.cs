@@ -14,6 +14,139 @@ using UnityEngine;
 //  {
     public static class EntitySet
     {
+        // BecauseOfReasons
+
+        public static Arrayx<int> BecauseOfReasonsIds = new Arrayx<int>();
+        public static Arrayx<BecauseOfReasons> BecauseOfReasonss = new Arrayx<BecauseOfReasons>();
+
+        public static void AddBecauseOfReasons(BecauseOfReasons component, bool componentEnabled = true)
+        {
+            // Setup
+
+            if (BecauseOfReasonsIds.Elements == null)
+            {
+                BecauseOfReasonsIds.Size = 8;
+                BecauseOfReasonsIds.Elements = new int[BecauseOfReasonsIds.Size];
+            }
+
+            if (BecauseOfReasonss.Elements == null)
+            {
+                BecauseOfReasonss.Size = 8;
+                BecauseOfReasonss.Elements = new BecauseOfReasons[BecauseOfReasonss.Size];
+            }
+
+            // Add
+
+            BecauseOfReasonsIds.Elements[BecauseOfReasonsIds.Length++] = component.gameObject.GetInstanceID();
+            BecauseOfReasonss.Elements[BecauseOfReasonss.Length++] = component;
+
+            // Resize check
+
+            if (BecauseOfReasonsIds.Length >= BecauseOfReasonsIds.Size)
+            {
+                BecauseOfReasonsIds.Size *= 2;
+                Array.Resize(ref BecauseOfReasonsIds.Elements, BecauseOfReasonsIds.Size);
+
+                BecauseOfReasonss.Size *= 2;
+                Array.Resize(ref BecauseOfReasonss.Elements, BecauseOfReasonss.Size);
+            }
+
+            // Enable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static void RemoveBecauseOfReasons(BecauseOfReasons component, bool componentEnabled = false)
+        {
+            // Index
+
+            var id = component.gameObject.GetInstanceID();
+            var indexToRemove = -1;
+            for (int i = 0; i < BecauseOfReasonsIds.Length; i++)
+            {
+                if (BecauseOfReasonsIds.Elements[i] == id)
+                {
+                    indexToRemove = i;
+                    break;
+                }
+            }
+
+            // Overwrite
+
+            Array.Copy(
+                BecauseOfReasonsIds.Elements, indexToRemove + 1,
+                BecauseOfReasonsIds.Elements, indexToRemove,
+                BecauseOfReasonsIds.Length - indexToRemove - 1);
+            BecauseOfReasonsIds.Length--;
+
+            Array.Copy(
+                BecauseOfReasonss.Elements, indexToRemove + 1,
+                BecauseOfReasonss.Elements, indexToRemove,
+                BecauseOfReasonss.Length - indexToRemove - 1);
+            BecauseOfReasonss.Length--;
+
+            // Cache clean up
+
+            BecauseOfReasonsIdCache.Clear();
+
+            // Disable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static Arrayx<BecauseOfReasons> GetBecauseOfReasons(params Arrayx<int>[] ids)
+        {
+            // BecauseOfReasonsIds needs to be the first in the array parameter,
+            // that's how Gigas.Get relates the ids to the components
+
+            Arrayx<int>[] BecauseOfReasonsPlusIds = new Arrayx<int>[ids.Length + 1];
+            BecauseOfReasonsPlusIds[0] = BecauseOfReasonsIds;
+            Array.Copy(ids, 0, BecauseOfReasonsPlusIds, 1, ids.Length);
+
+            return Gigas.Get<BecauseOfReasons>(BecauseOfReasonsPlusIds, EntitySet.BecauseOfReasonss);
+        }
+
+        public static BecauseOfReasons GetBecauseOfReasons(MonoBehaviour component)
+        {
+            return GetBecauseOfReasons(component.gameObject.GetInstanceID());
+        }
+
+        public static BecauseOfReasons GetBecauseOfReasons(GameObject gameobject)
+        {
+            return GetBecauseOfReasons(gameobject.GetInstanceID());
+        }
+
+        private static Dictionary<int, int> BecauseOfReasonsIdCache = new Dictionary<int, int>();
+        public static BecauseOfReasons GetBecauseOfReasons(int instanceID)
+        {
+            var id = instanceID;
+
+            // Cache
+
+            if (BecauseOfReasonsIdCache.ContainsKey(id))
+                return BecauseOfReasonss.Elements[BecauseOfReasonsIdCache[id]];
+
+            // Index of
+
+            var index = -1;
+            for (int i = 0; i < BecauseOfReasonsIds.Length; i++)
+            {
+                if (BecauseOfReasonsIds.Elements[i] == id)
+                {
+                    index = i;
+                    BecauseOfReasonsIdCache[id] = i; // Cache
+                    break;
+                }
+            }
+
+            // Value
+
+            if (index < 0)
+                return null;
+
+            return BecauseOfReasonss.Elements[index];
+        }
+
         // Conversation
 
         public static Arrayx<int> ConversationIds = new Arrayx<int>();
@@ -1347,6 +1480,9 @@ using UnityEngine;
 
         public static void Clear()
         {
+            BecauseOfReasonsIds.Length = 0;
+            BecauseOfReasonss.Length = 0;
+
             ConversationIds.Length = 0;
             Conversations.Length = 0;
 
