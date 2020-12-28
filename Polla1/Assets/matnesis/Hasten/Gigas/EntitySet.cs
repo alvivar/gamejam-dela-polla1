@@ -147,6 +147,139 @@ using UnityEngine;
             return BecauseOfReasonss.Elements[index];
         }
 
+        // BecauseThisReason
+
+        public static Arrayx<int> BecauseThisReasonIds = new Arrayx<int>();
+        public static Arrayx<BecauseThisReason> BecauseThisReasons = new Arrayx<BecauseThisReason>();
+
+        public static void AddBecauseThisReason(BecauseThisReason component, bool componentEnabled = true)
+        {
+            // Setup
+
+            if (BecauseThisReasonIds.Elements == null)
+            {
+                BecauseThisReasonIds.Size = 8;
+                BecauseThisReasonIds.Elements = new int[BecauseThisReasonIds.Size];
+            }
+
+            if (BecauseThisReasons.Elements == null)
+            {
+                BecauseThisReasons.Size = 8;
+                BecauseThisReasons.Elements = new BecauseThisReason[BecauseThisReasons.Size];
+            }
+
+            // Add
+
+            BecauseThisReasonIds.Elements[BecauseThisReasonIds.Length++] = component.gameObject.GetInstanceID();
+            BecauseThisReasons.Elements[BecauseThisReasons.Length++] = component;
+
+            // Resize check
+
+            if (BecauseThisReasonIds.Length >= BecauseThisReasonIds.Size)
+            {
+                BecauseThisReasonIds.Size *= 2;
+                Array.Resize(ref BecauseThisReasonIds.Elements, BecauseThisReasonIds.Size);
+
+                BecauseThisReasons.Size *= 2;
+                Array.Resize(ref BecauseThisReasons.Elements, BecauseThisReasons.Size);
+            }
+
+            // Enable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static void RemoveBecauseThisReason(BecauseThisReason component, bool componentEnabled = false)
+        {
+            // Index
+
+            var id = component.gameObject.GetInstanceID();
+            var indexToRemove = -1;
+            for (int i = 0; i < BecauseThisReasonIds.Length; i++)
+            {
+                if (BecauseThisReasonIds.Elements[i] == id)
+                {
+                    indexToRemove = i;
+                    break;
+                }
+            }
+
+            // Overwrite
+
+            Array.Copy(
+                BecauseThisReasonIds.Elements, indexToRemove + 1,
+                BecauseThisReasonIds.Elements, indexToRemove,
+                BecauseThisReasonIds.Length - indexToRemove - 1);
+            BecauseThisReasonIds.Length--;
+
+            Array.Copy(
+                BecauseThisReasons.Elements, indexToRemove + 1,
+                BecauseThisReasons.Elements, indexToRemove,
+                BecauseThisReasons.Length - indexToRemove - 1);
+            BecauseThisReasons.Length--;
+
+            // Cache clean up
+
+            BecauseThisReasonIdCache.Clear();
+
+            // Disable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static Arrayx<BecauseThisReason> GetBecauseThisReason(params Arrayx<int>[] ids)
+        {
+            // BecauseThisReasonIds needs to be the first in the array parameter,
+            // that's how Gigas.Get relates the ids to the components
+
+            Arrayx<int>[] BecauseThisReasonPlusIds = new Arrayx<int>[ids.Length + 1];
+            BecauseThisReasonPlusIds[0] = BecauseThisReasonIds;
+            Array.Copy(ids, 0, BecauseThisReasonPlusIds, 1, ids.Length);
+
+            return Gigas.Get<BecauseThisReason>(BecauseThisReasonPlusIds, EntitySet.BecauseThisReasons);
+        }
+
+        public static BecauseThisReason GetBecauseThisReason(MonoBehaviour component)
+        {
+            return GetBecauseThisReason(component.gameObject.GetInstanceID());
+        }
+
+        public static BecauseThisReason GetBecauseThisReason(GameObject gameobject)
+        {
+            return GetBecauseThisReason(gameobject.GetInstanceID());
+        }
+
+        private static Dictionary<int, int> BecauseThisReasonIdCache = new Dictionary<int, int>();
+        public static BecauseThisReason GetBecauseThisReason(int instanceID)
+        {
+            var id = instanceID;
+
+            // Cache
+
+            if (BecauseThisReasonIdCache.ContainsKey(id))
+                return BecauseThisReasons.Elements[BecauseThisReasonIdCache[id]];
+
+            // Index of
+
+            var index = -1;
+            for (int i = 0; i < BecauseThisReasonIds.Length; i++)
+            {
+                if (BecauseThisReasonIds.Elements[i] == id)
+                {
+                    index = i;
+                    BecauseThisReasonIdCache[id] = i; // Cache
+                    break;
+                }
+            }
+
+            // Value
+
+            if (index < 0)
+                return null;
+
+            return BecauseThisReasons.Elements[index];
+        }
+
         // Conversation
 
         public static Arrayx<int> ConversationIds = new Arrayx<int>();
@@ -1482,6 +1615,9 @@ using UnityEngine;
         {
             BecauseOfReasonsIds.Length = 0;
             BecauseOfReasonss.Length = 0;
+
+            BecauseThisReasonIds.Length = 0;
+            BecauseThisReasons.Length = 0;
 
             ConversationIds.Length = 0;
             Conversations.Length = 0;
