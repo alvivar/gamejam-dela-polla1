@@ -21,6 +21,9 @@ public class InteractPointSystem : MonoBehaviour
         {
             var interactPoint = interactPoints.Elements[i];
 
+            if (!interactPoint.update)
+                continue;
+
             if (lockedBy != null && lockedBy != interactPoint)
                 continue;
 
