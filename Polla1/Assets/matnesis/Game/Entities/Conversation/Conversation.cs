@@ -3,6 +3,8 @@ using UnityEngine;
 // !Gigas
 public class Conversation : MonoBehaviour
 {
+    public bool once = false;
+    public bool stop = false;
     public ConversationSentence[] sentences;
 
     private void OnEnable()
@@ -20,6 +22,6 @@ public class Conversation : MonoBehaviour
 public class ConversationSentence
 {
     public string say;
-    public string delay;
+    public float delay;
     public AudioClip clip;
 }

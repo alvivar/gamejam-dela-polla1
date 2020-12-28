@@ -3,6 +3,7 @@ using UnityEngine;
 // !Gigas
 public class InteractPoint : MonoBehaviour
 {
+    public bool update = true;
     public int clicked = 0;
 
     [Header("Config")]

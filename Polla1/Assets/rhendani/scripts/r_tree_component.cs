@@ -67,6 +67,7 @@ public class r_tree_component : MonoBehaviour
 
                 // 2
                 StartCoroutine(GenRandomTangerine());
+                tangerineActivation.Invoke();
 
 
             }).Add(waiting,
@@ -74,12 +75,14 @@ public class r_tree_component : MonoBehaviour
 
                 // 3
                 StartCoroutine(GenRandomTangerine());
+                tangerineActivation.Invoke();
 
             }).Add(waiting,
             (tt) => {
 
                 // 4
                 StartCoroutine(GenRandomTangerine());
+                tangerineActivation.Invoke();
 
             });
 
