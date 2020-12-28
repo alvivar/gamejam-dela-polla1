@@ -413,6 +413,139 @@ using UnityEngine;
             return InteractPoints.Elements[index];
         }
 
+        // LookAtVoidPlayer
+
+        public static Arrayx<int> LookAtVoidPlayerIds = new Arrayx<int>();
+        public static Arrayx<LookAtVoidPlayer> LookAtVoidPlayers = new Arrayx<LookAtVoidPlayer>();
+
+        public static void AddLookAtVoidPlayer(LookAtVoidPlayer component, bool componentEnabled = true)
+        {
+            // Setup
+
+            if (LookAtVoidPlayerIds.Elements == null)
+            {
+                LookAtVoidPlayerIds.Size = 8;
+                LookAtVoidPlayerIds.Elements = new int[LookAtVoidPlayerIds.Size];
+            }
+
+            if (LookAtVoidPlayers.Elements == null)
+            {
+                LookAtVoidPlayers.Size = 8;
+                LookAtVoidPlayers.Elements = new LookAtVoidPlayer[LookAtVoidPlayers.Size];
+            }
+
+            // Add
+
+            LookAtVoidPlayerIds.Elements[LookAtVoidPlayerIds.Length++] = component.gameObject.GetInstanceID();
+            LookAtVoidPlayers.Elements[LookAtVoidPlayers.Length++] = component;
+
+            // Resize check
+
+            if (LookAtVoidPlayerIds.Length >= LookAtVoidPlayerIds.Size)
+            {
+                LookAtVoidPlayerIds.Size *= 2;
+                Array.Resize(ref LookAtVoidPlayerIds.Elements, LookAtVoidPlayerIds.Size);
+
+                LookAtVoidPlayers.Size *= 2;
+                Array.Resize(ref LookAtVoidPlayers.Elements, LookAtVoidPlayers.Size);
+            }
+
+            // Enable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static void RemoveLookAtVoidPlayer(LookAtVoidPlayer component, bool componentEnabled = false)
+        {
+            // Index
+
+            var id = component.gameObject.GetInstanceID();
+            var indexToRemove = -1;
+            for (int i = 0; i < LookAtVoidPlayerIds.Length; i++)
+            {
+                if (LookAtVoidPlayerIds.Elements[i] == id)
+                {
+                    indexToRemove = i;
+                    break;
+                }
+            }
+
+            // Overwrite
+
+            Array.Copy(
+                LookAtVoidPlayerIds.Elements, indexToRemove + 1,
+                LookAtVoidPlayerIds.Elements, indexToRemove,
+                LookAtVoidPlayerIds.Length - indexToRemove - 1);
+            LookAtVoidPlayerIds.Length--;
+
+            Array.Copy(
+                LookAtVoidPlayers.Elements, indexToRemove + 1,
+                LookAtVoidPlayers.Elements, indexToRemove,
+                LookAtVoidPlayers.Length - indexToRemove - 1);
+            LookAtVoidPlayers.Length--;
+
+            // Cache clean up
+
+            LookAtVoidPlayerIdCache.Clear();
+
+            // Disable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static Arrayx<LookAtVoidPlayer> GetLookAtVoidPlayer(params Arrayx<int>[] ids)
+        {
+            // LookAtVoidPlayerIds needs to be the first in the array parameter,
+            // that's how Gigas.Get relates the ids to the components
+
+            Arrayx<int>[] LookAtVoidPlayerPlusIds = new Arrayx<int>[ids.Length + 1];
+            LookAtVoidPlayerPlusIds[0] = LookAtVoidPlayerIds;
+            Array.Copy(ids, 0, LookAtVoidPlayerPlusIds, 1, ids.Length);
+
+            return Gigas.Get<LookAtVoidPlayer>(LookAtVoidPlayerPlusIds, EntitySet.LookAtVoidPlayers);
+        }
+
+        public static LookAtVoidPlayer GetLookAtVoidPlayer(MonoBehaviour component)
+        {
+            return GetLookAtVoidPlayer(component.gameObject.GetInstanceID());
+        }
+
+        public static LookAtVoidPlayer GetLookAtVoidPlayer(GameObject gameobject)
+        {
+            return GetLookAtVoidPlayer(gameobject.GetInstanceID());
+        }
+
+        private static Dictionary<int, int> LookAtVoidPlayerIdCache = new Dictionary<int, int>();
+        public static LookAtVoidPlayer GetLookAtVoidPlayer(int instanceID)
+        {
+            var id = instanceID;
+
+            // Cache
+
+            if (LookAtVoidPlayerIdCache.ContainsKey(id))
+                return LookAtVoidPlayers.Elements[LookAtVoidPlayerIdCache[id]];
+
+            // Index of
+
+            var index = -1;
+            for (int i = 0; i < LookAtVoidPlayerIds.Length; i++)
+            {
+                if (LookAtVoidPlayerIds.Elements[i] == id)
+                {
+                    index = i;
+                    LookAtVoidPlayerIdCache[id] = i; // Cache
+                    break;
+                }
+            }
+
+            // Value
+
+            if (index < 0)
+                return null;
+
+            return LookAtVoidPlayers.Elements[index];
+        }
+
         // MainMessage
 
         public static Arrayx<int> MainMessageIds = new Arrayx<int>();
@@ -956,6 +1089,9 @@ using UnityEngine;
 
             InteractPointIds.Length = 0;
             InteractPoints.Length = 0;
+
+            LookAtVoidPlayerIds.Length = 0;
+            LookAtVoidPlayers.Length = 0;
 
             MainMessageIds.Length = 0;
             MainMessages.Length = 0;
