@@ -2,15 +2,14 @@
 
 public class r_cloud_state : MonoBehaviour
 {
+
     public bool isRight;
     public float speed;
-
 
     private void OnBecameInvisible()
     {
         gameObject.SetActive(false);
     }
-
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
