@@ -9,9 +9,12 @@ EditorBuildSettings:
     path: Assets/Main/Scene/MainScene.unity
     guid: ab6c11c1039e73246978c933acb7aad0
   - enabled: 1
+    path: Assets/matnesis/Game/Scenes/TerrainTest.unity
+    guid: ebbd362a8edaa5b4e878c55e946ce16a
+  - enabled: 1
     path: Assets/NamaeNashi/Scenes/NNStartGame.unity
     guid: ea48d8284091ce94c9f22743788702b4
   - enabled: 1
-    path: Assets/NamaeNashi/Scenes/NNGame.unity
-    guid: 1358787a6a053034f9397d0944478734
+    path: Assets/rhendani/r_scene.unity
+    guid: 404a26bcc7327f444a3be7a401b562a8
   m_configObjects: {}
