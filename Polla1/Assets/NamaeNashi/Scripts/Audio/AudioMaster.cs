@@ -13,10 +13,14 @@ namespace NamaeNashi {
         public int startingSongLevel=2;
 
         public AudioSource[] audiosources;
-
-        private Tween[] tweenMusic;
+        public AudioSource asSFX;
 
         public AudioSource music;
+        private int lastChangedMusic;
+        
+        public AudioClip[] correctSound;
+        public AudioClip[] failSound;
+        public AudioClip[] menuSound;
 
         private static AudioMaster instance;
         public static AudioMaster Instance {
@@ -30,10 +34,19 @@ namespace NamaeNashi {
         }
 
         private void Start() {
-            tweenMusic=new Tween[3];
             ChangeSongLevel(startingSongLevel);
         }
 
+        public void PlayCorrect() {
+            asSFX.PlayOneShot(correctSound[(int)Random.Range(0, correctSound.Length)]);
+        }
+        public void PlayWrong() {
+            asSFX.PlayOneShot(failSound[(int)Random.Range(0, failSound.Length)]);
+        }
+
+        public void PlayMenuSound() {
+            asSFX.PlayOneShot(menuSound[(int)Random.Range(0, menuSound.Length)]);
+        }
 
         public void ChangeSongLevel(int songNum){
             StartCoroutine(SwitchMusic(songNum));
@@ -52,7 +65,9 @@ namespace NamaeNashi {
                             audiosources[x].volume=maxVolume-value;
                         }
                     } else {
-                        audiosources[x].volume=value;
+                        if(lastChangedMusic!=songNum) {
+                            audiosources[x].volume=value;
+                        }
                     }
                 }
                 if (currentTime>=timeChangingSongs) {
@@ -60,6 +75,7 @@ namespace NamaeNashi {
                 }
                 yield return null;
             }
+        lastChangedMusic=songNum;
         }
     }
 }
