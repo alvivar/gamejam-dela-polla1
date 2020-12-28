@@ -7,7 +7,7 @@ public class LookAtVoidPlayerSystem : MonoBehaviour
     void Update()
     {
         if (!player)
-            player = EntitySet.VoidPlayers.Elements[0].transform;
+            player = EntitySet.VoidCams.Elements[0].transform;
 
         var lookAtVoidPlayers = EntitySet.LookAtVoidPlayers;
         for (int i = 0; i < lookAtVoidPlayers.Length; i++)

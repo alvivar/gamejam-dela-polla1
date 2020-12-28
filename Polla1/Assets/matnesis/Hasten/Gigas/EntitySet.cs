@@ -812,6 +812,139 @@ using UnityEngine;
             return Telepoints.Elements[index];
         }
 
+        // VoidCam
+
+        public static Arrayx<int> VoidCamIds = new Arrayx<int>();
+        public static Arrayx<VoidCam> VoidCams = new Arrayx<VoidCam>();
+
+        public static void AddVoidCam(VoidCam component, bool componentEnabled = true)
+        {
+            // Setup
+
+            if (VoidCamIds.Elements == null)
+            {
+                VoidCamIds.Size = 8;
+                VoidCamIds.Elements = new int[VoidCamIds.Size];
+            }
+
+            if (VoidCams.Elements == null)
+            {
+                VoidCams.Size = 8;
+                VoidCams.Elements = new VoidCam[VoidCams.Size];
+            }
+
+            // Add
+
+            VoidCamIds.Elements[VoidCamIds.Length++] = component.gameObject.GetInstanceID();
+            VoidCams.Elements[VoidCams.Length++] = component;
+
+            // Resize check
+
+            if (VoidCamIds.Length >= VoidCamIds.Size)
+            {
+                VoidCamIds.Size *= 2;
+                Array.Resize(ref VoidCamIds.Elements, VoidCamIds.Size);
+
+                VoidCams.Size *= 2;
+                Array.Resize(ref VoidCams.Elements, VoidCams.Size);
+            }
+
+            // Enable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static void RemoveVoidCam(VoidCam component, bool componentEnabled = false)
+        {
+            // Index
+
+            var id = component.gameObject.GetInstanceID();
+            var indexToRemove = -1;
+            for (int i = 0; i < VoidCamIds.Length; i++)
+            {
+                if (VoidCamIds.Elements[i] == id)
+                {
+                    indexToRemove = i;
+                    break;
+                }
+            }
+
+            // Overwrite
+
+            Array.Copy(
+                VoidCamIds.Elements, indexToRemove + 1,
+                VoidCamIds.Elements, indexToRemove,
+                VoidCamIds.Length - indexToRemove - 1);
+            VoidCamIds.Length--;
+
+            Array.Copy(
+                VoidCams.Elements, indexToRemove + 1,
+                VoidCams.Elements, indexToRemove,
+                VoidCams.Length - indexToRemove - 1);
+            VoidCams.Length--;
+
+            // Cache clean up
+
+            VoidCamIdCache.Clear();
+
+            // Disable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static Arrayx<VoidCam> GetVoidCam(params Arrayx<int>[] ids)
+        {
+            // VoidCamIds needs to be the first in the array parameter,
+            // that's how Gigas.Get relates the ids to the components
+
+            Arrayx<int>[] VoidCamPlusIds = new Arrayx<int>[ids.Length + 1];
+            VoidCamPlusIds[0] = VoidCamIds;
+            Array.Copy(ids, 0, VoidCamPlusIds, 1, ids.Length);
+
+            return Gigas.Get<VoidCam>(VoidCamPlusIds, EntitySet.VoidCams);
+        }
+
+        public static VoidCam GetVoidCam(MonoBehaviour component)
+        {
+            return GetVoidCam(component.gameObject.GetInstanceID());
+        }
+
+        public static VoidCam GetVoidCam(GameObject gameobject)
+        {
+            return GetVoidCam(gameobject.GetInstanceID());
+        }
+
+        private static Dictionary<int, int> VoidCamIdCache = new Dictionary<int, int>();
+        public static VoidCam GetVoidCam(int instanceID)
+        {
+            var id = instanceID;
+
+            // Cache
+
+            if (VoidCamIdCache.ContainsKey(id))
+                return VoidCams.Elements[VoidCamIdCache[id]];
+
+            // Index of
+
+            var index = -1;
+            for (int i = 0; i < VoidCamIds.Length; i++)
+            {
+                if (VoidCamIds.Elements[i] == id)
+                {
+                    index = i;
+                    VoidCamIdCache[id] = i; // Cache
+                    break;
+                }
+            }
+
+            // Value
+
+            if (index < 0)
+                return null;
+
+            return VoidCams.Elements[index];
+        }
+
         // VoidPlayer
 
         public static Arrayx<int> VoidPlayerIds = new Arrayx<int>();
@@ -965,6 +1098,9 @@ using UnityEngine;
 
             TelepointIds.Length = 0;
             Telepoints.Length = 0;
+
+            VoidCamIds.Length = 0;
+            VoidCams.Length = 0;
 
             VoidPlayerIds.Length = 0;
             VoidPlayers.Length = 0;
