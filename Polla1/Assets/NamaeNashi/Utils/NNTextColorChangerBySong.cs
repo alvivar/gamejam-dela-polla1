@@ -26,16 +26,12 @@ namespace NamaeNashi {
         private IEnumerator ColoredMusic() {
             yield return new WaitForSeconds(clipBegin);
             while (true) {
-                Debug.Log("Waiting for "+clipBegin);
                 for (int x=0;x<numColorChanges-1;++x){
                     text.DOColor(GetRandomColor(),((clipStop-clipBegin)/numColorChanges));
-                    Debug.Log("Waiting for "+(clipStop-clipBegin)/numColorChanges);
                     yield return new WaitForSeconds((clipStop-clipBegin)/numColorChanges);
                 }
                 text.DOColor(originalColor, ((clipStop-clipBegin)/numColorChanges));
-                Debug.Log("Waiting for "+(clipStop-clipBegin)/numColorChanges);
                 yield return new WaitForSeconds((clipStop-clipBegin)/numColorChanges);
-                Debug.Log("Waiting for "+extraTime);
                 yield return new WaitForSeconds(extraTime);
             }
         }
