@@ -280,6 +280,139 @@ using UnityEngine;
             return Interacts.Elements[index];
         }
 
+        // InteractPoint
+
+        public static Arrayx<int> InteractPointIds = new Arrayx<int>();
+        public static Arrayx<InteractPoint> InteractPoints = new Arrayx<InteractPoint>();
+
+        public static void AddInteractPoint(InteractPoint component, bool componentEnabled = true)
+        {
+            // Setup
+
+            if (InteractPointIds.Elements == null)
+            {
+                InteractPointIds.Size = 8;
+                InteractPointIds.Elements = new int[InteractPointIds.Size];
+            }
+
+            if (InteractPoints.Elements == null)
+            {
+                InteractPoints.Size = 8;
+                InteractPoints.Elements = new InteractPoint[InteractPoints.Size];
+            }
+
+            // Add
+
+            InteractPointIds.Elements[InteractPointIds.Length++] = component.gameObject.GetInstanceID();
+            InteractPoints.Elements[InteractPoints.Length++] = component;
+
+            // Resize check
+
+            if (InteractPointIds.Length >= InteractPointIds.Size)
+            {
+                InteractPointIds.Size *= 2;
+                Array.Resize(ref InteractPointIds.Elements, InteractPointIds.Size);
+
+                InteractPoints.Size *= 2;
+                Array.Resize(ref InteractPoints.Elements, InteractPoints.Size);
+            }
+
+            // Enable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static void RemoveInteractPoint(InteractPoint component, bool componentEnabled = false)
+        {
+            // Index
+
+            var id = component.gameObject.GetInstanceID();
+            var indexToRemove = -1;
+            for (int i = 0; i < InteractPointIds.Length; i++)
+            {
+                if (InteractPointIds.Elements[i] == id)
+                {
+                    indexToRemove = i;
+                    break;
+                }
+            }
+
+            // Overwrite
+
+            Array.Copy(
+                InteractPointIds.Elements, indexToRemove + 1,
+                InteractPointIds.Elements, indexToRemove,
+                InteractPointIds.Length - indexToRemove - 1);
+            InteractPointIds.Length--;
+
+            Array.Copy(
+                InteractPoints.Elements, indexToRemove + 1,
+                InteractPoints.Elements, indexToRemove,
+                InteractPoints.Length - indexToRemove - 1);
+            InteractPoints.Length--;
+
+            // Cache clean up
+
+            InteractPointIdCache.Clear();
+
+            // Disable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static Arrayx<InteractPoint> GetInteractPoint(params Arrayx<int>[] ids)
+        {
+            // InteractPointIds needs to be the first in the array parameter,
+            // that's how Gigas.Get relates the ids to the components
+
+            Arrayx<int>[] InteractPointPlusIds = new Arrayx<int>[ids.Length + 1];
+            InteractPointPlusIds[0] = InteractPointIds;
+            Array.Copy(ids, 0, InteractPointPlusIds, 1, ids.Length);
+
+            return Gigas.Get<InteractPoint>(InteractPointPlusIds, EntitySet.InteractPoints);
+        }
+
+        public static InteractPoint GetInteractPoint(MonoBehaviour component)
+        {
+            return GetInteractPoint(component.gameObject.GetInstanceID());
+        }
+
+        public static InteractPoint GetInteractPoint(GameObject gameobject)
+        {
+            return GetInteractPoint(gameobject.GetInstanceID());
+        }
+
+        private static Dictionary<int, int> InteractPointIdCache = new Dictionary<int, int>();
+        public static InteractPoint GetInteractPoint(int instanceID)
+        {
+            var id = instanceID;
+
+            // Cache
+
+            if (InteractPointIdCache.ContainsKey(id))
+                return InteractPoints.Elements[InteractPointIdCache[id]];
+
+            // Index of
+
+            var index = -1;
+            for (int i = 0; i < InteractPointIds.Length; i++)
+            {
+                if (InteractPointIds.Elements[i] == id)
+                {
+                    index = i;
+                    InteractPointIdCache[id] = i; // Cache
+                    break;
+                }
+            }
+
+            // Value
+
+            if (index < 0)
+                return null;
+
+            return InteractPoints.Elements[index];
+        }
+
         // MainMessage
 
         public static Arrayx<int> MainMessageIds = new Arrayx<int>();
@@ -687,6 +820,9 @@ using UnityEngine;
 
             InteractIds.Length = 0;
             Interacts.Length = 0;
+
+            InteractPointIds.Length = 0;
+            InteractPoints.Length = 0;
 
             MainMessageIds.Length = 0;
             MainMessages.Length = 0;
