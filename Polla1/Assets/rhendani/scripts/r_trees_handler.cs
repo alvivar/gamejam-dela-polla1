@@ -25,7 +25,7 @@ public class r_trees_handler : MonoBehaviour
             if (!trees[i].gameObject.activeSelf)
             {
 
-                trees[i].transform.position = new Vector3(pos.x, -3.32f, pos.z);
+                trees[i].transform.position = pos;
                 trees[i].gameObject.SetActive(true);
                 trees[i].tangerineActivation = powerUp;
 

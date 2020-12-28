@@ -6,8 +6,19 @@ public class r_start_component : MonoBehaviour
 {
 
 
+    public bool skip;
     public List<GameObject> show;
     public List<GameObject> hide;
+
+
+
+    private void Start()
+    {
+        if (skip) SetReady();
+    }
+
+
+
 
 
     public void SetReady()

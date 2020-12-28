@@ -7,6 +7,7 @@ public class r_mouse_input : MonoBehaviour
 
     public int maxSeeds = 1;
     public Camera cam;
+    public RaySoundHandler sound;
     public List<GameObject> seeds;
 
     private void OnMouseOver()
@@ -35,6 +36,7 @@ public class r_mouse_input : MonoBehaviour
 
                     if (!seeds[i].activeSelf)
                     {
+                        sound.PlaySound("throe");
                         seeds[i].SetActive(true);
                         seeds[i].transform.position = targetPos;
                         break;
@@ -46,26 +48,6 @@ public class r_mouse_input : MonoBehaviour
 
         }
 
-    }
-
-    private void OnEnable()
-    {
-        
-    }
-
-    private void OnDisable()
-    {
-        
-    }
-
-    private void OnBecameInvisible()
-    {
-        
-    }
-
-    private void OnBecameVisible()
-    {
-        
     }
 
 }
