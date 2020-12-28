@@ -7,6 +7,8 @@ public class MainMessage : MonoBehaviour
 {
     public bool showMain = false;
     public bool showConversation = false;
+    public bool showQuestion = false;
+
     public float mainDamp = 10;
     public float conversationDamp = 10;
 
@@ -16,6 +18,10 @@ public class MainMessage : MonoBehaviour
     public TextMeshProUGUI conversation;
     public Image background;
     public Image conversationBackground;
+    public Image questionBackground;
+    public TextMeshProUGUI question;
+    public TextMeshProUGUI yesAnswer;
+    public TextMeshProUGUI noAnswer;
 
     private void OnEnable()
     {

@@ -1032,6 +1032,7 @@ GameObject:
   - component: {fileID: 6778521391434945285}
   - component: {fileID: 6778521391425279143}
   - component: {fileID: 5865112804971333258}
+  - component: {fileID: 6038294555317295578}
   m_Layer: 0
   m_Name: Elf
   m_TagString: Untagged
@@ -1086,6 +1087,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3053ed9568d63cf4aac5bcaf822bbae7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6038294555317295578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6778521391434700391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bbb2698db5d13f4383a8785456d7420, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sentences:
+  - say: We don't have enough sand...
+    delay: 4
+    clip: {fileID: 0}
+  - say: I wish I could swim without worrying about the void
+    delay: 6
+    clip: {fileID: 0}
 --- !u!1 &6778521391434700589
 GameObject:
   m_ObjectHideFlags: 0

@@ -34,6 +34,25 @@ public class MainMessageSystem : MonoBehaviour
                 mainMessage.conversationBackground.color = Color.Lerp(mainMessage.conversationBackground.color, Colorf.ColorAlpha(mainMessage.conversationBackground.color, 0), Time.deltaTime * mainMessage.conversationDamp);
                 mainMessage.conversation.color = Color.Lerp(mainMessage.conversation.color, Colorf.ColorAlpha(mainMessage.conversation.color, 0), Time.deltaTime * mainMessage.conversationDamp);
             }
+
+            // Question
+
+            if (mainMessage.showQuestion)
+            {
+                mainMessage.questionBackground.color = Color.Lerp(mainMessage.questionBackground.color, Colorf.ColorAlpha(Color.black, 1), Time.deltaTime * mainMessage.conversationDamp);
+                mainMessage.question.color = Color.Lerp(mainMessage.question.color, Colorf.ColorAlpha(Color.white, 1), Time.deltaTime * mainMessage.conversationDamp);
+
+                mainMessage.yesAnswer.color = Color.Lerp(mainMessage.yesAnswer.color, Colorf.ColorAlpha(Color.white, 1), Time.deltaTime * mainMessage.conversationDamp);
+                mainMessage.noAnswer.color = Color.Lerp(mainMessage.noAnswer.color, Colorf.ColorAlpha(Color.white, 1), Time.deltaTime * mainMessage.conversationDamp);
+            }
+            else
+            {
+                mainMessage.questionBackground.color = Color.Lerp(mainMessage.questionBackground.color, Colorf.ColorAlpha(mainMessage.questionBackground.color, 0), Time.deltaTime * mainMessage.conversationDamp);
+                mainMessage.question.color = Color.Lerp(mainMessage.question.color, Colorf.ColorAlpha(mainMessage.question.color, 0), Time.deltaTime * mainMessage.conversationDamp);
+
+                mainMessage.yesAnswer.color = Color.Lerp(mainMessage.yesAnswer.color, Colorf.ColorAlpha(mainMessage.yesAnswer.color, 0), Time.deltaTime * mainMessage.conversationDamp);
+                mainMessage.noAnswer.color = Color.Lerp(mainMessage.noAnswer.color, Colorf.ColorAlpha(mainMessage.noAnswer.color, 0), Time.deltaTime * mainMessage.conversationDamp);
+            }
         }
     }
 }

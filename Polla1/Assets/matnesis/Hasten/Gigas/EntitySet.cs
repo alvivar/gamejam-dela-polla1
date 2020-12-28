@@ -14,6 +14,139 @@ using UnityEngine;
 //  {
     public static class EntitySet
     {
+        // Conversation
+
+        public static Arrayx<int> ConversationIds = new Arrayx<int>();
+        public static Arrayx<Conversation> Conversations = new Arrayx<Conversation>();
+
+        public static void AddConversation(Conversation component, bool componentEnabled = true)
+        {
+            // Setup
+
+            if (ConversationIds.Elements == null)
+            {
+                ConversationIds.Size = 8;
+                ConversationIds.Elements = new int[ConversationIds.Size];
+            }
+
+            if (Conversations.Elements == null)
+            {
+                Conversations.Size = 8;
+                Conversations.Elements = new Conversation[Conversations.Size];
+            }
+
+            // Add
+
+            ConversationIds.Elements[ConversationIds.Length++] = component.gameObject.GetInstanceID();
+            Conversations.Elements[Conversations.Length++] = component;
+
+            // Resize check
+
+            if (ConversationIds.Length >= ConversationIds.Size)
+            {
+                ConversationIds.Size *= 2;
+                Array.Resize(ref ConversationIds.Elements, ConversationIds.Size);
+
+                Conversations.Size *= 2;
+                Array.Resize(ref Conversations.Elements, Conversations.Size);
+            }
+
+            // Enable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static void RemoveConversation(Conversation component, bool componentEnabled = false)
+        {
+            // Index
+
+            var id = component.gameObject.GetInstanceID();
+            var indexToRemove = -1;
+            for (int i = 0; i < ConversationIds.Length; i++)
+            {
+                if (ConversationIds.Elements[i] == id)
+                {
+                    indexToRemove = i;
+                    break;
+                }
+            }
+
+            // Overwrite
+
+            Array.Copy(
+                ConversationIds.Elements, indexToRemove + 1,
+                ConversationIds.Elements, indexToRemove,
+                ConversationIds.Length - indexToRemove - 1);
+            ConversationIds.Length--;
+
+            Array.Copy(
+                Conversations.Elements, indexToRemove + 1,
+                Conversations.Elements, indexToRemove,
+                Conversations.Length - indexToRemove - 1);
+            Conversations.Length--;
+
+            // Cache clean up
+
+            ConversationIdCache.Clear();
+
+            // Disable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static Arrayx<Conversation> GetConversation(params Arrayx<int>[] ids)
+        {
+            // ConversationIds needs to be the first in the array parameter,
+            // that's how Gigas.Get relates the ids to the components
+
+            Arrayx<int>[] ConversationPlusIds = new Arrayx<int>[ids.Length + 1];
+            ConversationPlusIds[0] = ConversationIds;
+            Array.Copy(ids, 0, ConversationPlusIds, 1, ids.Length);
+
+            return Gigas.Get<Conversation>(ConversationPlusIds, EntitySet.Conversations);
+        }
+
+        public static Conversation GetConversation(MonoBehaviour component)
+        {
+            return GetConversation(component.gameObject.GetInstanceID());
+        }
+
+        public static Conversation GetConversation(GameObject gameobject)
+        {
+            return GetConversation(gameobject.GetInstanceID());
+        }
+
+        private static Dictionary<int, int> ConversationIdCache = new Dictionary<int, int>();
+        public static Conversation GetConversation(int instanceID)
+        {
+            var id = instanceID;
+
+            // Cache
+
+            if (ConversationIdCache.ContainsKey(id))
+                return Conversations.Elements[ConversationIdCache[id]];
+
+            // Index of
+
+            var index = -1;
+            for (int i = 0; i < ConversationIds.Length; i++)
+            {
+                if (ConversationIds.Elements[i] == id)
+                {
+                    index = i;
+                    ConversationIdCache[id] = i; // Cache
+                    break;
+                }
+            }
+
+            // Value
+
+            if (index < 0)
+                return null;
+
+            return Conversations.Elements[index];
+        }
+
         // MainMessage
 
         public static Arrayx<int> MainMessageIds = new Arrayx<int>();
@@ -416,6 +549,9 @@ using UnityEngine;
 
         public static void Clear()
         {
+            ConversationIds.Length = 0;
+            Conversations.Length = 0;
+
             MainMessageIds.Length = 0;
             MainMessages.Length = 0;
 
