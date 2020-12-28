@@ -32,6 +32,9 @@ public class InteractPointSystem : MonoBehaviour
                 interact.transform.position = interactPoint.transform.position;
                 interact.content.text = interact.prefix + interactPoint.content;
                 interact.show = true;
+
+                if (Input.GetKeyDown(KeyCode.E))
+                    interactPoint.clicked += 1;
             }
             else
             {
