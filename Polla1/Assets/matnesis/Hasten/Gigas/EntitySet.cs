@@ -945,6 +945,139 @@ using UnityEngine;
             return MainMessages.Elements[index];
         }
 
+        // SoundClip
+
+        public static Arrayx<int> SoundClipIds = new Arrayx<int>();
+        public static Arrayx<SoundClip> SoundClips = new Arrayx<SoundClip>();
+
+        public static void AddSoundClip(SoundClip component, bool componentEnabled = true)
+        {
+            // Setup
+
+            if (SoundClipIds.Elements == null)
+            {
+                SoundClipIds.Size = 8;
+                SoundClipIds.Elements = new int[SoundClipIds.Size];
+            }
+
+            if (SoundClips.Elements == null)
+            {
+                SoundClips.Size = 8;
+                SoundClips.Elements = new SoundClip[SoundClips.Size];
+            }
+
+            // Add
+
+            SoundClipIds.Elements[SoundClipIds.Length++] = component.gameObject.GetInstanceID();
+            SoundClips.Elements[SoundClips.Length++] = component;
+
+            // Resize check
+
+            if (SoundClipIds.Length >= SoundClipIds.Size)
+            {
+                SoundClipIds.Size *= 2;
+                Array.Resize(ref SoundClipIds.Elements, SoundClipIds.Size);
+
+                SoundClips.Size *= 2;
+                Array.Resize(ref SoundClips.Elements, SoundClips.Size);
+            }
+
+            // Enable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static void RemoveSoundClip(SoundClip component, bool componentEnabled = false)
+        {
+            // Index
+
+            var id = component.gameObject.GetInstanceID();
+            var indexToRemove = -1;
+            for (int i = 0; i < SoundClipIds.Length; i++)
+            {
+                if (SoundClipIds.Elements[i] == id)
+                {
+                    indexToRemove = i;
+                    break;
+                }
+            }
+
+            // Overwrite
+
+            Array.Copy(
+                SoundClipIds.Elements, indexToRemove + 1,
+                SoundClipIds.Elements, indexToRemove,
+                SoundClipIds.Length - indexToRemove - 1);
+            SoundClipIds.Length--;
+
+            Array.Copy(
+                SoundClips.Elements, indexToRemove + 1,
+                SoundClips.Elements, indexToRemove,
+                SoundClips.Length - indexToRemove - 1);
+            SoundClips.Length--;
+
+            // Cache clean up
+
+            SoundClipIdCache.Clear();
+
+            // Disable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static Arrayx<SoundClip> GetSoundClip(params Arrayx<int>[] ids)
+        {
+            // SoundClipIds needs to be the first in the array parameter,
+            // that's how Gigas.Get relates the ids to the components
+
+            Arrayx<int>[] SoundClipPlusIds = new Arrayx<int>[ids.Length + 1];
+            SoundClipPlusIds[0] = SoundClipIds;
+            Array.Copy(ids, 0, SoundClipPlusIds, 1, ids.Length);
+
+            return Gigas.Get<SoundClip>(SoundClipPlusIds, EntitySet.SoundClips);
+        }
+
+        public static SoundClip GetSoundClip(MonoBehaviour component)
+        {
+            return GetSoundClip(component.gameObject.GetInstanceID());
+        }
+
+        public static SoundClip GetSoundClip(GameObject gameobject)
+        {
+            return GetSoundClip(gameobject.GetInstanceID());
+        }
+
+        private static Dictionary<int, int> SoundClipIdCache = new Dictionary<int, int>();
+        public static SoundClip GetSoundClip(int instanceID)
+        {
+            var id = instanceID;
+
+            // Cache
+
+            if (SoundClipIdCache.ContainsKey(id))
+                return SoundClips.Elements[SoundClipIdCache[id]];
+
+            // Index of
+
+            var index = -1;
+            for (int i = 0; i < SoundClipIds.Length; i++)
+            {
+                if (SoundClipIds.Elements[i] == id)
+                {
+                    index = i;
+                    SoundClipIdCache[id] = i; // Cache
+                    break;
+                }
+            }
+
+            // Value
+
+            if (index < 0)
+                return null;
+
+            return SoundClips.Elements[index];
+        }
+
         // Telepoint
 
         public static Arrayx<int> TelepointIds = new Arrayx<int>();
@@ -1633,6 +1766,9 @@ using UnityEngine;
 
             MainMessageIds.Length = 0;
             MainMessages.Length = 0;
+
+            SoundClipIds.Length = 0;
+            SoundClips.Length = 0;
 
             TelepointIds.Length = 0;
             Telepoints.Length = 0;
