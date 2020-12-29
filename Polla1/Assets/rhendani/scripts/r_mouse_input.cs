@@ -13,33 +13,54 @@ public class r_mouse_input : MonoBehaviour
 
     bool stop = false;
 
-    private void OnMouseOver()
+    private void OnMouseDown()
     {
+        ThrowSeed();
+        stop = false;
 
-        if (Input.GetMouseButtonDown(0))
-        {
+        this.tt("mouseActivation").Add(autoSpeed,
+            (tt) =>
+            {
 
-            ThrowSeed();
-            stop = false;
-
-            this.tt("mouseActivation").Add(autoSpeed,
-                (tt) =>
+                if (!stop)
                 {
+                    ThrowSeed();
+                }
+                else
+                {
+                    this.tt("mouseActivation").Stop();
+                }
 
-                    if (!stop) ThrowSeed();
-
-                }).Repeat().Immutable();
-
-        }
-
-
-        if (Input.GetMouseButtonUp(0))
-        {
-            this.tt("mouseActivation").Stop();
-            stop = true;
-        }
+            }).Repeat().Immutable();
     }
 
+    //private void OnMouseExit()
+    //{
+    //    //write.b("0 _ " + name);
+    //    this.tt("mouseActivation").Stop();
+    //    stop = true;
+    //}
+
+    private void OnMouseUp()
+    {
+        this.tt("mouseActivation").Stop();
+        stop = true;
+    }
+
+    //private void OnMouseOver()
+    //{
+    //    if (Input.GetMouseButtonDown(0))
+    //    {
+    //    }
+    //    if (Input.GetMouseButtonUp(0))
+    //    {
+    //    }
+    //}
+
+    private void OnMouseOver()
+    {
+        
+    }
 
     void ThrowSeed()
     {
@@ -55,7 +76,10 @@ public class r_mouse_input : MonoBehaviour
         }
 
         Vector3 pos = cam.ScreenToWorldPoint(Input.mousePosition);
+        write.b("0 _ " + pos);
         Vector3 targetPos = new Vector3(pos.x, pos.y, 0);
+
+        if (targetPos.y < 3.1f) targetPos = new Vector3(pos.x, 3.1f, 0);
 
         if (activeSeedsNum < maxSeeds)
         {
@@ -69,11 +93,8 @@ public class r_mouse_input : MonoBehaviour
                     seeds[i].transform.position = targetPos;
                     break;
                 }
-
             }
-
         }
-
     }
 
 
