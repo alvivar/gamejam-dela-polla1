@@ -73,7 +73,7 @@ namespace KamaliDebug
 
             // Dark
             {"red", "#ff1c4b".ToColor()},
-            {"yellow", "#ff1c4b".ToColor()},
+            {"yellow", "#ffc800".ToColor()},
             {"green","#00c223".ToColor()},
             {"blue","#3378ff".ToColor()},
             {"cyan","#00c8ff".ToColor()},
@@ -81,19 +81,19 @@ namespace KamaliDebug
             {"orange","#ff5a00".ToColor()},
             {"olive","#b3bc68".ToColor()},
             {"purple","#8a4dff".ToColor()},
-            {"gray","#9696af".ToColor()},
+            {"gray","#a8a8af".ToColor()},
 
             // Light
-            {"theme_l_red", "#d50029".ToColor()},
-            {"theme_l_yellow", "#cfba18".ToColor()},
-            {"theme_l_green","#009a1c".ToColor()},
+            {"theme_l_red", "#b41432".ToColor()},
+            {"theme_l_yellow", "#ffc800".ToColor()},
+            {"theme_l_green","#148028".ToColor()},
             {"theme_l_blue","#0019ff".ToColor()},
-            {"theme_l_cyan","#0095c8".ToColor()},
-            {"theme_l_magenta","#a400a6".ToColor()},
-            {"theme_l_orange","#c15200".ToColor()},
-            {"theme_l_olive","#7b8248".ToColor()},
-            {"theme_l_purple","#5c00c8".ToColor()},
-            {"theme_l_gray","#5a5a69".ToColor()},
+            {"theme_l_cyan","#1482a9".ToColor()},
+            {"theme_l_magenta","#811482".ToColor()},
+            {"theme_l_orange","#9b4d14".ToColor()},
+            {"theme_l_olive","#606541".ToColor()},
+            {"theme_l_purple","#5714a7".ToColor()},
+            {"theme_l_gray","#656569".ToColor()},
 
         };
         

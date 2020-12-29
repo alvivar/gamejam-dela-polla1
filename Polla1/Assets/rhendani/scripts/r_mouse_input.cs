@@ -6,42 +6,68 @@ public class r_mouse_input : MonoBehaviour
 {
 
     public int maxSeeds = 1;
+    public float autoSpeed = 0.6f;
     public Camera cam;
     public RaySoundHandler sound;
     public List<GameObject> seeds;
 
+    bool stop = false;
+
     private void OnMouseOver()
     {
-        
+
         if (Input.GetMouseButtonDown(0))
         {
 
-            int activeSeedsNum = 0;
+            ThrowSeed();
+            stop = false;
 
+            this.tt("mouseActivation").Add(autoSpeed,
+                (tt) =>
+                {
+
+                    if (!stop) ThrowSeed();
+
+                }).Repeat().Immutable();
+
+        }
+
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            this.tt("mouseActivation").Stop();
+            stop = true;
+        }
+    }
+
+
+    void ThrowSeed()
+    {
+
+        int activeSeedsNum = 0;
+
+        for (int i = 0; i < seeds.Count; i++)
+        {
+            if (seeds[i].activeSelf)
+            {
+                activeSeedsNum++;
+            }
+        }
+
+        Vector3 pos = cam.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 targetPos = new Vector3(pos.x, pos.y, 0);
+
+        if (activeSeedsNum < maxSeeds)
+        {
             for (int i = 0; i < seeds.Count; i++)
             {
-                if (seeds[i].activeSelf)
+
+                if (!seeds[i].activeSelf)
                 {
-                    activeSeedsNum++;
-                }
-            }
-
-            Vector3 pos = cam.ScreenToWorldPoint(Input.mousePosition);
-            Vector3 targetPos = new Vector3(pos.x,pos.y,0);
-
-            if (activeSeedsNum < maxSeeds)
-            {
-                for (int i = 0; i < seeds.Count; i++)
-                {
-
-                    if (!seeds[i].activeSelf)
-                    {
-                        sound.PlaySound("throe");
-                        seeds[i].SetActive(true);
-                        seeds[i].transform.position = targetPos;
-                        break;
-                    }
-
+                    sound.PlaySound("throe");
+                    seeds[i].SetActive(true);
+                    seeds[i].transform.position = targetPos;
+                    break;
                 }
 
             }
@@ -49,5 +75,8 @@ public class r_mouse_input : MonoBehaviour
         }
 
     }
+
+
+
 
 }

@@ -35,19 +35,6 @@ public class r_seed_component : MonoBehaviour
 
 
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        
-        write.b("_ ENTERING " + name);
-    }
-
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        //write.b("_ ENTERING 0 " + name);
-
-    }
-
     private void OnBecameInvisible()
     {
         this.tt(name).Stop();

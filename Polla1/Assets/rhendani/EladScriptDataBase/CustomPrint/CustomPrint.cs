@@ -22,6 +22,7 @@ public static class write
     static void GetReady()
     {
         if (WritingWindow.writingRed) writingRed = true;
+        if (WritingWindow.writingYellow) writingYellow = true;
         if (WritingWindow.writingGreen) writingGreen = true;
         if (WritingWindow.writingBlue) writingBlue = true;
         if (WritingWindow.writingCyan) writingCyan = true;
@@ -59,7 +60,7 @@ public static class write
 
         GetReady();
 
-        if (writingRed)
+        if (writingYellow)
         {
             if (EditorGUIUtility.isProSkin)
             {
@@ -79,7 +80,7 @@ public static class write
 
         GetReady();
 
-        if (writingRed)
+        if (writingGreen)
         {
             if (EditorGUIUtility.isProSkin)
             {
@@ -99,7 +100,7 @@ public static class write
 
         GetReady();
 
-        if (writingRed)
+        if (writingBlue)
         {
             if (EditorGUIUtility.isProSkin)
             {
@@ -119,7 +120,7 @@ public static class write
 
         GetReady();
 
-        if (writingRed)
+        if (writingCyan)
         {
             if (EditorGUIUtility.isProSkin)
             {
@@ -139,7 +140,7 @@ public static class write
 
         GetReady();
 
-        if (writingRed)
+        if (writingMagenta)
         {
             if (EditorGUIUtility.isProSkin)
             {
@@ -153,13 +154,13 @@ public static class write
 #endif
     }
 
-    public static void or(string orange)
+    public static void o(string orange)
     {
 #if UNITY_EDITOR
 
         GetReady();
 
-        if (writingRed)
+        if (writingOrange)
         {
             if (EditorGUIUtility.isProSkin)
             {
@@ -179,7 +180,7 @@ public static class write
 
         GetReady();
 
-        if (writingRed)
+        if (writingOlive)
         {
             if (EditorGUIUtility.isProSkin)
             {
@@ -198,7 +199,7 @@ public static class write
 
         GetReady();
 
-        if (writingRed)
+        if (writingPurple)
         {
             if (EditorGUIUtility.isProSkin)
             {
@@ -218,7 +219,7 @@ public static class write
 
         GetReady();
 
-        if (writingRed)
+        if (writingGray)
         {
             if (EditorGUIUtility.isProSkin)
             {

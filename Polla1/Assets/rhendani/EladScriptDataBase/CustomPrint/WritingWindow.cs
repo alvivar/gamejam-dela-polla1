@@ -5,9 +5,6 @@ using UnityEditor;
 public class WritingWindow : EditorWindow
 {
 
-    public static bool writing = true;
-    public static bool writingWarning = true;
-    public static bool writingError = true;
     public static bool writingRed = true;
     public static bool writingYellow = true;
     public static bool writingGreen = true;
@@ -41,9 +38,6 @@ public class WritingWindow : EditorWindow
 
         GUILayout.Label("Do you want your prints to show?");
 
-        writing = EditorGUILayout.Toggle("Writing Print", writing);
-        writingWarning = EditorGUILayout.Toggle("Writing Warning", writingWarning);
-        writingError = EditorGUILayout.Toggle("Writing Error", writingError);
         writingRed = EditorGUILayout.Toggle("Writing Red", writingRed);
         writingYellow = EditorGUILayout.Toggle("Writing Yellow", writingYellow);
         writingGreen = EditorGUILayout.Toggle("Writing Green", writingGreen);
@@ -56,9 +50,6 @@ public class WritingWindow : EditorWindow
         writingGray = EditorGUILayout.Toggle("Writing Gray", writingGray);
 
 
-        EditorPrefs.SetBool("writing", writing);
-        EditorPrefs.SetBool("writingWarning", writingWarning);
-        EditorPrefs.SetBool("writingError", writingError);
         EditorPrefs.SetBool("writingRed", writingRed);
         EditorPrefs.SetBool("writingYellow", writingYellow);
         EditorPrefs.SetBool("writingGreen", writingGreen);
@@ -75,9 +66,6 @@ public class WritingWindow : EditorWindow
     public static void WriteLoad()
     {
 
-        writing = EditorPrefs.GetBool("writing");
-        writingWarning = EditorPrefs.GetBool("writingWarning");
-        writingError = EditorPrefs.GetBool("writingError");
         writingRed = EditorPrefs.GetBool("writingRed");
         writingYellow = EditorPrefs.GetBool("writingYellow");
         writingGreen = EditorPrefs.GetBool("writingGreen");
@@ -90,9 +78,6 @@ public class WritingWindow : EditorWindow
         writingGray = EditorPrefs.GetBool("writingGray");
 
     }
-
-
-
 
 
 }

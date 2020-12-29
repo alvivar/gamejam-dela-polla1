@@ -35,8 +35,6 @@ public class r_ground_detection : MonoBehaviour
 
         bool asd = EditorGUIUtility.isProSkin;
 
-        write.b("_ ENTERING " + name);
-
     }
 
 
