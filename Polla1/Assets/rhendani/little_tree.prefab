@@ -347,6 +347,7 @@ MonoBehaviour:
   phase3: {fileID: 21300000, guid: 3ce4a3afa821abd408db9da345b3609b, type: 3}
   phase4: {fileID: 21300000, guid: 188b3d0f7f902c14b8a17b0724d57441, type: 3}
   phase5: {fileID: 21300000, guid: ebbda25fa55c4d14a88bcdb163e3ed72, type: 3}
+  phase6: {fileID: 21300000, guid: 1453c9a6799c5af4ebd396940719f4be, type: 3}
   tangerines:
   - {fileID: 5709455980141322113}
   - {fileID: 5709455980764877324}

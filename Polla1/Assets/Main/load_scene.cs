@@ -3,12 +3,10 @@ using UnityEngine.SceneManagement;
 
 public class load_scene : MonoBehaviour
 {
-    public int scene;
-
-    public void LoadGame()
+    public void LoadGame(int value)
     {
 
-        SceneManager.LoadScene(scene, LoadSceneMode.Single);
+        SceneManager.LoadScene(value, LoadSceneMode.Single);
 
     }
     

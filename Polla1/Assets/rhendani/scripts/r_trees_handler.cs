@@ -16,7 +16,7 @@ public class r_trees_handler : MonoBehaviour
         }
     }
 
-    public void SpawnTree(Vector3 pos, Action powerUp)
+    public void SpawnTree(Vector3 pos, Action tangerinePowerUp)
     {
 
         for (int i = 0; i < trees.Count; i++)
@@ -27,7 +27,7 @@ public class r_trees_handler : MonoBehaviour
 
                 trees[i].transform.position = pos;
                 trees[i].gameObject.SetActive(true);
-                trees[i].tangerineActivation = powerUp;
+                trees[i].tangerineActivation = tangerinePowerUp;
 
                 break;
             }

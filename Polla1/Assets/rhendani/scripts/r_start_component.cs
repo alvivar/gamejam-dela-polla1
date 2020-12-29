@@ -7,6 +7,7 @@ public class r_start_component : MonoBehaviour
 
 
     public bool skip;
+    public r_cloud_handler clouds;
     public List<GameObject> show;
     public List<GameObject> hide;
 
@@ -14,7 +15,11 @@ public class r_start_component : MonoBehaviour
 
     private void Start()
     {
-        if (skip) SetReady();
+        if (skip)
+        {
+            clouds.VisibleClouds(Color.white);
+            SetReady();
+        }
     }
 
 

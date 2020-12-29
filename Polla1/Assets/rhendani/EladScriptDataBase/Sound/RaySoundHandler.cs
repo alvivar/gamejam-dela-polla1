@@ -24,7 +24,7 @@ public class RaySoundHandler : MonoBehaviour
 
 
 		sounds = FindObjectsOfType<RaySoundHandler>();
-		DontDestroyOnLoad(sounds[0]);
+		// DontDestroyOnLoad(sounds[0]);
 		if (sounds.Length > 1) Destroy(sounds[1].gameObject);
 
 
@@ -102,8 +102,6 @@ public class RaySoundHandler : MonoBehaviour
         }
 
 		if (!activation) return;
-
-		write.c("running");
 
 		GameObject obj = new GameObject();
 		AudioSource newSound = obj.AddComponent<AudioSource>();
