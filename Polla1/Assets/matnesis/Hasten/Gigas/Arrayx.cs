@@ -125,14 +125,17 @@ public class Arrayx<T>
         return result;
     }
 
-    public Arrayx<T> Filter(Func<T, bool> callback)
+    public Arrayx<T> Filter(Func<T, bool> callback, bool first = false)
     {
         var result = Arrayx<T>.New(Length);
 
         for (int i = 0; i < Length; i++)
         {
             if (callback(Elements[i]))
+            {
                 result.Add(Elements[i]);
+                if (first) break;
+            }
         }
 
         return result;

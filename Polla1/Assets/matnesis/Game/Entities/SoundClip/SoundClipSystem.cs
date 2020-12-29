@@ -2,9 +2,14 @@ using UnityEngine;
 
 public class SoundClipSystem : MonoBehaviour
 {
-    public AudioClip thunder;
+    public AudioClip thunderClip;
+    public AudioClip knockClip;
 
-    public enum SoundName { Thunder }
+    public enum SoundName
+    {
+        Thunder,
+        Knock
+    }
 
     void Update()
     {
@@ -24,7 +29,10 @@ public class SoundClipSystem : MonoBehaviour
     AudioClip GetClip(SoundName name)
     {
         if (name == SoundName.Thunder)
-            return thunder;
+            return thunderClip;
+
+        else if (name == SoundName.Knock)
+            return knockClip;
 
         return null;
     }

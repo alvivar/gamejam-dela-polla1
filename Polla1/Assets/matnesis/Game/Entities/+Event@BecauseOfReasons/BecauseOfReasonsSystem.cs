@@ -4,9 +4,9 @@ public class BecauseOfReasonsSystem : MonoBehaviour
 {
     float timer;
     Interact interact;
-    MainMessage message;
+    PartyHouse partyHouse;
 
-    enum Stage { TryToKnock, WhyKnocking, ReasonsJudgement }
+    enum Stage { TryToKnock, WhyKnocking, ReasonsJudgement, Idle }
     Stage stage = Stage.TryToKnock;
 
     void Update()
@@ -14,8 +14,8 @@ public class BecauseOfReasonsSystem : MonoBehaviour
         if (!interact)
             interact = EntitySet.Interacts.Elements[0];
 
-        if (!message)
-            message = EntitySet.MainMessages.Elements[0];
+        if (!partyHouse)
+            partyHouse = EntitySet.PartyHouses.Elements[0];
 
         var becauseOfReasonss = EntitySet.GetBecauseOfReasons(EntitySet.InteractPointIds);
         for (int i = 0; i < becauseOfReasonss.Length; i++)
@@ -96,17 +96,38 @@ public class BecauseOfReasonsSystem : MonoBehaviour
                     }
                     else
                     {
-                        message.mainDamp = 10;
-                        message.main.text = "\t\t*Knock knock*";
-                        message.showMain = true;
+                        // This script is over, let's turn down systems and go to
+                        // the next scripting stage
+
+                        interactPoint.update = false;
+                        interact.show = false;
+
+                        reasons = EntitySet.GetBecauseThisReason(EntitySet.InteractPointIds);
+                        for (int j = 0; j < reasons.Length; j++)
+                        {
+                            var reason = reasons.Elements[j];
+                            var interactReason = EntitySet.GetInteractPoint(reason);
+                            interactReason.enabled = false;
+                        }
+
+                        timer = 0;
+                        enabled = false;
+                        stage = Stage.Idle;
+
+                        // Next scripting
+
+                        partyHouse.state = PartyHouse.State.SetUpGirlAtDoor;
                     }
                 }
 
                 // Make sure Interact comes back
 
-                timer += Time.deltaTime;
-                if (timer > 2f && !interactPoint.update)
-                    interactPoint.update = true;
+                if (stage == Stage.ReasonsJudgement)
+                {
+                    timer += Time.deltaTime;
+                    if (timer > 2f && !interactPoint.update)
+                        interactPoint.update = true;
+                }
             }
         }
     }

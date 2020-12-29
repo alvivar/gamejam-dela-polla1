@@ -137,6 +137,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4629928036104381331}
+  - component: {fileID: 4382565755182489628}
   - component: {fileID: 7760498570924458494}
   m_Layer: 11
   m_Name: PartyHouse
@@ -192,6 +193,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0.185, y: -0.37500003, z: 1.6100001}
+--- !u!114 &4382565755182489628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4629928036104138271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 462114ed216bc244aa774ef7438aad09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 4688613371238224297}
 --- !u!114 &7760498570924458494
 MonoBehaviour:
   m_ObjectHideFlags: 0

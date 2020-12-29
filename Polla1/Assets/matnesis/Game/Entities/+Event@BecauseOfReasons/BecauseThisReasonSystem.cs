@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class BecauseThisReasonSystem : MonoBehaviour
 {
-    public SoundClip thunder;
+    SoundClip thunder;
 
     void Update()
     {
         if (!thunder)
-            thunder = EntitySet.SoundClips.Filter(x => x.id == "ThunderOverTheHouse").Elements[0];
+            thunder = EntitySet.SoundClips.Filter(x => x.id == "ThunderOverTheHouse", first : true).Elements[0];
 
         var becauseThisReasons = EntitySet.GetBecauseThisReason(EntitySet.InteractPointIds);
         for (int i = 0; i < becauseThisReasons.Length; i++)

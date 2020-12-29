@@ -280,6 +280,139 @@ using UnityEngine;
             return BecauseThisReasons.Elements[index];
         }
 
+        // Cattleya
+
+        public static Arrayx<int> CattleyaIds = new Arrayx<int>();
+        public static Arrayx<Cattleya> Cattleyas = new Arrayx<Cattleya>();
+
+        public static void AddCattleya(Cattleya component, bool componentEnabled = true)
+        {
+            // Setup
+
+            if (CattleyaIds.Elements == null)
+            {
+                CattleyaIds.Size = 8;
+                CattleyaIds.Elements = new int[CattleyaIds.Size];
+            }
+
+            if (Cattleyas.Elements == null)
+            {
+                Cattleyas.Size = 8;
+                Cattleyas.Elements = new Cattleya[Cattleyas.Size];
+            }
+
+            // Add
+
+            CattleyaIds.Elements[CattleyaIds.Length++] = component.gameObject.GetInstanceID();
+            Cattleyas.Elements[Cattleyas.Length++] = component;
+
+            // Resize check
+
+            if (CattleyaIds.Length >= CattleyaIds.Size)
+            {
+                CattleyaIds.Size *= 2;
+                Array.Resize(ref CattleyaIds.Elements, CattleyaIds.Size);
+
+                Cattleyas.Size *= 2;
+                Array.Resize(ref Cattleyas.Elements, Cattleyas.Size);
+            }
+
+            // Enable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static void RemoveCattleya(Cattleya component, bool componentEnabled = false)
+        {
+            // Index
+
+            var id = component.gameObject.GetInstanceID();
+            var indexToRemove = -1;
+            for (int i = 0; i < CattleyaIds.Length; i++)
+            {
+                if (CattleyaIds.Elements[i] == id)
+                {
+                    indexToRemove = i;
+                    break;
+                }
+            }
+
+            // Overwrite
+
+            Array.Copy(
+                CattleyaIds.Elements, indexToRemove + 1,
+                CattleyaIds.Elements, indexToRemove,
+                CattleyaIds.Length - indexToRemove - 1);
+            CattleyaIds.Length--;
+
+            Array.Copy(
+                Cattleyas.Elements, indexToRemove + 1,
+                Cattleyas.Elements, indexToRemove,
+                Cattleyas.Length - indexToRemove - 1);
+            Cattleyas.Length--;
+
+            // Cache clean up
+
+            CattleyaIdCache.Clear();
+
+            // Disable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static Arrayx<Cattleya> GetCattleya(params Arrayx<int>[] ids)
+        {
+            // CattleyaIds needs to be the first in the array parameter,
+            // that's how Gigas.Get relates the ids to the components
+
+            Arrayx<int>[] CattleyaPlusIds = new Arrayx<int>[ids.Length + 1];
+            CattleyaPlusIds[0] = CattleyaIds;
+            Array.Copy(ids, 0, CattleyaPlusIds, 1, ids.Length);
+
+            return Gigas.Get<Cattleya>(CattleyaPlusIds, EntitySet.Cattleyas);
+        }
+
+        public static Cattleya GetCattleya(MonoBehaviour component)
+        {
+            return GetCattleya(component.gameObject.GetInstanceID());
+        }
+
+        public static Cattleya GetCattleya(GameObject gameobject)
+        {
+            return GetCattleya(gameobject.GetInstanceID());
+        }
+
+        private static Dictionary<int, int> CattleyaIdCache = new Dictionary<int, int>();
+        public static Cattleya GetCattleya(int instanceID)
+        {
+            var id = instanceID;
+
+            // Cache
+
+            if (CattleyaIdCache.ContainsKey(id))
+                return Cattleyas.Elements[CattleyaIdCache[id]];
+
+            // Index of
+
+            var index = -1;
+            for (int i = 0; i < CattleyaIds.Length; i++)
+            {
+                if (CattleyaIds.Elements[i] == id)
+                {
+                    index = i;
+                    CattleyaIdCache[id] = i; // Cache
+                    break;
+                }
+            }
+
+            // Value
+
+            if (index < 0)
+                return null;
+
+            return Cattleyas.Elements[index];
+        }
+
         // Conversation
 
         public static Arrayx<int> ConversationIds = new Arrayx<int>();
@@ -943,6 +1076,272 @@ using UnityEngine;
                 return null;
 
             return MainMessages.Elements[index];
+        }
+
+        // PartyHouse
+
+        public static Arrayx<int> PartyHouseIds = new Arrayx<int>();
+        public static Arrayx<PartyHouse> PartyHouses = new Arrayx<PartyHouse>();
+
+        public static void AddPartyHouse(PartyHouse component, bool componentEnabled = true)
+        {
+            // Setup
+
+            if (PartyHouseIds.Elements == null)
+            {
+                PartyHouseIds.Size = 8;
+                PartyHouseIds.Elements = new int[PartyHouseIds.Size];
+            }
+
+            if (PartyHouses.Elements == null)
+            {
+                PartyHouses.Size = 8;
+                PartyHouses.Elements = new PartyHouse[PartyHouses.Size];
+            }
+
+            // Add
+
+            PartyHouseIds.Elements[PartyHouseIds.Length++] = component.gameObject.GetInstanceID();
+            PartyHouses.Elements[PartyHouses.Length++] = component;
+
+            // Resize check
+
+            if (PartyHouseIds.Length >= PartyHouseIds.Size)
+            {
+                PartyHouseIds.Size *= 2;
+                Array.Resize(ref PartyHouseIds.Elements, PartyHouseIds.Size);
+
+                PartyHouses.Size *= 2;
+                Array.Resize(ref PartyHouses.Elements, PartyHouses.Size);
+            }
+
+            // Enable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static void RemovePartyHouse(PartyHouse component, bool componentEnabled = false)
+        {
+            // Index
+
+            var id = component.gameObject.GetInstanceID();
+            var indexToRemove = -1;
+            for (int i = 0; i < PartyHouseIds.Length; i++)
+            {
+                if (PartyHouseIds.Elements[i] == id)
+                {
+                    indexToRemove = i;
+                    break;
+                }
+            }
+
+            // Overwrite
+
+            Array.Copy(
+                PartyHouseIds.Elements, indexToRemove + 1,
+                PartyHouseIds.Elements, indexToRemove,
+                PartyHouseIds.Length - indexToRemove - 1);
+            PartyHouseIds.Length--;
+
+            Array.Copy(
+                PartyHouses.Elements, indexToRemove + 1,
+                PartyHouses.Elements, indexToRemove,
+                PartyHouses.Length - indexToRemove - 1);
+            PartyHouses.Length--;
+
+            // Cache clean up
+
+            PartyHouseIdCache.Clear();
+
+            // Disable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static Arrayx<PartyHouse> GetPartyHouse(params Arrayx<int>[] ids)
+        {
+            // PartyHouseIds needs to be the first in the array parameter,
+            // that's how Gigas.Get relates the ids to the components
+
+            Arrayx<int>[] PartyHousePlusIds = new Arrayx<int>[ids.Length + 1];
+            PartyHousePlusIds[0] = PartyHouseIds;
+            Array.Copy(ids, 0, PartyHousePlusIds, 1, ids.Length);
+
+            return Gigas.Get<PartyHouse>(PartyHousePlusIds, EntitySet.PartyHouses);
+        }
+
+        public static PartyHouse GetPartyHouse(MonoBehaviour component)
+        {
+            return GetPartyHouse(component.gameObject.GetInstanceID());
+        }
+
+        public static PartyHouse GetPartyHouse(GameObject gameobject)
+        {
+            return GetPartyHouse(gameobject.GetInstanceID());
+        }
+
+        private static Dictionary<int, int> PartyHouseIdCache = new Dictionary<int, int>();
+        public static PartyHouse GetPartyHouse(int instanceID)
+        {
+            var id = instanceID;
+
+            // Cache
+
+            if (PartyHouseIdCache.ContainsKey(id))
+                return PartyHouses.Elements[PartyHouseIdCache[id]];
+
+            // Index of
+
+            var index = -1;
+            for (int i = 0; i < PartyHouseIds.Length; i++)
+            {
+                if (PartyHouseIds.Elements[i] == id)
+                {
+                    index = i;
+                    PartyHouseIdCache[id] = i; // Cache
+                    break;
+                }
+            }
+
+            // Value
+
+            if (index < 0)
+                return null;
+
+            return PartyHouses.Elements[index];
+        }
+
+        // Rin
+
+        public static Arrayx<int> RinIds = new Arrayx<int>();
+        public static Arrayx<Rin> Rins = new Arrayx<Rin>();
+
+        public static void AddRin(Rin component, bool componentEnabled = true)
+        {
+            // Setup
+
+            if (RinIds.Elements == null)
+            {
+                RinIds.Size = 8;
+                RinIds.Elements = new int[RinIds.Size];
+            }
+
+            if (Rins.Elements == null)
+            {
+                Rins.Size = 8;
+                Rins.Elements = new Rin[Rins.Size];
+            }
+
+            // Add
+
+            RinIds.Elements[RinIds.Length++] = component.gameObject.GetInstanceID();
+            Rins.Elements[Rins.Length++] = component;
+
+            // Resize check
+
+            if (RinIds.Length >= RinIds.Size)
+            {
+                RinIds.Size *= 2;
+                Array.Resize(ref RinIds.Elements, RinIds.Size);
+
+                Rins.Size *= 2;
+                Array.Resize(ref Rins.Elements, Rins.Size);
+            }
+
+            // Enable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static void RemoveRin(Rin component, bool componentEnabled = false)
+        {
+            // Index
+
+            var id = component.gameObject.GetInstanceID();
+            var indexToRemove = -1;
+            for (int i = 0; i < RinIds.Length; i++)
+            {
+                if (RinIds.Elements[i] == id)
+                {
+                    indexToRemove = i;
+                    break;
+                }
+            }
+
+            // Overwrite
+
+            Array.Copy(
+                RinIds.Elements, indexToRemove + 1,
+                RinIds.Elements, indexToRemove,
+                RinIds.Length - indexToRemove - 1);
+            RinIds.Length--;
+
+            Array.Copy(
+                Rins.Elements, indexToRemove + 1,
+                Rins.Elements, indexToRemove,
+                Rins.Length - indexToRemove - 1);
+            Rins.Length--;
+
+            // Cache clean up
+
+            RinIdCache.Clear();
+
+            // Disable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static Arrayx<Rin> GetRin(params Arrayx<int>[] ids)
+        {
+            // RinIds needs to be the first in the array parameter,
+            // that's how Gigas.Get relates the ids to the components
+
+            Arrayx<int>[] RinPlusIds = new Arrayx<int>[ids.Length + 1];
+            RinPlusIds[0] = RinIds;
+            Array.Copy(ids, 0, RinPlusIds, 1, ids.Length);
+
+            return Gigas.Get<Rin>(RinPlusIds, EntitySet.Rins);
+        }
+
+        public static Rin GetRin(MonoBehaviour component)
+        {
+            return GetRin(component.gameObject.GetInstanceID());
+        }
+
+        public static Rin GetRin(GameObject gameobject)
+        {
+            return GetRin(gameobject.GetInstanceID());
+        }
+
+        private static Dictionary<int, int> RinIdCache = new Dictionary<int, int>();
+        public static Rin GetRin(int instanceID)
+        {
+            var id = instanceID;
+
+            // Cache
+
+            if (RinIdCache.ContainsKey(id))
+                return Rins.Elements[RinIdCache[id]];
+
+            // Index of
+
+            var index = -1;
+            for (int i = 0; i < RinIds.Length; i++)
+            {
+                if (RinIds.Elements[i] == id)
+                {
+                    index = i;
+                    RinIdCache[id] = i; // Cache
+                    break;
+                }
+            }
+
+            // Value
+
+            if (index < 0)
+                return null;
+
+            return Rins.Elements[index];
         }
 
         // SoundClip
@@ -1752,6 +2151,9 @@ using UnityEngine;
             BecauseThisReasonIds.Length = 0;
             BecauseThisReasons.Length = 0;
 
+            CattleyaIds.Length = 0;
+            Cattleyas.Length = 0;
+
             ConversationIds.Length = 0;
             Conversations.Length = 0;
 
@@ -1766,6 +2168,12 @@ using UnityEngine;
 
             MainMessageIds.Length = 0;
             MainMessages.Length = 0;
+
+            PartyHouseIds.Length = 0;
+            PartyHouses.Length = 0;
+
+            RinIds.Length = 0;
+            Rins.Length = 0;
 
             SoundClipIds.Length = 0;
             SoundClips.Length = 0;

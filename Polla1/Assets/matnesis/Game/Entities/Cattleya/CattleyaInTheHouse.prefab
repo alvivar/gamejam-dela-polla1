@@ -1,0 +1,141 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5306476162067779616
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2404713149151942629}
+  - component: {fileID: 4267413463284224888}
+  m_Layer: 0
+  m_Name: CattleyaInTheHouse
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2404713149151942629
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5306476162067779616}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -81.145546, y: 24.63, z: -22.716599}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 3620875912097321317}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4267413463284224888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5306476162067779616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bee5a86614fa6de4bab38e33b7e51cbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1001 &1832715195357068695
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2404713149151942629}
+    m_Modifications:
+    - target: {fileID: 3121262511855480050, guid: 5dabe1b6a92101546b41f79ba94b2fd8,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3121262511855480050, guid: 5dabe1b6a92101546b41f79ba94b2fd8,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.2644577
+      objectReference: {fileID: 0}
+    - target: {fileID: 3121262511855480050, guid: 5dabe1b6a92101546b41f79ba94b2fd8,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.13899994
+      objectReference: {fileID: 0}
+    - target: {fileID: 3121262511855480050, guid: 5dabe1b6a92101546b41f79ba94b2fd8,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -6.843401
+      objectReference: {fileID: 0}
+    - target: {fileID: 3121262511855480050, guid: 5dabe1b6a92101546b41f79ba94b2fd8,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3121262511855480050, guid: 5dabe1b6a92101546b41f79ba94b2fd8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3121262511855480050, guid: 5dabe1b6a92101546b41f79ba94b2fd8,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3121262511855480050, guid: 5dabe1b6a92101546b41f79ba94b2fd8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3121262511855480050, guid: 5dabe1b6a92101546b41f79ba94b2fd8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3121262511855480050, guid: 5dabe1b6a92101546b41f79ba94b2fd8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3121262511855480050, guid: 5dabe1b6a92101546b41f79ba94b2fd8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3123258577073500592, guid: 5dabe1b6a92101546b41f79ba94b2fd8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3123482463565910566, guid: 5dabe1b6a92101546b41f79ba94b2fd8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3124073697480696096, guid: 5dabe1b6a92101546b41f79ba94b2fd8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3124126975890597028, guid: 5dabe1b6a92101546b41f79ba94b2fd8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3124807900220778574, guid: 5dabe1b6a92101546b41f79ba94b2fd8,
+        type: 3}
+      propertyPath: m_Name
+      value: CattleyaNaked
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5dabe1b6a92101546b41f79ba94b2fd8, type: 3}
+--- !u!4 &3620875912097321317 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3121262511855480050, guid: 5dabe1b6a92101546b41f79ba94b2fd8,
+    type: 3}
+  m_PrefabInstance: {fileID: 1832715195357068695}
+  m_PrefabAsset: {fileID: 0}
