@@ -5,8 +5,8 @@ public class BecauseOfReasonsSystem : MonoBehaviour
     float timer;
     Interact interact;
 
-    enum Stage { FirstKnock, WhyKnocking, ChooseAReason }
-    Stage stage = Stage.FirstKnock;
+    enum Stage { TryToKnock, WhyKnocking, ReasonsJudgement }
+    Stage stage = Stage.TryToKnock;
 
     void Update()
     {
@@ -21,7 +21,7 @@ public class BecauseOfReasonsSystem : MonoBehaviour
 
             // Try to knock
 
-            if (stage == Stage.FirstKnock)
+            if (stage == Stage.TryToKnock)
             {
                 if (interactPoint.clicked > 0)
                 {
@@ -42,7 +42,6 @@ public class BecauseOfReasonsSystem : MonoBehaviour
                 if (timer > 2f)
                 {
                     interactPoint.update = true;
-                    stage = Stage.FirstKnock;
 
                     // Time to make sure about the questions
                     var reasons = EntitySet.GetBecauseThisReason(EntitySet.InteractPointIds);
@@ -56,20 +55,23 @@ public class BecauseOfReasonsSystem : MonoBehaviour
                         interactReason.content = reason.reason;
                     }
 
-                    stage = Stage.ChooseAReason;
+                    stage = Stage.ReasonsJudgement;
                 }
 
             }
 
             // Choose your reason
 
-            if (stage == Stage.ChooseAReason)
+            if (stage == Stage.ReasonsJudgement)
             {
                 if (interactPoint.clicked > 0)
                 {
                     interactPoint.clicked = 0;
                     interactPoint.update = false;
-                    interact.content.text = "TOTODILE";
+                    interact.content.text = Texts.WHY;
+
+                    timer = 0;
+                    stage = Stage.WhyKnocking;
                 }
             }
         }

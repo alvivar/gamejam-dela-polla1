@@ -1,8 +1,9 @@
 ﻿public class Texts
 {
     public static string INTRO = "\t\tYOU JUST DIED\n\t\tand HELL awaits\n\n\t\tYou have been cursed\n\t\twith THE EYE OF MINDS";
-    public static string WHY = "Why?";
     public static string EXIT_GAME = "\t\t\t\tOk.";
+    public static string WHY = "Why?";
+    public static string NOT_ENOUGH_REASONS = "You need more reasons.";
 
     public static string[] FADING_MEMORIES = new string[]
     {
