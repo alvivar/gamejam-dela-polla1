@@ -3,8 +3,10 @@ using UnityEngine;
 public class PartyHouseSystem : MonoBehaviour
 {
     Rin rin;
+    Cattleya cattleya;
     MainMessage message;
     SoundClip knock;
+    Transform player;
 
     float timer;
 
@@ -13,11 +15,17 @@ public class PartyHouseSystem : MonoBehaviour
         if (!rin)
             rin = EntitySet.Rins.Elements[0];
 
+        if (!cattleya)
+            cattleya = EntitySet.Cattleyas.Elements[0];
+
         if (!message)
             message = EntitySet.MainMessages.Elements[0];
 
         if (!knock)
             knock = EntitySet.SoundClips.Filter(x => x.id == "KnockKnock", first : true).Elements[0];
+
+        if (!player)
+            player = EntitySet.VoidPlayers.Elements[0].transform;
 
         var partyHouses = EntitySet.PartyHouses;
         for (int i = 0; i < partyHouses.Length; i++)
@@ -44,10 +52,11 @@ public class PartyHouseSystem : MonoBehaviour
                     {
                         partyHouse.animator.enabled = true;
                         rin.state = Rin.State.AtTheDoor;
+                        cattleya.state = Cattleya.State.AtTheDoor;
 
-                        message.main.text = "\t\tMaybe this one is enough?";
+                        message.main.text = "\t\t\t\t(Maybe this one is enough?)";
                     })
-                    .Add(2, t =>
+                    .Add(3, t =>
                     {
                         message.main.text = "";
                         message.showMain = false;
@@ -60,8 +69,13 @@ public class PartyHouseSystem : MonoBehaviour
 
             if (partyHouse.state == PartyHouse.State.GirlAnsweringTheDoor)
             {
-                partyHouse.lastState = partyHouse.state;
-                Debug.Log($"Girl at the door at {Time.time}");
+                // partyHouse.lastState = partyHouse.state;
+
+                rin.character.transform.LookAt(player);
+                rin.character.eulerAngles = new Vector3(0, rin.character.eulerAngles.y, 0);
+
+                cattleya.character.transform.LookAt(player);
+                cattleya.character.eulerAngles = new Vector3(0, cattleya.character.eulerAngles.y, 0);
             }
         }
     }
