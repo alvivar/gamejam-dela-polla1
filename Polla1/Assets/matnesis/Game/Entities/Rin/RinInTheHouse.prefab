@@ -40,6 +40,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7441767666705966223}
   - component: {fileID: 3071450632999266715}
+  - component: {fileID: 4900556814018530797}
+  - component: {fileID: 8965069548581316720}
   m_Layer: 0
   m_Name: RinInTheHouse
   m_TagString: Untagged
@@ -82,6 +84,40 @@ MonoBehaviour:
   animator: {fileID: 7518693524699243494}
   state: 1
   lastState: 0
+--- !u!114 &4900556814018530797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 579856641663218106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0af3d77590697a645a3c4d9569257b56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  update: 1
+  interactable: 1
+  noPrefix: 0
+  clicked: 0
+  content: '[E] Interact'
+  distance: 5
+  dotApproved: 0.5
+--- !u!114 &8965069548581316720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 579856641663218106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bbb2698db5d13f4383a8785456d7420, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  once: 0
+  stop: 0
+  sentences: []
 --- !u!1 &4394622586981219347
 GameObject:
   m_ObjectHideFlags: 0

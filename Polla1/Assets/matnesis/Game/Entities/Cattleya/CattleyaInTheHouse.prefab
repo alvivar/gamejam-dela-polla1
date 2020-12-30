@@ -40,6 +40,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2404713149151942629}
   - component: {fileID: 4267413463284224888}
+  - component: {fileID: 8401273487220984456}
+  - component: {fileID: 5411006347538039645}
   m_Layer: 0
   m_Name: CattleyaInTheHouse
   m_TagString: Untagged
@@ -89,6 +91,40 @@ MonoBehaviour:
   - {fileID: 3612207582988104171}
   state: 1
   lastState: 0
+--- !u!114 &8401273487220984456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5306476162067779616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0af3d77590697a645a3c4d9569257b56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  update: 1
+  interactable: 1
+  noPrefix: 0
+  clicked: 0
+  content: '[E] Interact'
+  distance: 5
+  dotApproved: 0.5
+--- !u!114 &5411006347538039645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5306476162067779616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bbb2698db5d13f4383a8785456d7420, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  once: 0
+  stop: 0
+  sentences: []
 --- !u!1 &9174534945655097416
 GameObject:
   m_ObjectHideFlags: 0

@@ -43,18 +43,22 @@ public class PartyHouseSystem : MonoBehaviour
                 this.tt("SetUpGirlAtDoor").Add(() =>
                     {
                         message.mainDamp = 10;
-                        message.main.text = "\t\t*knock knock*";
                         message.showMain = true;
+                        message.main.text = "\t\t*knock";
 
                         knock.once = true;
                     })
-                    .Add(1, () =>
+                    .Add(0.5f, () =>
+                    {
+                        message.main.text = "\t\t\t*knock";
+                    })
+                    .Add(0.5f, () =>
                     {
                         partyHouse.animator.enabled = true;
                         rin.state = Rin.State.AtTheDoor;
                         cattleya.state = Cattleya.State.AtTheDoor;
 
-                        message.main.text = "\t\t\t\t(Maybe this one is enough?)";
+                        message.main.text = "\t\t\t\t(What should I say?)";
                     })
                     .Add(3, t =>
                     {
