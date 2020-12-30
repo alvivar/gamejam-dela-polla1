@@ -99,7 +99,8 @@ public class BecauseOfReasonsSystem : MonoBehaviour
                         // This script is over, let's turn down systems and go to
                         // the next scripting stage
 
-                        interactPoint.update = false;
+                        timer = 0;
+                        interactPoint.enabled = false;
                         interact.show = false;
 
                         reasons = EntitySet.GetBecauseThisReason(EntitySet.InteractPointIds);
@@ -107,16 +108,16 @@ public class BecauseOfReasonsSystem : MonoBehaviour
                         {
                             var reason = reasons.Elements[j];
                             var interactReason = EntitySet.GetInteractPoint(reason);
+
+                            reason.enabled = false;
                             interactReason.enabled = false;
                         }
-
-                        timer = 0;
-                        enabled = false;
-                        stage = Stage.Idle;
 
                         // Next scripting
 
                         partyHouse.state = PartyHouse.State.SetUpGirlAtDoor;
+                        stage = Stage.Idle;
+                        this.enabled = false;
                     }
                 }
 

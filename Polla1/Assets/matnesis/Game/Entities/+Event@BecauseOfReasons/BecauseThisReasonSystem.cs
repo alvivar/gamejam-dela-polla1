@@ -19,6 +19,7 @@ public class BecauseThisReasonSystem : MonoBehaviour
             {
                 interactPoint.clicked = 0;
                 interactPoint.noPrefix = true;
+                interactPoint.interactable = false;
                 interactPoint.content = becauseThisReason.trueReason;
 
                 becauseThisReason.chosen = true;

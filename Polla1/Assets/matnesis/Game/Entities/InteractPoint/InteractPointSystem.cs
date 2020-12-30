@@ -15,7 +15,7 @@ public class InteractPointSystem : MonoBehaviour
         if (!interact)
             interact = EntitySet.Interacts.Elements[0];
 
-        var pos = player.position;
+        var playerPos = player.position;
         var interactPoints = EntitySet.InteractPoints;
         for (int i = 0; i < interactPoints.Length; i++)
         {
@@ -25,21 +25,26 @@ public class InteractPointSystem : MonoBehaviour
                 continue;
 
             if (lockedBy != null && lockedBy != interactPoint)
+            {
+                if (!lockedBy.enabled)
+                    lockedBy = null;
                 continue;
+            }
 
-            var dot = Vector3.Dot(player.forward, (interactPoint.transform.position - pos).normalized);
+            var pointPos = interactPoint.positionSource ? interactPoint.positionSource.position : interactPoint.transform.position;
+            var dot = Vector3.Dot(player.forward, (pointPos - playerPos).normalized);
             if (dot < 0.6f)
             {
                 lockedBy = null;
                 continue;
             }
 
-            var len = Vector3.Distance(pos, interactPoint.transform.position);
+            var len = Vector3.Distance(playerPos, pointPos);
             if (len < interactPoint.distance)
             {
                 lockedBy = interactPoint;
 
-                interact.transform.position = interactPoint.transform.position;
+                interact.transform.position = pointPos;
 
                 var prefix = interactPoint.noPrefix ? "" : interact.prefix;
                 interact.content.text = prefix + interactPoint.content;

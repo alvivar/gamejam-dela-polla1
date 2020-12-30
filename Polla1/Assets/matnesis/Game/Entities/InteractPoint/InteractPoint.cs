@@ -10,8 +10,9 @@ public class InteractPoint : MonoBehaviour
 
     [Header("Config")]
     public string content = "[E] Interact";
-    public float distance = 5;
+    public float distance = 3.5f;
     public float dotApproved = 0.5f;
+    public Transform positionSource;
 
     private void OnEnable()
     {
