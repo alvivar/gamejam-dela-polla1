@@ -1,4 +1,8 @@
 
+The conversation with Rin
+The conversation with Cattle
+The conversation about Izzy
+
 The player can pick up the rifle
 The player can shoot the rifle
 A 3D character that walks and idle

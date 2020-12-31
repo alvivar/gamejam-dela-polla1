@@ -8,8 +8,6 @@ public class PartyHouseSystem : MonoBehaviour
     SoundClip knock;
     Transform player;
 
-    float timer;
-
     void Update()
     {
         if (!rin)
@@ -44,13 +42,17 @@ public class PartyHouseSystem : MonoBehaviour
                     {
                         message.mainDamp = 10;
                         message.showMain = true;
-                        message.main.text = "\t*knock";
+                        message.main.text = "\t\t*knock";
 
                         knock.once = true;
                     })
                     .Add(0.5f, () =>
                     {
-                        message.main.text = "\t\t*knock";
+                        message.main.text = "\t\t\t*knock";
+                    })
+                    .Add(0.5f, () =>
+                    {
+                        message.main.text = "";
                     })
                     .Add(0.5f, () =>
                     {
@@ -58,13 +60,22 @@ public class PartyHouseSystem : MonoBehaviour
                         rin.state = Rin.State.AtTheDoor;
                         cattleya.state = Cattleya.State.AtTheDoor;
 
-                        message.main.text = "\t\t\t(What should I say?)";
+                        message.main.text = "\t\tYou hear whispers\n\n";
+                    })
+                    .Add(2, () =>
+                    {
+                        message.main.text += "\t\tYou are anxious?\n\n";
+                    })
+                    .Add(2, () =>
+                    {
+                        message.main.text += "\t\tSomeone is coming";
                     })
                     .Add(3, () =>
                     {
-                        message.main.text = "\t\tGirl: Wait a minute!\n\n\t\t*whispers";
+                        // @todo Probably a female voice
+                        message.main.text = "\t\tYes?";
                     })
-                    .Add(3, t =>
+                    .Add(0.5f, t =>
                     {
                         message.showMain = false;
                         partyHouse.state = PartyHouse.State.GirlAnsweringTheDoor;
@@ -76,8 +87,6 @@ public class PartyHouseSystem : MonoBehaviour
 
             if (partyHouse.state == PartyHouse.State.GirlAnsweringTheDoor)
             {
-                // partyHouse.lastState = partyHouse.state;
-
                 // Look at the player basically
 
                 rin.character.transform.LookAt(player);

@@ -23,6 +23,7 @@ public class BecauseThisReasonSystem : MonoBehaviour
                 interactPoint.content = becauseThisReason.trueReason;
 
                 becauseThisReason.chosen = true;
+                thunder.transform.position = interactPoint.transform.position;
                 thunder.once = true;
             }
         }
