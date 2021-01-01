@@ -12,7 +12,7 @@ public class Rin : MonoBehaviour
     [Header("State")]
     public State state = State.Praying;
     public State lastState = State.Idle;
-    public enum State { Idle, Praying, AtTheDoor }
+    public enum State { Idle, Praying, AtTheDoor, Talking, WaitingConversation }
 
     private void OnEnable()
     {

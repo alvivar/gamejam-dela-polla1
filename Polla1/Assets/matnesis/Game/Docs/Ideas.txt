@@ -28,7 +28,6 @@ The Witch of the Void
 
 The Moon is calling
 
-
 The gun over the table
     When you aim over somebody, that person gets scared.
     *jumpscare*

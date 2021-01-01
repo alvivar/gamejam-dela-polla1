@@ -2,8 +2,17 @@ using UnityEngine;
 
 public class RinSystem : MonoBehaviour
 {
+    Transform player;
+    Interact interact;
+
     void Update()
     {
+        if (!player)
+            player = EntitySet.VoidPlayers.Elements[0].transform;
+
+        if (!interact)
+            interact = EntitySet.Interacts.Elements[0];
+
         var rins = EntitySet.GetRin(EntitySet.InteractPointIds, EntitySet.ConversationIds);
         for (int i = 0; i < rins.Length; i++)
         {
@@ -43,6 +52,41 @@ public class RinSystem : MonoBehaviour
 
                 interactPoint.update = true;
                 interactPoint.interactable = true;
+
+                rin.state = Rin.State.Talking;
+            }
+
+            // Start the conversation
+
+            if (rin.state == Rin.State.Talking)
+            {
+                if (interactPoint.clicked > 0)
+                {
+                    interactPoint.clicked = 0;
+
+                    // No interaction during the conversation
+                    interactPoint.update = false;
+                    interact.show = false;
+                    conversation.once = true;
+
+                    rin.state = Rin.State.WaitingConversation;
+                }
+            }
+
+            // Wait until the dialog ends
+
+            if (rin.state == Rin.State.WaitingConversation)
+            {
+                var len = Vector3.Distance(player.position, interactPoint.transform.position);
+                var lenLimit = interactPoint.distance * 2.5f;
+                if (!conversation.once || len > lenLimit)
+                {
+                    if (len > lenLimit)
+                        conversation.stop = true;
+
+                    interactPoint.update = true;
+                    rin.state = Rin.State.Talking;
+                }
             }
         }
     }

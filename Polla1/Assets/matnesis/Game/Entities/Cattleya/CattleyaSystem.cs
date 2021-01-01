@@ -2,8 +2,17 @@ using UnityEngine;
 
 public class CattleyaSystem : MonoBehaviour
 {
+    Transform player;
+    Interact interact;
+
     void Update()
     {
+        if (!player)
+            player = EntitySet.VoidPlayers.Elements[0].transform;
+
+        if (!interact)
+            interact = EntitySet.Interacts.Elements[0];
+
         var cattleyas = EntitySet.GetCattleya(EntitySet.InteractPointIds, EntitySet.ConversationIds);
         for (int i = 0; i < cattleyas.Length; i++)
         {
@@ -55,6 +64,41 @@ public class CattleyaSystem : MonoBehaviour
 
                 interactPoint.update = true;
                 interactPoint.interactable = true;
+
+                cattleya.state = Cattleya.State.Talking;
+            }
+
+            // Start the conversation
+
+            if (cattleya.state == Cattleya.State.Talking)
+            {
+                if (interactPoint.clicked > 0)
+                {
+                    interactPoint.clicked = 0;
+
+                    // No interaction during the conversation
+                    interactPoint.update = false;
+                    interact.show = false;
+                    conversation.once = true;
+
+                    cattleya.state = Cattleya.State.WaitingConversation;
+                }
+            }
+
+            // Wait until the dialog ends
+
+            if (cattleya.state == Cattleya.State.WaitingConversation)
+            {
+                var len = Vector3.Distance(player.position, interactPoint.transform.position);
+                var lenLimit = interactPoint.distance * 2.5f;
+                if (!conversation.once || len > lenLimit)
+                {
+                    if (len > lenLimit)
+                        conversation.stop = true;
+
+                    interactPoint.update = true;
+                    cattleya.state = Cattleya.State.Talking;
+                }
             }
         }
     }

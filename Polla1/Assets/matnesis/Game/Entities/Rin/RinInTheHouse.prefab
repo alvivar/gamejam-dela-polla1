@@ -119,7 +119,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   once: 0
   stop: 0
-  sentences: []
+  sentences:
+  - say: What do you want?
+    delay: 5
+    clip: {fileID: 0}
+  - say: It's ok if you got nothing to say, it happens all the time.
+    delay: 5
+    clip: {fileID: 0}
+  - say: But, I'm busy right now.
+    delay: 4
+    clip: {fileID: 0}
 --- !u!1 &4394622586981219347
 GameObject:
   m_ObjectHideFlags: 0

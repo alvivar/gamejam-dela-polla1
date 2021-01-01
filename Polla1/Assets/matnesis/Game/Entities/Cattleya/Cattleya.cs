@@ -15,7 +15,7 @@ public class Cattleya : MonoBehaviour
     [Header("State")]
     public State state = State.Bathroom;
     public State lastState = State.Idle;
-    public enum State { Idle, Bathroom, AtTheDoor }
+    public enum State { Idle, Bathroom, AtTheDoor, Talking, WaitingConversation }
 
     private void OnEnable()
     {
