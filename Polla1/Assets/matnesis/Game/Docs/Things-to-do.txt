@@ -1,12 +1,17 @@
 
-The conversation with Rin
-The conversation with Cattle
-The conversation about Izzy
+Looking at the moon
+The words that fly around
+The demon reminds you of jumping and ceilings
+The demon follows you
 
 The player can pick up the rifle
 The player can shoot the rifle
-A 3D character that walks and idle
 
+A 3D character that walks and idle?
+
+x The conversation with Rin
+x The conversation with Cattle
+x The conversation about Izzy
 x Dialog system
 x A rifle / Gun
 x The tower for the gun

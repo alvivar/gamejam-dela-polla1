@@ -546,6 +546,139 @@ using UnityEngine;
             return Conversations.Elements[index];
         }
 
+        // DemonOf
+
+        public static Arrayx<int> DemonOfIds = new Arrayx<int>();
+        public static Arrayx<DemonOf> DemonOfs = new Arrayx<DemonOf>();
+
+        public static void AddDemonOf(DemonOf component, bool componentEnabled = true)
+        {
+            // Setup
+
+            if (DemonOfIds.Elements == null)
+            {
+                DemonOfIds.Size = 8;
+                DemonOfIds.Elements = new int[DemonOfIds.Size];
+            }
+
+            if (DemonOfs.Elements == null)
+            {
+                DemonOfs.Size = 8;
+                DemonOfs.Elements = new DemonOf[DemonOfs.Size];
+            }
+
+            // Add
+
+            DemonOfIds.Elements[DemonOfIds.Length++] = component.gameObject.GetInstanceID();
+            DemonOfs.Elements[DemonOfs.Length++] = component;
+
+            // Resize check
+
+            if (DemonOfIds.Length >= DemonOfIds.Size)
+            {
+                DemonOfIds.Size *= 2;
+                Array.Resize(ref DemonOfIds.Elements, DemonOfIds.Size);
+
+                DemonOfs.Size *= 2;
+                Array.Resize(ref DemonOfs.Elements, DemonOfs.Size);
+            }
+
+            // Enable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static void RemoveDemonOf(DemonOf component, bool componentEnabled = false)
+        {
+            // Index
+
+            var id = component.gameObject.GetInstanceID();
+            var indexToRemove = -1;
+            for (int i = 0; i < DemonOfIds.Length; i++)
+            {
+                if (DemonOfIds.Elements[i] == id)
+                {
+                    indexToRemove = i;
+                    break;
+                }
+            }
+
+            // Overwrite
+
+            Array.Copy(
+                DemonOfIds.Elements, indexToRemove + 1,
+                DemonOfIds.Elements, indexToRemove,
+                DemonOfIds.Length - indexToRemove - 1);
+            DemonOfIds.Length--;
+
+            Array.Copy(
+                DemonOfs.Elements, indexToRemove + 1,
+                DemonOfs.Elements, indexToRemove,
+                DemonOfs.Length - indexToRemove - 1);
+            DemonOfs.Length--;
+
+            // Cache clean up
+
+            DemonOfIdCache.Clear();
+
+            // Disable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static Arrayx<DemonOf> GetDemonOf(params Arrayx<int>[] ids)
+        {
+            // DemonOfIds needs to be the first in the array parameter,
+            // that's how Gigas.Get relates the ids to the components
+
+            Arrayx<int>[] DemonOfPlusIds = new Arrayx<int>[ids.Length + 1];
+            DemonOfPlusIds[0] = DemonOfIds;
+            Array.Copy(ids, 0, DemonOfPlusIds, 1, ids.Length);
+
+            return Gigas.Get<DemonOf>(DemonOfPlusIds, EntitySet.DemonOfs);
+        }
+
+        public static DemonOf GetDemonOf(MonoBehaviour component)
+        {
+            return GetDemonOf(component.gameObject.GetInstanceID());
+        }
+
+        public static DemonOf GetDemonOf(GameObject gameobject)
+        {
+            return GetDemonOf(gameobject.GetInstanceID());
+        }
+
+        private static Dictionary<int, int> DemonOfIdCache = new Dictionary<int, int>();
+        public static DemonOf GetDemonOf(int instanceID)
+        {
+            var id = instanceID;
+
+            // Cache
+
+            if (DemonOfIdCache.ContainsKey(id))
+                return DemonOfs.Elements[DemonOfIdCache[id]];
+
+            // Index of
+
+            var index = -1;
+            for (int i = 0; i < DemonOfIds.Length; i++)
+            {
+                if (DemonOfIds.Elements[i] == id)
+                {
+                    index = i;
+                    DemonOfIdCache[id] = i; // Cache
+                    break;
+                }
+            }
+
+            // Value
+
+            if (index < 0)
+                return null;
+
+            return DemonOfs.Elements[index];
+        }
+
         // Interact
 
         public static Arrayx<int> InteractIds = new Arrayx<int>();
@@ -2289,6 +2422,9 @@ using UnityEngine;
 
             ConversationIds.Length = 0;
             Conversations.Length = 0;
+
+            DemonOfIds.Length = 0;
+            DemonOfs.Length = 0;
 
             InteractIds.Length = 0;
             Interacts.Length = 0;
