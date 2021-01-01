@@ -138,7 +138,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4629928036104381331}
   - component: {fileID: 4382565755182489628}
-  - component: {fileID: 7760498570924458494}
   m_Layer: 11
   m_Name: PartyHouse
   m_TagString: Untagged
@@ -205,19 +204,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 462114ed216bc244aa774ef7438aad09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
+  lastState: 0
   animator: {fileID: 4688613371238224297}
---- !u!114 &7760498570924458494
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4629928036104138271}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3053ed9568d63cf4aac5bcaf822bbae7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4630617977785395765
 GameObject:
   m_ObjectHideFlags: 0

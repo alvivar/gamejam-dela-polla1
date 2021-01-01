@@ -812,6 +812,139 @@ using UnityEngine;
             return InteractPoints.Elements[index];
         }
 
+        // Izzy
+
+        public static Arrayx<int> IzzyIds = new Arrayx<int>();
+        public static Arrayx<Izzy> Izzys = new Arrayx<Izzy>();
+
+        public static void AddIzzy(Izzy component, bool componentEnabled = true)
+        {
+            // Setup
+
+            if (IzzyIds.Elements == null)
+            {
+                IzzyIds.Size = 8;
+                IzzyIds.Elements = new int[IzzyIds.Size];
+            }
+
+            if (Izzys.Elements == null)
+            {
+                Izzys.Size = 8;
+                Izzys.Elements = new Izzy[Izzys.Size];
+            }
+
+            // Add
+
+            IzzyIds.Elements[IzzyIds.Length++] = component.gameObject.GetInstanceID();
+            Izzys.Elements[Izzys.Length++] = component;
+
+            // Resize check
+
+            if (IzzyIds.Length >= IzzyIds.Size)
+            {
+                IzzyIds.Size *= 2;
+                Array.Resize(ref IzzyIds.Elements, IzzyIds.Size);
+
+                Izzys.Size *= 2;
+                Array.Resize(ref Izzys.Elements, Izzys.Size);
+            }
+
+            // Enable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static void RemoveIzzy(Izzy component, bool componentEnabled = false)
+        {
+            // Index
+
+            var id = component.gameObject.GetInstanceID();
+            var indexToRemove = -1;
+            for (int i = 0; i < IzzyIds.Length; i++)
+            {
+                if (IzzyIds.Elements[i] == id)
+                {
+                    indexToRemove = i;
+                    break;
+                }
+            }
+
+            // Overwrite
+
+            Array.Copy(
+                IzzyIds.Elements, indexToRemove + 1,
+                IzzyIds.Elements, indexToRemove,
+                IzzyIds.Length - indexToRemove - 1);
+            IzzyIds.Length--;
+
+            Array.Copy(
+                Izzys.Elements, indexToRemove + 1,
+                Izzys.Elements, indexToRemove,
+                Izzys.Length - indexToRemove - 1);
+            Izzys.Length--;
+
+            // Cache clean up
+
+            IzzyIdCache.Clear();
+
+            // Disable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static Arrayx<Izzy> GetIzzy(params Arrayx<int>[] ids)
+        {
+            // IzzyIds needs to be the first in the array parameter,
+            // that's how Gigas.Get relates the ids to the components
+
+            Arrayx<int>[] IzzyPlusIds = new Arrayx<int>[ids.Length + 1];
+            IzzyPlusIds[0] = IzzyIds;
+            Array.Copy(ids, 0, IzzyPlusIds, 1, ids.Length);
+
+            return Gigas.Get<Izzy>(IzzyPlusIds, EntitySet.Izzys);
+        }
+
+        public static Izzy GetIzzy(MonoBehaviour component)
+        {
+            return GetIzzy(component.gameObject.GetInstanceID());
+        }
+
+        public static Izzy GetIzzy(GameObject gameobject)
+        {
+            return GetIzzy(gameobject.GetInstanceID());
+        }
+
+        private static Dictionary<int, int> IzzyIdCache = new Dictionary<int, int>();
+        public static Izzy GetIzzy(int instanceID)
+        {
+            var id = instanceID;
+
+            // Cache
+
+            if (IzzyIdCache.ContainsKey(id))
+                return Izzys.Elements[IzzyIdCache[id]];
+
+            // Index of
+
+            var index = -1;
+            for (int i = 0; i < IzzyIds.Length; i++)
+            {
+                if (IzzyIds.Elements[i] == id)
+                {
+                    index = i;
+                    IzzyIdCache[id] = i; // Cache
+                    break;
+                }
+            }
+
+            // Value
+
+            if (index < 0)
+                return null;
+
+            return Izzys.Elements[index];
+        }
+
         // LookAtVoidPlayer
 
         public static Arrayx<int> LookAtVoidPlayerIds = new Arrayx<int>();
@@ -2162,6 +2295,9 @@ using UnityEngine;
 
             InteractPointIds.Length = 0;
             InteractPoints.Length = 0;
+
+            IzzyIds.Length = 0;
+            Izzys.Length = 0;
 
             LookAtVoidPlayerIds.Length = 0;
             LookAtVoidPlayers.Length = 0;
