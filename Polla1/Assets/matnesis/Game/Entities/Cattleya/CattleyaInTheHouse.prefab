@@ -128,9 +128,9 @@ MonoBehaviour:
   stop: 0
   sentences:
   - say: How dare you entering our home without permission?
-    delay: 5
+    delay: 4
     clip: {fileID: 0}
-  - say: Get out!
+  - say: Why are you here?
     delay: 3
     clip: {fileID: 0}
 --- !u!1 &7803180381669970598

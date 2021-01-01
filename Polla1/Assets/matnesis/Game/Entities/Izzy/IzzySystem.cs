@@ -33,8 +33,8 @@ public class IzzySystem : MonoBehaviour
                 izzy.lastState = izzy.state;
 
                 izzy.animator.SetTrigger("sleepHurt");
-                interactPoint.update = false;
-                interactPoint.interactable = false;
+                interactPoint.update = true;
+                interactPoint.interactable = true;
 
                 izzy.state = Izzy.State.Talking;
             }
