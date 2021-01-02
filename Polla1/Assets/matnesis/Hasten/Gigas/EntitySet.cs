@@ -679,6 +679,139 @@ using UnityEngine;
             return DemonOfs.Elements[index];
         }
 
+        // EyeOfCreator
+
+        public static Arrayx<int> EyeOfCreatorIds = new Arrayx<int>();
+        public static Arrayx<EyeOfCreator> EyeOfCreators = new Arrayx<EyeOfCreator>();
+
+        public static void AddEyeOfCreator(EyeOfCreator component, bool componentEnabled = true)
+        {
+            // Setup
+
+            if (EyeOfCreatorIds.Elements == null)
+            {
+                EyeOfCreatorIds.Size = 8;
+                EyeOfCreatorIds.Elements = new int[EyeOfCreatorIds.Size];
+            }
+
+            if (EyeOfCreators.Elements == null)
+            {
+                EyeOfCreators.Size = 8;
+                EyeOfCreators.Elements = new EyeOfCreator[EyeOfCreators.Size];
+            }
+
+            // Add
+
+            EyeOfCreatorIds.Elements[EyeOfCreatorIds.Length++] = component.gameObject.GetInstanceID();
+            EyeOfCreators.Elements[EyeOfCreators.Length++] = component;
+
+            // Resize check
+
+            if (EyeOfCreatorIds.Length >= EyeOfCreatorIds.Size)
+            {
+                EyeOfCreatorIds.Size *= 2;
+                Array.Resize(ref EyeOfCreatorIds.Elements, EyeOfCreatorIds.Size);
+
+                EyeOfCreators.Size *= 2;
+                Array.Resize(ref EyeOfCreators.Elements, EyeOfCreators.Size);
+            }
+
+            // Enable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static void RemoveEyeOfCreator(EyeOfCreator component, bool componentEnabled = false)
+        {
+            // Index
+
+            var id = component.gameObject.GetInstanceID();
+            var indexToRemove = -1;
+            for (int i = 0; i < EyeOfCreatorIds.Length; i++)
+            {
+                if (EyeOfCreatorIds.Elements[i] == id)
+                {
+                    indexToRemove = i;
+                    break;
+                }
+            }
+
+            // Overwrite
+
+            Array.Copy(
+                EyeOfCreatorIds.Elements, indexToRemove + 1,
+                EyeOfCreatorIds.Elements, indexToRemove,
+                EyeOfCreatorIds.Length - indexToRemove - 1);
+            EyeOfCreatorIds.Length--;
+
+            Array.Copy(
+                EyeOfCreators.Elements, indexToRemove + 1,
+                EyeOfCreators.Elements, indexToRemove,
+                EyeOfCreators.Length - indexToRemove - 1);
+            EyeOfCreators.Length--;
+
+            // Cache clean up
+
+            EyeOfCreatorIdCache.Clear();
+
+            // Disable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static Arrayx<EyeOfCreator> GetEyeOfCreator(params Arrayx<int>[] ids)
+        {
+            // EyeOfCreatorIds needs to be the first in the array parameter,
+            // that's how Gigas.Get relates the ids to the components
+
+            Arrayx<int>[] EyeOfCreatorPlusIds = new Arrayx<int>[ids.Length + 1];
+            EyeOfCreatorPlusIds[0] = EyeOfCreatorIds;
+            Array.Copy(ids, 0, EyeOfCreatorPlusIds, 1, ids.Length);
+
+            return Gigas.Get<EyeOfCreator>(EyeOfCreatorPlusIds, EntitySet.EyeOfCreators);
+        }
+
+        public static EyeOfCreator GetEyeOfCreator(MonoBehaviour component)
+        {
+            return GetEyeOfCreator(component.gameObject.GetInstanceID());
+        }
+
+        public static EyeOfCreator GetEyeOfCreator(GameObject gameobject)
+        {
+            return GetEyeOfCreator(gameobject.GetInstanceID());
+        }
+
+        private static Dictionary<int, int> EyeOfCreatorIdCache = new Dictionary<int, int>();
+        public static EyeOfCreator GetEyeOfCreator(int instanceID)
+        {
+            var id = instanceID;
+
+            // Cache
+
+            if (EyeOfCreatorIdCache.ContainsKey(id))
+                return EyeOfCreators.Elements[EyeOfCreatorIdCache[id]];
+
+            // Index of
+
+            var index = -1;
+            for (int i = 0; i < EyeOfCreatorIds.Length; i++)
+            {
+                if (EyeOfCreatorIds.Elements[i] == id)
+                {
+                    index = i;
+                    EyeOfCreatorIdCache[id] = i; // Cache
+                    break;
+                }
+            }
+
+            // Value
+
+            if (index < 0)
+                return null;
+
+            return EyeOfCreators.Elements[index];
+        }
+
         // EyeOfMind
 
         public static Arrayx<int> EyeOfMindIds = new Arrayx<int>();
@@ -2678,6 +2811,9 @@ using UnityEngine;
 
             DemonOfIds.Length = 0;
             DemonOfs.Length = 0;
+
+            EyeOfCreatorIds.Length = 0;
+            EyeOfCreators.Length = 0;
 
             EyeOfMindIds.Length = 0;
             EyeOfMinds.Length = 0;
