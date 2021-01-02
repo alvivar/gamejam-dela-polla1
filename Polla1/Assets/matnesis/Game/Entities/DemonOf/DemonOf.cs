@@ -3,7 +3,10 @@ using UnityEngine;
 // !Gigas !Alt
 public class DemonOf : MonoBehaviour
 {
-    public bool found = false;
+    public bool show = false;
+    public bool touched = false;
+
+    [Header("Required Children")]
     public Rigidbody rigidBody;
 
     private void OnEnable()

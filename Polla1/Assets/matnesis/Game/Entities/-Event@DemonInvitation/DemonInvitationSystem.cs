@@ -8,6 +8,14 @@ public class DemonInvitationSystem : MonoBehaviour
         for (int i = 0; i < demonInvitations.Length; i++)
         {
             var demonInvitation = demonInvitations.Elements[i];
+
+            if (demonInvitation.state == DemonInvitation.State.Idle)
+                continue;
+
+            if (demonInvitation.state == DemonInvitation.State.FirstCall)
+            {
+
+            }
         }
     }
 }

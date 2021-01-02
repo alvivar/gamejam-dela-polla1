@@ -22,16 +22,25 @@ public class DemonOfSystem : MonoBehaviour
         {
             var demonOf = demonOfs.Elements[i];
 
-            var playerDistance = Vector3.Distance(demonOf.transform.position, playerPos);
+            // Summon
+            if (demonOf.show)
+            {
+                demonOf.rigidBody.gameObject.SetActive(true);
+            }
+            else
+            {
+                demonOf.rigidBody.gameObject.SetActive(false);
+            }
 
             // Found the demon!
 
+            var playerDistance = Vector3.Distance(demonOf.transform.position, playerPos);
             if (playerDistance < 3)
-                demonOf.found = true;
+                demonOf.touched = true;
 
             // Only if found
 
-            if (!demonOf.found)
+            if (!demonOf.touched)
                 continue;
 
             if (playerDistance < closestDistance)
@@ -63,7 +72,7 @@ public class DemonOfSystem : MonoBehaviour
         // Farest demon reposition
 
         var farestDot = Vector3.Dot(player.forward, (farestDemon.transform.position - playerPos).normalized);
-        if (farestDemon.found && closestDistance > 15 && farestDot < 0.20)
+        if (farestDemon.touched && closestDistance > 15 && farestDot < 0.20)
         {
             var randomPos = Random.insideUnitSphere * 10;
             var behind = -10 * player.forward + playerPos + randomPos;

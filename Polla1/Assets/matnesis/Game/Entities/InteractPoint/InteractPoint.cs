@@ -9,7 +9,7 @@ public class InteractPoint : MonoBehaviour
     public int clicked = 0;
 
     [Header("Config")]
-    public string content = "[E] Interact";
+    public string content = "Interact";
     public float distance = 3.5f;
     public float dotApproved = 0.5f;
     public Transform positionSource;
