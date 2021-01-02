@@ -48,7 +48,7 @@ public class DemonOfSystem : MonoBehaviour
             // Look at the player
 
             var dot = Vector3.Dot(player.forward, (demonOf.transform.position - playerPos).normalized);
-            if (dot < 0.20 && playerDistance > 2)
+            if (dot < 0.20 && playerDistance > 3)
             {
                 demonOf.rigidBody.velocity = Vector3.Lerp(demonOf.rigidBody.velocity, Vector3.zero, Time.deltaTime);
                 demonOf.transform.LookAt(playerPos);
@@ -56,7 +56,7 @@ public class DemonOfSystem : MonoBehaviour
             }
         }
 
-        if (farestDemon.found && closestDistance > 44)
+        if (farestDemon.found && closestDistance > 40)
         {
             var behind = playerPos + (player.forward * -10);
             behind.y = playerPos.y;

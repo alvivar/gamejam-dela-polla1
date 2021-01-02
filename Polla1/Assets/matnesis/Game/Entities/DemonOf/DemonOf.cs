@@ -1,6 +1,6 @@
 using UnityEngine;
 
-// !Gigas
+// !Gigas !Alt
 public class DemonOf : MonoBehaviour
 {
     public bool found = false;
@@ -15,4 +15,16 @@ public class DemonOf : MonoBehaviour
     {
         EntitySet.RemoveDemonOf(this);
     }
+
+    private void Start()
+    {
+        EntitySet.AddAltDemonOf(this);
+        // gameObject.SetActive(false);
+    }
+
+    private void OnDestroy()
+    {
+        EntitySet.RemoveAltDemonOf(this);
+    }
+
 }

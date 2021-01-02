@@ -2408,6 +2408,126 @@ using UnityEngine;
             return WatchingTheSeas.Elements[index];
         }
 
+        // Alt DemonOf
+
+        public static Arrayx<int> AltDemonOfIds = new Arrayx<int>();
+        public static Arrayx<DemonOf> AltDemonOfs = new Arrayx<DemonOf>();
+
+        public static void AddAltDemonOf(DemonOf component, bool componentEnabled = true)
+        {
+            // Setup
+
+            if (AltDemonOfIds.Elements == null)
+            {
+                AltDemonOfIds.Size = 8;
+                AltDemonOfIds.Elements = new int[AltDemonOfIds.Size];
+            }
+
+            if (AltDemonOfs.Elements == null)
+            {
+                AltDemonOfs.Size = 8;
+                AltDemonOfs.Elements = new DemonOf[AltDemonOfs.Size];
+            }
+
+            // Add
+
+            AltDemonOfIds.Elements[AltDemonOfIds.Length++] = component.gameObject.GetInstanceID();
+            AltDemonOfs.Elements[AltDemonOfs.Length++] = component;
+
+            // Resize check
+
+            if (AltDemonOfIds.Length >= AltDemonOfIds.Size)
+            {
+                AltDemonOfIds.Size *= 2;
+                Array.Resize(ref AltDemonOfIds.Elements, AltDemonOfIds.Size);
+
+                AltDemonOfs.Size *= 2;
+                Array.Resize(ref AltDemonOfs.Elements, AltDemonOfs.Size);
+            }
+
+            // Enable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static void RemoveAltDemonOf(DemonOf component, bool componentEnabled = false)
+        {
+            // Index
+
+            var id = component.gameObject.GetInstanceID();
+            var indexToRemove = -1;
+            for (int i = 0; i < AltDemonOfIds.Length; i++)
+            {
+                if (AltDemonOfIds.Elements[i] == id)
+                {
+                    indexToRemove = i;
+                    break;
+                }
+            }
+
+            // Overwrite
+
+            Array.Copy(
+                AltDemonOfIds.Elements, indexToRemove + 1,
+                AltDemonOfIds.Elements, indexToRemove,
+                AltDemonOfIds.Length - indexToRemove - 1);
+            AltDemonOfIds.Length--;
+
+            Array.Copy(
+                AltDemonOfs.Elements, indexToRemove + 1,
+                AltDemonOfs.Elements, indexToRemove,
+                AltDemonOfs.Length - indexToRemove - 1);
+            AltDemonOfs.Length--;
+
+            // Cache clean up
+
+            AltDemonOfIdCache.Clear();
+
+            // Disable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static DemonOf GetAltDemonOf(MonoBehaviour component)
+        {
+            return GetAltDemonOf(component.gameObject.GetInstanceID());
+        }
+
+        public static DemonOf GetAltDemonOf(GameObject gameobject)
+        {
+            return GetAltDemonOf(gameobject.GetInstanceID());
+        }
+
+        private static Dictionary<int, int> AltDemonOfIdCache = new Dictionary<int, int>();
+        public static DemonOf GetAltDemonOf(int instanceID)
+        {
+            var id = instanceID;
+
+            // Cache
+
+            if (AltDemonOfIdCache.ContainsKey(id))
+                return AltDemonOfs.Elements[AltDemonOfIdCache[id]];
+
+            // Index of
+
+            var index = -1;
+            for (int i = 0; i < AltDemonOfIds.Length; i++)
+            {
+                if (AltDemonOfIds.Elements[i] == id)
+                {
+                    index = i;
+                    AltDemonOfIdCache[id] = i; // Cache
+                    break;
+                }
+            }
+
+            // Value
+
+            if (index < 0)
+                return null;
+
+            return AltDemonOfs.Elements[index];
+        }
 
         public static void Clear()
         {
@@ -2468,6 +2588,8 @@ using UnityEngine;
 
         public static void ClearAlt()
         {
+            AltDemonOfIds.Length = 0;
+            AltDemonOfs.Length = 0;
         }
     }
 //  }
