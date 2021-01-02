@@ -50,15 +50,23 @@ public class DemonOfSystem : MonoBehaviour
             var dot = Vector3.Dot(player.forward, (demonOf.transform.position - playerPos).normalized);
             if (dot < 0.20 && playerDistance > 3)
             {
-                demonOf.rigidBody.velocity = Vector3.Lerp(demonOf.rigidBody.velocity, Vector3.zero, Time.deltaTime);
+                demonOf.rigidBody.isKinematic = false;
                 demonOf.transform.LookAt(playerPos);
                 demonOf.transform.eulerAngles = new Vector3(0, demonOf.transform.eulerAngles.y, 0);
             }
+            else
+            {
+                demonOf.rigidBody.isKinematic = true;
+            }
         }
 
-        if (farestDemon.found && closestDistance > 40)
+        // Farest demon reposition
+
+        var farestDot = Vector3.Dot(player.forward, (farestDemon.transform.position - playerPos).normalized);
+        if (farestDemon.found && closestDistance > 15 && farestDot < 0.20)
         {
-            var behind = playerPos + (player.forward * -10);
+            var randomPos = Random.insideUnitSphere * 10;
+            var behind = playerPos + (player.forward * -10) + randomPos;
             behind.y = playerPos.y;
 
             farestDemon.transform.position = behind;
