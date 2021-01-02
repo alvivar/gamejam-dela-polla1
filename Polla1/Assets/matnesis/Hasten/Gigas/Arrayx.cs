@@ -15,7 +15,7 @@ public class Arrayx<T>
     public static Arrayx<T> New(int size)
     {
         var x = new Arrayx<T>();
-        x.Size = size < 2 ? 2 : size;
+        x.Size = size < 1 ? 1 : size;
         x.Elements = new T[size];
         x.Length = 0;
 
