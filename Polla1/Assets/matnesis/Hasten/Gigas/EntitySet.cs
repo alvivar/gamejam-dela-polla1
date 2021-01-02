@@ -679,6 +679,139 @@ using UnityEngine;
             return DemonOfs.Elements[index];
         }
 
+        // EyeOfMind
+
+        public static Arrayx<int> EyeOfMindIds = new Arrayx<int>();
+        public static Arrayx<EyeOfMind> EyeOfMinds = new Arrayx<EyeOfMind>();
+
+        public static void AddEyeOfMind(EyeOfMind component, bool componentEnabled = true)
+        {
+            // Setup
+
+            if (EyeOfMindIds.Elements == null)
+            {
+                EyeOfMindIds.Size = 8;
+                EyeOfMindIds.Elements = new int[EyeOfMindIds.Size];
+            }
+
+            if (EyeOfMinds.Elements == null)
+            {
+                EyeOfMinds.Size = 8;
+                EyeOfMinds.Elements = new EyeOfMind[EyeOfMinds.Size];
+            }
+
+            // Add
+
+            EyeOfMindIds.Elements[EyeOfMindIds.Length++] = component.gameObject.GetInstanceID();
+            EyeOfMinds.Elements[EyeOfMinds.Length++] = component;
+
+            // Resize check
+
+            if (EyeOfMindIds.Length >= EyeOfMindIds.Size)
+            {
+                EyeOfMindIds.Size *= 2;
+                Array.Resize(ref EyeOfMindIds.Elements, EyeOfMindIds.Size);
+
+                EyeOfMinds.Size *= 2;
+                Array.Resize(ref EyeOfMinds.Elements, EyeOfMinds.Size);
+            }
+
+            // Enable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static void RemoveEyeOfMind(EyeOfMind component, bool componentEnabled = false)
+        {
+            // Index
+
+            var id = component.gameObject.GetInstanceID();
+            var indexToRemove = -1;
+            for (int i = 0; i < EyeOfMindIds.Length; i++)
+            {
+                if (EyeOfMindIds.Elements[i] == id)
+                {
+                    indexToRemove = i;
+                    break;
+                }
+            }
+
+            // Overwrite
+
+            Array.Copy(
+                EyeOfMindIds.Elements, indexToRemove + 1,
+                EyeOfMindIds.Elements, indexToRemove,
+                EyeOfMindIds.Length - indexToRemove - 1);
+            EyeOfMindIds.Length--;
+
+            Array.Copy(
+                EyeOfMinds.Elements, indexToRemove + 1,
+                EyeOfMinds.Elements, indexToRemove,
+                EyeOfMinds.Length - indexToRemove - 1);
+            EyeOfMinds.Length--;
+
+            // Cache clean up
+
+            EyeOfMindIdCache.Clear();
+
+            // Disable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static Arrayx<EyeOfMind> GetEyeOfMind(params Arrayx<int>[] ids)
+        {
+            // EyeOfMindIds needs to be the first in the array parameter,
+            // that's how Gigas.Get relates the ids to the components
+
+            Arrayx<int>[] EyeOfMindPlusIds = new Arrayx<int>[ids.Length + 1];
+            EyeOfMindPlusIds[0] = EyeOfMindIds;
+            Array.Copy(ids, 0, EyeOfMindPlusIds, 1, ids.Length);
+
+            return Gigas.Get<EyeOfMind>(EyeOfMindPlusIds, EntitySet.EyeOfMinds);
+        }
+
+        public static EyeOfMind GetEyeOfMind(MonoBehaviour component)
+        {
+            return GetEyeOfMind(component.gameObject.GetInstanceID());
+        }
+
+        public static EyeOfMind GetEyeOfMind(GameObject gameobject)
+        {
+            return GetEyeOfMind(gameobject.GetInstanceID());
+        }
+
+        private static Dictionary<int, int> EyeOfMindIdCache = new Dictionary<int, int>();
+        public static EyeOfMind GetEyeOfMind(int instanceID)
+        {
+            var id = instanceID;
+
+            // Cache
+
+            if (EyeOfMindIdCache.ContainsKey(id))
+                return EyeOfMinds.Elements[EyeOfMindIdCache[id]];
+
+            // Index of
+
+            var index = -1;
+            for (int i = 0; i < EyeOfMindIds.Length; i++)
+            {
+                if (EyeOfMindIds.Elements[i] == id)
+                {
+                    index = i;
+                    EyeOfMindIdCache[id] = i; // Cache
+                    break;
+                }
+            }
+
+            // Value
+
+            if (index < 0)
+                return null;
+
+            return EyeOfMinds.Elements[index];
+        }
+
         // Interact
 
         public static Arrayx<int> InteractIds = new Arrayx<int>();
@@ -2545,6 +2678,9 @@ using UnityEngine;
 
             DemonOfIds.Length = 0;
             DemonOfs.Length = 0;
+
+            EyeOfMindIds.Length = 0;
+            EyeOfMinds.Length = 0;
 
             InteractIds.Length = 0;
             Interacts.Length = 0;

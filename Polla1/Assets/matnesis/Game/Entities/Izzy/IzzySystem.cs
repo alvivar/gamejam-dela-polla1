@@ -8,7 +8,7 @@ public class IzzySystem : MonoBehaviour
     void Update()
     {
         if (!player)
-            player = EntitySet.VoidPlayers.Elements[0].transform;
+            player = EntitySet.VoidCams.Elements[0].transform;
 
         if (!interact)
             interact = EntitySet.Interacts.Elements[0];

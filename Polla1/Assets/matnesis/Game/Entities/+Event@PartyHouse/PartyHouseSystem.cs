@@ -23,7 +23,7 @@ public class PartyHouseSystem : MonoBehaviour
             knock = EntitySet.SoundClips.Filter(x => x.id == "KnockKnock", first : true).Elements[0];
 
         if (!player)
-            player = EntitySet.VoidPlayers.Elements[0].transform;
+            player = EntitySet.VoidCams.Elements[0].transform;
 
         var partyHouses = EntitySet.PartyHouses;
         for (int i = 0; i < partyHouses.Length; i++)
