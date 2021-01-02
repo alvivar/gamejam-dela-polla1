@@ -66,8 +66,8 @@ public class DemonOfSystem : MonoBehaviour
         if (farestDemon.found && closestDistance > 15 && farestDot < 0.20)
         {
             var randomPos = Random.insideUnitSphere * 10;
-            var behind = playerPos + (player.forward * -10) + randomPos;
-            behind.y = playerPos.y;
+            var behind = -10 * player.forward + playerPos + randomPos;
+            behind.y = playerPos.y - 0.6f;
 
             farestDemon.transform.position = behind;
             farestDemon.transform.rotation = Quaternion.identity;

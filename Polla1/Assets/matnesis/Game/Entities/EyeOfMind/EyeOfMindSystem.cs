@@ -15,17 +15,14 @@ public class EyeOfMindSystem : MonoBehaviour
         var eyeOfMinds = EntitySet.EyeOfMinds;
         for (int i = 0; i < eyeOfMinds.Length; i++)
         {
-            var eyeOfMind = eyeOfMinds.Elements[i];
+            var eye = eyeOfMinds.Elements[i];
 
-            if (eyeOfMind.transform.position.magnitude == 0)
-                eyeOfMind.transform.position = eyeOfMind.transform.position + Random.insideUnitSphere;
-
-            var eyeOfMindPos = eyeOfMind.transform.position;
+            var eyePos = eye.transform.position;
             var playerPos = player.transform.position;
 
             // Ignore on player sight
 
-            var dot = Vector3.Dot(player.forward, (eyeOfMindPos - playerPos).normalized);
+            var dot = Vector3.Dot(player.forward, (eyePos - playerPos).normalized);
             if (dot > 0.2f)
                 continue;
 
@@ -37,17 +34,17 @@ public class EyeOfMindSystem : MonoBehaviour
             {
                 var otherEye = eyeOfMinds.Elements[j];
 
-                if (eyeOfMind == otherEye)
+                if (eye == otherEye)
                     continue;
 
                 var otherEyePos = otherEye.transform.position;
 
-                if (eyeOfMindPos == otherEyePos)
+                if (eyePos == otherEyePos)
                     otherEye.transform.position += Random.insideUnitSphere;
 
                 // Distance
 
-                var distance = Vector3.Distance(eyeOfMindPos, otherEyePos);
+                var distance = Vector3.Distance(eyePos, otherEyePos);
 
                 if (distance < closestDistance && distance < 9)
                 {
@@ -60,23 +57,23 @@ public class EyeOfMindSystem : MonoBehaviour
 
             if (closestEye)
             {
-                var awayDir = -1 * (closestEye.transform.position - eyeOfMindPos).normalized;
-                eyeOfMind.transform.position = Vector3.Lerp(eyeOfMindPos, eyeOfMindPos + awayDir, Time.deltaTime * damp);
+                var awayDir = -1 * (closestEye.transform.position - eyePos).normalized;
+                eye.transform.position = Vector3.Lerp(eyePos, eyePos + awayDir, Time.deltaTime * damp);
             }
 
             // But follow the player
 
-            var playerDistance = Vector3.Distance(eyeOfMindPos, playerPos);
+            var playerDistance = Vector3.Distance(eyePos, playerPos);
             if (playerDistance > 3f)
             {
-                eyeOfMind.transform.position = Vector3.Lerp(eyeOfMindPos, playerPos, Time.deltaTime * damp);
+                eye.transform.position = Vector3.Lerp(eyePos, playerPos, Time.deltaTime * damp);
             }
 
             // Don't go below
 
-            if (eyeOfMindPos.y < (playerPos.y - 0.6f))
+            if (eyePos.y < (playerPos.y - 0.6f))
             {
-                eyeOfMind.transform.position = Vector3.Lerp(eyeOfMindPos, eyeOfMindPos + Vector3.up, Time.deltaTime * damp);
+                eye.transform.position = Vector3.Lerp(eyePos, eyePos + Vector3.up, Time.deltaTime * damp);
             }
         }
     }

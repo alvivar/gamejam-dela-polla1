@@ -546,6 +546,139 @@ using UnityEngine;
             return Conversations.Elements[index];
         }
 
+        // DemonInvitation
+
+        public static Arrayx<int> DemonInvitationIds = new Arrayx<int>();
+        public static Arrayx<DemonInvitation> DemonInvitations = new Arrayx<DemonInvitation>();
+
+        public static void AddDemonInvitation(DemonInvitation component, bool componentEnabled = true)
+        {
+            // Setup
+
+            if (DemonInvitationIds.Elements == null)
+            {
+                DemonInvitationIds.Size = 8;
+                DemonInvitationIds.Elements = new int[DemonInvitationIds.Size];
+            }
+
+            if (DemonInvitations.Elements == null)
+            {
+                DemonInvitations.Size = 8;
+                DemonInvitations.Elements = new DemonInvitation[DemonInvitations.Size];
+            }
+
+            // Add
+
+            DemonInvitationIds.Elements[DemonInvitationIds.Length++] = component.gameObject.GetInstanceID();
+            DemonInvitations.Elements[DemonInvitations.Length++] = component;
+
+            // Resize check
+
+            if (DemonInvitationIds.Length >= DemonInvitationIds.Size)
+            {
+                DemonInvitationIds.Size *= 2;
+                Array.Resize(ref DemonInvitationIds.Elements, DemonInvitationIds.Size);
+
+                DemonInvitations.Size *= 2;
+                Array.Resize(ref DemonInvitations.Elements, DemonInvitations.Size);
+            }
+
+            // Enable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static void RemoveDemonInvitation(DemonInvitation component, bool componentEnabled = false)
+        {
+            // Index
+
+            var id = component.gameObject.GetInstanceID();
+            var indexToRemove = -1;
+            for (int i = 0; i < DemonInvitationIds.Length; i++)
+            {
+                if (DemonInvitationIds.Elements[i] == id)
+                {
+                    indexToRemove = i;
+                    break;
+                }
+            }
+
+            // Overwrite
+
+            Array.Copy(
+                DemonInvitationIds.Elements, indexToRemove + 1,
+                DemonInvitationIds.Elements, indexToRemove,
+                DemonInvitationIds.Length - indexToRemove - 1);
+            DemonInvitationIds.Length--;
+
+            Array.Copy(
+                DemonInvitations.Elements, indexToRemove + 1,
+                DemonInvitations.Elements, indexToRemove,
+                DemonInvitations.Length - indexToRemove - 1);
+            DemonInvitations.Length--;
+
+            // Cache clean up
+
+            DemonInvitationIdCache.Clear();
+
+            // Disable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static Arrayx<DemonInvitation> GetDemonInvitation(params Arrayx<int>[] ids)
+        {
+            // DemonInvitationIds needs to be the first in the array parameter,
+            // that's how Gigas.Get relates the ids to the components
+
+            Arrayx<int>[] DemonInvitationPlusIds = new Arrayx<int>[ids.Length + 1];
+            DemonInvitationPlusIds[0] = DemonInvitationIds;
+            Array.Copy(ids, 0, DemonInvitationPlusIds, 1, ids.Length);
+
+            return Gigas.Get<DemonInvitation>(DemonInvitationPlusIds, EntitySet.DemonInvitations);
+        }
+
+        public static DemonInvitation GetDemonInvitation(MonoBehaviour component)
+        {
+            return GetDemonInvitation(component.gameObject.GetInstanceID());
+        }
+
+        public static DemonInvitation GetDemonInvitation(GameObject gameobject)
+        {
+            return GetDemonInvitation(gameobject.GetInstanceID());
+        }
+
+        private static Dictionary<int, int> DemonInvitationIdCache = new Dictionary<int, int>();
+        public static DemonInvitation GetDemonInvitation(int instanceID)
+        {
+            var id = instanceID;
+
+            // Cache
+
+            if (DemonInvitationIdCache.ContainsKey(id))
+                return DemonInvitations.Elements[DemonInvitationIdCache[id]];
+
+            // Index of
+
+            var index = -1;
+            for (int i = 0; i < DemonInvitationIds.Length; i++)
+            {
+                if (DemonInvitationIds.Elements[i] == id)
+                {
+                    index = i;
+                    DemonInvitationIdCache[id] = i; // Cache
+                    break;
+                }
+            }
+
+            // Value
+
+            if (index < 0)
+                return null;
+
+            return DemonInvitations.Elements[index];
+        }
+
         // DemonOf
 
         public static Arrayx<int> DemonOfIds = new Arrayx<int>();
@@ -2808,6 +2941,9 @@ using UnityEngine;
 
             ConversationIds.Length = 0;
             Conversations.Length = 0;
+
+            DemonInvitationIds.Length = 0;
+            DemonInvitations.Length = 0;
 
             DemonOfIds.Length = 0;
             DemonOfs.Length = 0;
