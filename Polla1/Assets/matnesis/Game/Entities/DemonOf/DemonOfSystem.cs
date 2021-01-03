@@ -22,15 +22,11 @@ public class DemonOfSystem : MonoBehaviour
         {
             var demonOf = demonOfs.Elements[i];
 
-            // Found the demon!
-
-            var playerDistance = Vector3.Distance(demonOf.transform.position, playerPos);
-            if (playerDistance < 3)
-                demonOf.touched = true;
-
             // Show up
 
+            var playerDistance = Vector3.Distance(demonOf.transform.position, playerPos);
             var dot = Vector3.Dot(player.forward, (demonOf.transform.position - playerPos).normalized);
+
             if (demonOf.show)
             {
                 demonOf.collidr.enabled = true;
@@ -45,6 +41,11 @@ public class DemonOfSystem : MonoBehaviour
                     demonOf.render.enabled = false;
                 }
             }
+
+            // Found the demon!
+
+            // if (playerDistance < 3)
+            //     demonOf.touched = true;
 
             // Only if
 

@@ -1,5 +1,4 @@
 
-The demons should appear at some point, gives players reasons
 Eye of Mind pop in introduction
 Eye of Mind cool floating
 
@@ -10,6 +9,7 @@ The player can shoot the rifle?
 A 3D character that walks and idle?
 
 
+x The demons should appear at some point, gives players reasons
 x The words that fly around, the eye of mind
 x The demon follows you
 x The conversation with Rin
