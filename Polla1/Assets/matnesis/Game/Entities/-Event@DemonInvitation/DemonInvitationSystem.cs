@@ -128,6 +128,7 @@ public class DemonInvitationSystem : MonoBehaviour
                 continue;
 
             demonOf.show = true;
+            demonOf.touched = true;
             interactPoint.update = true;
             interactPoint.interactable = true;
             interactPoint.clicked = 0;

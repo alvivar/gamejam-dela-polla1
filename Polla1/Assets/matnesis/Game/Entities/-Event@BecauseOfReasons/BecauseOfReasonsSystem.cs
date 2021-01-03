@@ -41,40 +41,45 @@ public class BecauseOfReasonsSystem : MonoBehaviour
                     demonInvitation.state = DemonInvitation.State.EnableDemons;
 
                     timer = 0;
-                    stage = Stage.WhyKnocking;
-                }
-            }
-
-            // Do you have enough reasons?
-
-            if (stage == Stage.WhyKnocking)
-            {
-                timer += Time.deltaTime;
-                if (timer > 2f)
-                {
-                    interactPoint.update = true;
-
-                    // Set the reasons
-                    var reasons = EntitySet.GetBecauseThisReason(EntitySet.InteractPointIds);
-                    for (int j = 0; j < reasons.Length; j++)
-                    {
-                        var reason = reasons.Elements[j];
-                        var interactReason = EntitySet.GetInteractPoint(reason);
-
-                        interactReason.interactable = true;
-                        interactReason.noPrefix = false;
-                        interactReason.content = reason.reason;
-                    }
-
                     stage = Stage.ReasonsJudgement;
                 }
-
             }
 
-            // Choose your reason
+            // The demons gives you reasons
 
             if (stage == Stage.ReasonsJudgement)
             {
+                // Make sure Interact comes back, make sure the reasons are
+                // enabled when the demons finish talking
+
+                if (stage == Stage.ReasonsJudgement)
+                {
+                    timer += Time.deltaTime;
+                    if (timer > 2f && !interactPoint.update)
+                    {
+                        interactPoint.update = true;
+
+                        // Wait until the demons finish the conversation to
+                        // unlock the reason
+                        if (demonInvitation.state == DemonInvitation.State.UntilLater)
+                        {
+                            // Set the reasons
+                            var reasons = EntitySet.GetBecauseThisReason(EntitySet.InteractPointIds);
+                            for (int j = 0; j < reasons.Length; j++)
+                            {
+                                var reason = reasons.Elements[j];
+                                var interactReason = EntitySet.GetInteractPoint(reason);
+
+                                interactReason.interactable = true;
+                                interactReason.noPrefix = false;
+                                interactReason.content = reason.reason;
+                            }
+                        }
+                    }
+                }
+
+                // Try a reason, try to knock
+
                 if (interactPoint.clicked > 0)
                 {
                     interactPoint.clicked = 0;
@@ -126,15 +131,6 @@ public class BecauseOfReasonsSystem : MonoBehaviour
                         stage = Stage.Idle;
                         this.enabled = false;
                     }
-                }
-
-                // Make sure Interact comes back
-
-                if (stage == Stage.ReasonsJudgement)
-                {
-                    timer += Time.deltaTime;
-                    if (timer > 2f && !interactPoint.update)
-                        interactPoint.update = true;
                 }
             }
         }

@@ -28,7 +28,7 @@ public class DemonOfSystem : MonoBehaviour
             if (playerDistance < 3)
                 demonOf.touched = true;
 
-            // Summon
+            // Show up
 
             var dot = Vector3.Dot(player.forward, (demonOf.transform.position - playerPos).normalized);
             if (demonOf.show)
@@ -46,9 +46,9 @@ public class DemonOfSystem : MonoBehaviour
                 }
             }
 
-            // Only if found
+            // Only if
 
-            if (!demonOf.touched || !demonOf.show)
+            if (!demonOf.show || !demonOf.touched)
                 continue;
 
             if (playerDistance < closestDistance)
