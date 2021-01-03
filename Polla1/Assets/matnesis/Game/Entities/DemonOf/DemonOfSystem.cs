@@ -31,19 +31,24 @@ public class DemonOfSystem : MonoBehaviour
             // Summon
 
             var dot = Vector3.Dot(player.forward, (demonOf.transform.position - playerPos).normalized);
-            // if (demonOf.show)
-            // {
-            //     demonOf.rigidBody.gameObject.SetActive(true);
-            // }
-            // else
-            // {
-            //     if (dot < 0.20f)
-            //         demonOf.rigidBody.gameObject.SetActive(false);
-            // }
+            if (demonOf.show)
+            {
+                demonOf.collidr.enabled = true;
+                demonOf.render.enabled = true;
+            }
+            else
+            {
+                if (dot < 0.20 && playerDistance > 3)
+                {
+                    demonOf.rigidBody.isKinematic = true;
+                    demonOf.collidr.enabled = false;
+                    demonOf.render.enabled = false;
+                }
+            }
 
             // Only if found
 
-            if (!demonOf.touched)
+            if (!demonOf.touched || !demonOf.show)
                 continue;
 
             if (playerDistance < closestDistance)

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-// !Gigas !Alt
+// !Gigas
 public class DemonOf : MonoBehaviour
 {
     public bool show = false;
@@ -9,6 +9,7 @@ public class DemonOf : MonoBehaviour
     [Header("Required Children")]
     public Rigidbody rigidBody;
     public BoxCollider collidr;
+    public Renderer render;
 
     private void OnEnable()
     {
@@ -19,16 +20,4 @@ public class DemonOf : MonoBehaviour
     {
         EntitySet.RemoveDemonOf(this);
     }
-
-    private void Start()
-    {
-        EntitySet.AddAltDemonOf(this);
-        // gameObject.SetActive(false);
-    }
-
-    private void OnDestroy()
-    {
-        EntitySet.RemoveAltDemonOf(this);
-    }
-
 }

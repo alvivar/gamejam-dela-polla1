@@ -59,6 +59,10 @@ public class DemonInvitationSystem : MonoBehaviour
 
                         alreadyTalked.Add(demonOf);
 
+                        // Hide again
+
+                        demonOf.show = false;
+
                         // First click
 
                         if (!touched)
@@ -107,7 +111,7 @@ public class DemonInvitationSystem : MonoBehaviour
 
             if (demonInvitation.state == DemonInvitation.State.UntilLater)
             {
-                Debug.Log($"Until later at {Time.time}");
+                // @todo Something special here
             }
         }
     }

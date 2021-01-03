@@ -5,6 +5,7 @@ public class BecauseOfReasonsSystem : MonoBehaviour
     float timer;
     Interact interact;
     PartyHouse partyHouse;
+    DemonInvitation demonInvitation;
 
     enum Stage { TryToKnock, WhyKnocking, ReasonsJudgement, Idle }
     Stage stage = Stage.TryToKnock;
@@ -16,6 +17,9 @@ public class BecauseOfReasonsSystem : MonoBehaviour
 
         if (!partyHouse)
             partyHouse = EntitySet.PartyHouses.Elements[0];
+
+        if (!demonInvitation)
+            demonInvitation = EntitySet.DemonInvitations.Elements[0];
 
         var becauseOfReasonss = EntitySet.GetBecauseOfReasons(EntitySet.InteractPointIds);
         for (int i = 0; i < becauseOfReasonss.Length; i++)
@@ -32,6 +36,9 @@ public class BecauseOfReasonsSystem : MonoBehaviour
                     interactPoint.clicked = 0;
                     interactPoint.update = false;
                     interact.content.text = Texts.WHY;
+
+                    // Demons
+                    demonInvitation.state = DemonInvitation.State.EnableDemons;
 
                     timer = 0;
                     stage = Stage.WhyKnocking;
