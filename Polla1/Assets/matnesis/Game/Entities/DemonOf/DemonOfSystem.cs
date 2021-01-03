@@ -22,21 +22,24 @@ public class DemonOfSystem : MonoBehaviour
         {
             var demonOf = demonOfs.Elements[i];
 
-            // Summon
-            if (demonOf.show)
-            {
-                demonOf.rigidBody.gameObject.SetActive(true);
-            }
-            else
-            {
-                demonOf.rigidBody.gameObject.SetActive(false);
-            }
-
             // Found the demon!
 
             var playerDistance = Vector3.Distance(demonOf.transform.position, playerPos);
             if (playerDistance < 3)
                 demonOf.touched = true;
+
+            // Summon
+
+            var dot = Vector3.Dot(player.forward, (demonOf.transform.position - playerPos).normalized);
+            // if (demonOf.show)
+            // {
+            //     demonOf.rigidBody.gameObject.SetActive(true);
+            // }
+            // else
+            // {
+            //     if (dot < 0.20f)
+            //         demonOf.rigidBody.gameObject.SetActive(false);
+            // }
 
             // Only if found
 
@@ -56,7 +59,6 @@ public class DemonOfSystem : MonoBehaviour
 
             // Look at the player
 
-            var dot = Vector3.Dot(player.forward, (demonOf.transform.position - playerPos).normalized);
             if (dot < 0.20 && playerDistance > 3)
             {
                 demonOf.rigidBody.isKinematic = false;
@@ -76,7 +78,7 @@ public class DemonOfSystem : MonoBehaviour
         {
             var randomPos = Random.insideUnitSphere * 10;
             var behind = -10 * player.forward + playerPos + randomPos;
-            behind.y = playerPos.y - 0.6f;
+            behind.y = playerPos.y - 0.75f;
 
             farestDemon.transform.position = behind;
             farestDemon.transform.rotation = Quaternion.identity;

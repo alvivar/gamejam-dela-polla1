@@ -3,16 +3,15 @@ using UnityEngine;
 // !Gigas
 public class DemonInvitation : MonoBehaviour
 {
-    public bool update = false;
-
     public State state;
     public State lastState;
     public enum State
     {
         Idle,
-        FirstCall,
-        OneAtTheTime
-
+        EnableDemons,
+        OneAtTheTimeConversation,
+        WaitingConversation,
+        UntilLater
     }
 
     private void OnEnable()

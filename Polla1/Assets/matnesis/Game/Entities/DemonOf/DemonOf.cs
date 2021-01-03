@@ -8,6 +8,7 @@ public class DemonOf : MonoBehaviour
 
     [Header("Required Children")]
     public Rigidbody rigidBody;
+    public BoxCollider collidr;
 
     private void OnEnable()
     {
