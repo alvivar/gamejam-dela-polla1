@@ -14,6 +14,9 @@ public class DemonInvitation : MonoBehaviour
         UntilLater
     }
 
+    [Header("Required Children")]
+    public Transform[] cabinPositions;
+
     private void OnEnable()
     {
         EntitySet.AddDemonInvitation(this);

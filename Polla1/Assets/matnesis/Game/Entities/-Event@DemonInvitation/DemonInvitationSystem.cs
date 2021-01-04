@@ -32,6 +32,13 @@ public class DemonInvitationSystem : MonoBehaviour
             {
                 demonInvitation.lastState = demonInvitation.state;
 
+                var demonOfs = EntitySet.GetDemonOf(EntitySet.DemonOfIds);
+                for (int j = 0; j < demonOfs.Length; j++)
+                {
+                    var demonOf = demonOfs.Elements[j];
+                    demonOf.transform.position = demonInvitation.cabinPositions[j].transform.position;
+                }
+
                 EnableDemons();
 
                 demonInvitation.state = DemonInvitation.State.OneAtTheTimeConversation;

@@ -44,8 +44,8 @@ public class DemonOfSystem : MonoBehaviour
 
             // Found the demon!
 
-            // if (playerDistance < 3)
-            //     demonOf.touched = true;
+            if (playerDistance < 3)
+                demonOf.touched = true;
 
             // Only if
 

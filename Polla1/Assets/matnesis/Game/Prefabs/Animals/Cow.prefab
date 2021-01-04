@@ -176,7 +176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dc6a487594d27b48b8b3d444158e23a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  show: 0
+  show: 1
   touched: 0
   rigidBody: {fileID: 2553897437357456583}
   collidr: {fileID: 8385850151784134495}
