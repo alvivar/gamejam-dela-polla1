@@ -39,7 +39,7 @@ public class TheGunSystem : MonoBehaviour
                     {
                         mainMessage.main.text = "";
                         mainMessage.main.text += "\t\t\"I belong to the huntress\n";
-                        mainMessage.main.text += "\t\t\tthat no one remembers...\"";
+                        mainMessage.main.text += "\t\t\tthat no one remembers but me...\"";
                     })
                     .Add(2, () =>
                     {
