@@ -86,18 +86,18 @@ public class GameStartSystem : MonoBehaviour
     {
         ready = true;
 
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            this.tt("TheEnd").Add(() =>
-                {
-                    mainMessage.main.text = Texts.EXIT_GAME;
-                    mainMessage.mainDamp = 10f;
-                    mainMessage.showMain = true;
-                })
-                .Add(2, () =>
-                {
-                    SceneManager.LoadScene(0);
-                });
-        }
+        // if (Input.GetKeyDown(KeyCode.Escape))
+        // {
+        //     this.tt("TheEnd").Add(() =>
+        //         {
+        //             mainMessage.main.text = Texts.EXIT_GAME;
+        //             mainMessage.mainDamp = 10f;
+        //             mainMessage.showMain = true;
+        //         })
+        //         .Add(2, () =>
+        //         {
+        //             SceneManager.LoadScene(0);
+        //         });
+        // }
     }
 }
