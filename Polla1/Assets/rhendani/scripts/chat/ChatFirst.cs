@@ -18,6 +18,9 @@ public class ChatFirst : ChatComponentOptions
     public r_start_component starting;
     public Animator tanger;
     public RaySoundHandler sound;
+    public GameObject skipButton;
+    public GameObject exitButton;
+    public GameObject tangerineButton;
 
     bool finishedStuff = true;
 
@@ -49,13 +52,21 @@ public class ChatFirst : ChatComponentOptions
     }
 
 
+    public void Ready()
+    {
+        exitButton.SetActive(true);
+        tangerineButton.SetActive(true);
+        starting.SetReady();
+        clouds.VisibleClouds(Color.white);
+    }
+
 
     public override FluentNode Create()
     {
         return
         Show()
 
-        * Write("Bienvenido humano, mi nombre es Tanger.")
+        * Write("Bienvenido, mi nombre es Tanger.")
             * Do(() => {
                 Finish();
             })
@@ -70,14 +81,16 @@ public class ChatFirst : ChatComponentOptions
         * Write("Te invito a participar en el juego de las semillas que caen del cielo. (Tanger Madness)")
             * Do(() => {
                 Finish();
+                exitButton.SetActive(true);
+                skipButton.SetActive(true);
             })
         * ContinueWhen(() => finishedStuff)
 
-        * Write("Muy cotizado en la zona.")
-            * Do(() => {
-                Finish();
-            })
-        * ContinueWhen(() => finishedStuff)
+        //* Write("Muy cotizado en la zona.")
+        //    * Do(() => {
+        //        Finish();
+        //    })
+        //* ContinueWhen(() => finishedStuff)
 
         * Write("En el tienes el poder de lanzar semillas del cielo, al dar click en la parte superior de la pantalla.")
             * Do(() => {
@@ -91,13 +104,13 @@ public class ChatFirst : ChatComponentOptions
             })
         * ContinueWhen(() => finishedStuff)
 
-        * Write("Como cuando no habia razón para nada, Ahora el cielo es lo unico que hay que alcanzar.")
+        * Write("Como cuando no había razón para nada, Ahora el cielo es lo único que hay que alcanzar!")
             * Do(() => {
                 Finish();
             })
         * ContinueWhen(() => finishedStuff)
 
-        * Write("Cuando logras que una semilla toca la tierra, nacera un mistico arbol de mandarinas.")
+        * Write("Cuando logras que una semilla toca la tierra, nacerá un místico árbol de mandarinas.")
             * Do(() => {
                 Finish();
             })
@@ -109,7 +122,7 @@ public class ChatFirst : ChatComponentOptions
             })
         * ContinueWhen(() => finishedStuff)
 
-        * Write("Este arbol durara exactamente un minuto en crecer, y luego empezara a producir.")
+        * Write("Este árbol durara exactamente un minuto en crecer, y luego empezara a producir.")
             * Do(() => {
                 Finish();
             })
@@ -121,7 +134,7 @@ public class ChatFirst : ChatComponentOptions
             })
         * ContinueWhen(() => finishedStuff)
 
-        * Write("Dependiendo de si siembras muchos o pocos arboles, no habra diferencia una vez que consigas tener muchos.")
+        * Write("Dependiendo de si siembras muchos o pocos arboles, no habrá diferencia una vez que consigas tener muchos.")
             * Do(() => {
                 Finish();
             })
@@ -146,10 +159,9 @@ public class ChatFirst : ChatComponentOptions
         * ContinueWhen(() => finishedStuff)
         * Hide()
 
-        * Do(() => { 
+        * Do(() => {
 
-                starting.SetReady();
-                clouds.VisibleClouds(Color.white);
+            Ready();
 
         })
 
