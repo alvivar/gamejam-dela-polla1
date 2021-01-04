@@ -5,25 +5,23 @@ using UnityEngine;
 public class r_cloud_handler : MonoBehaviour
 {
 
-
     public float waitCloud = 1;
     public float spawnRadius = 1;
     public Vector2 randomSpeed;
     public List<r_cloud_state> clouds;
 
-
     private void Start()
     {
 
         this.tt(name).Add(waitCloud,
-            (tt) => {
+            (tt) =>
+            {
 
                 SpawnCloud();
 
             }).Repeat();
 
     }
-
 
     void Update()
     {
@@ -33,21 +31,19 @@ public class r_cloud_handler : MonoBehaviour
 
             if (clouds[i].isRight)
             {
-                clouds[i].transform.position += new Vector3(-1,0,0) * clouds[i].speed * Time.deltaTime;
+                clouds[i].transform.position += new Vector3(-1, 0, 0) * clouds[i].speed * Time.deltaTime;
             }
             else
             {
-                clouds[i].transform.position += new Vector3(1,0,0) * clouds[i].speed * Time.deltaTime;
+                clouds[i].transform.position += new Vector3(1, 0, 0) * clouds[i].speed * Time.deltaTime;
             }
 
         }
     }
 
-
     void SpawnCloud()
     {
         int activeSeedsNum = 0;
-
 
         for (int i = 0; i < clouds.Count; i++)
         {
@@ -64,7 +60,7 @@ public class r_cloud_handler : MonoBehaviour
             {
                 int right = Random.Range(0, 2);
 
-                if(right == 0)
+                if (right == 0)
                 {
                     clouds[i].isRight = true;
                 }
@@ -74,23 +70,21 @@ public class r_cloud_handler : MonoBehaviour
                 }
                 else
                 {
-                    write.c("0 ERROR _ " + name); 
+                    // write.c("0 ERROR _ " + name);
                 }
 
                 clouds[i].speed = Random.Range(randomSpeed.x, randomSpeed.y);
-
 
                 Vector3 pos = Vector3.zero;
 
                 if (clouds[i].isRight)
                 {
-                    pos = new Vector3(10,0,0);
+                    pos = new Vector3(10, 0, 0);
                 }
                 else
                 {
                     pos = new Vector3(-10, 0, 0);
                 }
-
 
                 pos += Random.insideUnitSphere * spawnRadius;
                 clouds[i].transform.position = pos;

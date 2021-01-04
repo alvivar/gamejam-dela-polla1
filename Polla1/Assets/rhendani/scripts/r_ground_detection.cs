@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEditor;
+using UnityEngine;
 
 public class r_ground_detection : MonoBehaviour
 {
@@ -16,9 +16,6 @@ public class r_ground_detection : MonoBehaviour
 
     }
 
-
-
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Vector3 pos = new Vector3(collision.transform.position.x, -3.32f, collision.transform.position.z);
@@ -32,10 +29,8 @@ public class r_ground_detection : MonoBehaviour
         collision.transform.position = Vector3.one * 99;
         collision.gameObject.SetActive(false);
 
-
-        bool asd = EditorGUIUtility.isProSkin;
+        // bool asd = EditorGUIUtility.isProSkin;
 
     }
-
 
 }

@@ -1,7 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 public class r_tree_component : MonoBehaviour
 {
@@ -31,85 +31,95 @@ public class r_tree_component : MonoBehaviour
         SpriteRenderer spr = GetComponent<SpriteRenderer>();
         spr.sprite = phase1;
         this.tt(name).Add(waiting,
-            (tt) => {
+            (tt) =>
+            {
 
                 spr.sprite = phase2;
 
             }).Add(waiting,
-            (tt) => {
+            (tt) =>
+            {
 
                 spr.sprite = phase3;
 
             }).Add(waiting,
-            (tt) => {
+            (tt) =>
+            {
 
                 spr.sprite = phase4;
 
             }).Add(waiting,
-            (tt) => {
+            (tt) =>
+            {
 
                 spr.sprite = phase5;
 
             }).Add(waiting,
-            (tt) => {
+            (tt) =>
+            {
 
                 // 1
                 StartCoroutine(GenRandomTangerine());
                 tangerineActivation.Invoke();
 
             }).Add(waiting,
-            (tt) => {
-
+            (tt) =>
+            {
 
                 // 2
                 StartCoroutine(GenRandomTangerine());
                 tangerineActivation.Invoke();
 
-
             }).Add(waiting,
-            (tt) => {
+            (tt) =>
+            {
 
                 // 3
                 StartCoroutine(GenRandomTangerine());
                 tangerineActivation.Invoke();
 
             }).Add(waiting,
-            (tt) => {
+            (tt) =>
+            {
 
                 // 4
                 StartCoroutine(GenRandomTangerine());
                 tangerineActivation.Invoke();
 
             }).Add(waiting * 2,
-            (tt) => {
+            (tt) =>
+            {
                 // Alive Time 1
                 StartCoroutine(HideRandomTangerine());
             }).Add(waiting,
-            (tt) => {
+            (tt) =>
+            {
                 // Alive Time 2
                 StartCoroutine(HideRandomTangerine());
             }).Add(waiting,
-            (tt) => {
+            (tt) =>
+            {
                 // Alive Time 3
                 StartCoroutine(HideRandomTangerine());
             }).Add(waiting,
-            (tt) => {
+            (tt) =>
+            {
 
                 // Alive Time 4
                 HideAll();
 
             }).Add(waiting,
-            (tt) => {
+            (tt) =>
+            {
                 // Alive Time 4
                 spr.sprite = phase6;
             }).Add(waiting * 2,
-            (tt) => {
+            (tt) =>
+            {
                 // Alive Time 4
                 gameObject.SetActive(false);
             });
     }
-
-
 
     IEnumerator GenRandomTangerine()
     {
@@ -119,14 +129,14 @@ public class r_tree_component : MonoBehaviour
         while (working)
         {
 
-            int gen = UnityEngine.Random.Range( 0, tangerines.Count);
+            int gen = UnityEngine.Random.Range(0, tangerines.Count);
             yield return new WaitForFixedUpdate();
 
             if (!tangerinesGenerated.Contains(gen))
             {
 
-                tangerines[gen].gameObject.SetActive(true); 
-                tangerinesGenerated.Add(gen); 
+                tangerines[gen].gameObject.SetActive(true);
+                tangerinesGenerated.Add(gen);
                 working = false;
 
             }
@@ -158,21 +168,21 @@ public class r_tree_component : MonoBehaviour
         {
             int gen = UnityEngine.Random.Range(0, tangerinesGenerated.Count + 1);
             yield return new WaitForFixedUpdate();
-            write.g("Current Gen _ " + gen);
-            write.ol("Current Count _ " + tangerinesGenerated.Count);
+            // write.g("Current Gen _ " + gen);
+            // write.ol("Current Count _ " + tangerinesGenerated.Count);
 
             if (tangerinesGenerated.Contains(gen))
             {
 
-                write.y("Is Active _ " + tangerines[gen].gameObject.activeSelf);
-                write.o("Contains _ " + tangerinesGenerated.Contains(gen));
-                write.gr("Removing _ " + tangerines[gen].name);
+                // write.y("Is Active _ " + tangerines[gen].gameObject.activeSelf);
+                // write.o("Contains _ " + tangerinesGenerated.Contains(gen));
+                // write.gr("Removing _ " + tangerines[gen].name);
 
                 tangerinesGenerated.Remove(gen);
                 tangerines[gen].gameObject.SetActive(false);
 
-                write.y("Is Active _ " + tangerines[gen].gameObject.activeSelf);
-                write.o("Contains _ " + tangerinesGenerated.Contains(gen));
+                // write.y("Is Active _ " + tangerines[gen].gameObject.activeSelf);
+                // write.o("Contains _ " + tangerinesGenerated.Contains(gen));
 
                 working = false;
 

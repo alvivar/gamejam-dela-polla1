@@ -59,7 +59,7 @@ public class r_mouse_input : MonoBehaviour
 
     private void OnMouseOver()
     {
-        
+
     }
 
     void ThrowSeed()
@@ -76,7 +76,7 @@ public class r_mouse_input : MonoBehaviour
         }
 
         Vector3 pos = cam.ScreenToWorldPoint(Input.mousePosition);
-        write.b("0 _ " + pos);
+        // write.b("0 _ " + pos);
         Vector3 targetPos = new Vector3(pos.x, pos.y, 0);
 
         if (targetPos.y < 3.1f) targetPos = new Vector3(pos.x, 3.1f, 0);
@@ -96,8 +96,5 @@ public class r_mouse_input : MonoBehaviour
             }
         }
     }
-
-
-
 
 }

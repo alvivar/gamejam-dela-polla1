@@ -8,7 +8,6 @@ public class RaySoundAtt : ScriptableObject
 
 	[ShowInfo("RAY SOUND HANDLER")]
 
-
 	public List<RaySoundList> sets = new List<RaySoundList>();
 
 	List<RayMainSound> allSounds = new List<RayMainSound>();
@@ -16,18 +15,16 @@ public class RaySoundAtt : ScriptableObject
 	RaySoundHandler[] sounds;
 
 	private void Awake()
-    {
-		OnLevelWasLoaded();
-    }
-
-    void OnLevelWasLoaded()
 	{
+		OnLevelWasLoaded();
+	}
 
+	void OnLevelWasLoaded()
+	{
 
 		sounds = FindObjectsOfType<RaySoundHandler>();
 		DontDestroyOnLoad(sounds[0]);
 		if (sounds.Length > 1) Destroy(sounds[1].gameObject);
-
 
 		foreach (RaySoundList l in sets)
 		{
@@ -36,27 +33,24 @@ public class RaySoundAtt : ScriptableObject
 			{
 				// PLAY ON AWAKE
 
-
 				if (s.name == "")
 				{
 					s.name = s.clip.name;
 				}
 
 				//if (s.playThroughScenes)
-                //{
+				//{
 				//	Destroy(s.source.gameObject);
-                //}
+				//}
 
 				allSounds.Add(s);
 				SpawnSound(s, false);
-
 
 			}
 
 		}
 
 	}
-
 
 	private void Reset()
 	{
@@ -73,7 +67,6 @@ public class RaySoundAtt : ScriptableObject
 		sets.Add(set);
 	}
 
-
 	void SpawnSound(RayMainSound s, bool forced)
 	{
 		if (s.source == null)
@@ -86,25 +79,24 @@ public class RaySoundAtt : ScriptableObject
 		}
 	}
 
-
 	void DefaultMode(RayMainSound s)
 	{
 		AudioSource[] check = FindObjectsOfType<AudioSource>();
 		bool activation = true;
 
-        for (int i = 0; i < check.Length; i++)
-        {
+		for (int i = 0; i < check.Length; i++)
+		{
 
 			if (check[i].name == s.name)
-            {
+			{
 				activation = false;
-            }
+			}
 
-        }
+		}
 
 		if (!activation) return;
 
-		write.c("running");
+		// write.c("running");
 
 		GameObject obj = new GameObject();
 		AudioSource newSound = obj.AddComponent<AudioSource>();
@@ -141,7 +133,7 @@ public class RaySoundAtt : ScriptableObject
 		s.source.pitch = s.pitch;
 
 		if (forced) s.source.Play();
-		else if(!s.source.isPlaying && s.playOnAwake) s.source.Play();
+		else if (!s.source.isPlaying && s.playOnAwake) s.source.Play();
 
 	}
 
@@ -171,7 +163,6 @@ public class RaySoundAtt : ScriptableObject
 		}
 	}
 
-
 	// SET VOLUME SOUND
 	public void SetVolume(string soundName, float volume)
 	{
@@ -183,7 +174,6 @@ public class RaySoundAtt : ScriptableObject
 			}
 		}
 	}
-
 
 	// STOP COMMAND
 	public void StopSound(string name)
@@ -292,7 +282,6 @@ public class RaySoundAtt : ScriptableObject
 		}
 	}
 
-
 	// SET ALL THE VALUES OF A GROUP
 	public void SetVolumeOfGroup(string setName, float set)
 	{
@@ -308,7 +297,6 @@ public class RaySoundAtt : ScriptableObject
 			}
 		}
 	}
-
 
 	public void SetPitchOfGroup(string setName, float set)
 	{
