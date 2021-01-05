@@ -135,7 +135,7 @@ namespace Fluent
             currentNode.Done();
         }
 
-        void StopTyping()
+        public void StopTyping()
         {
             // When we stop for the first time we just write out all the text
             if (isTyping)
@@ -195,28 +195,8 @@ namespace Fluent
 
             // Add the button listener so that text can be skipped
             currentTextUI.GetComponentInChildren<Button>().onClick.RemoveAllListeners();
-            currentTextUI.GetComponentInChildren<Button>().onClick.AddListener(new UnityEngine.Events.UnityAction(() =>
-            {
-                // Do cleanup
-                isTyping = false;
-                StopCoroutine("TypeText");
-                StopCoroutine("Pause");
-                string nodeText = textTextUI.text;
-                //textTextUI.text = nodeText;
-                textTextUI.maxVisibleCharacters = nodeText.Length;
-                RemoveSkipListener();
-
-                // Write's that require a button press to continue cannot be interrupted
-                if (currentNode.WaitForButtonPress)
-                {
-                    ShowButton();
-                    return;
-                }
-
-                FluentNode prevNode = currentNode;
-                currentNode.Done();
-                prevNode.IWasInterrupted();
-            }));
+            // Button.GetComponentInChildren<Button>().onClick.AddListener(new UnityEngine.Events.UnityAction(() => ButtonFunction() ));
+            currentTextUI.GetComponentInChildren<Button>().onClick.AddListener(new UnityEngine.Events.UnityAction(() => ButtonFunction() ));
 
             // Set the text component to be the selected component
             EventSystem.current.SetSelectedGameObject(textTextUI.gameObject);
@@ -243,6 +223,32 @@ namespace Fluent
             Debug.Log("Interrupt write");
             // 
 
+        }
+
+
+        void ButtonFunction()
+        {
+            TextMeshProUGUI textTextUI = currentTextUI;
+            // Do cleanup
+            isTyping = false;
+            faster = false;
+            StopCoroutine("TypeText");
+            StopCoroutine("Pause");
+            string nodeText = textTextUI.text;
+            //textTextUI.text = nodeText;
+            textTextUI.maxVisibleCharacters = nodeText.Length;
+            RemoveSkipListener();
+
+            // Write's that require a button press to continue cannot be interrupted
+            if (currentNode.WaitForButtonPress)
+            {
+                ShowButton();
+                return;
+            }
+
+            FluentNode prevNode = currentNode;
+            currentNode.Done();
+            prevNode.IWasInterrupted();
         }
 
 

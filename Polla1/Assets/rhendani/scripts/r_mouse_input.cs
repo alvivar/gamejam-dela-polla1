@@ -7,11 +7,20 @@ public class r_mouse_input : MonoBehaviour
 
     public int maxSeeds = 1;
     public float autoSpeed = 0.6f;
+    public r_power_up_handler inputPowerValue;
     public Camera cam;
     public RaySoundHandler sound;
     public List<GameObject> seeds;
 
     bool stop = false;
+
+
+    private void Start()
+    {
+        maxSeeds = SerializeIntValue.L().value;
+        inputPowerValue.SetPower();
+    }
+
 
     private void OnMouseDown()
     {
