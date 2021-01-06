@@ -15,6 +15,13 @@ public class r_power_up_handler : MonoBehaviour
     int outputValue = 1;
     float speedThrow = 0.35f;
 
+
+    public void SetPower()
+    {
+        input.text = output.maxSeeds.ToString();
+    }
+
+
     public void SeedActivation(Vector3 pos)
     {
 
@@ -149,6 +156,10 @@ public class r_power_up_handler : MonoBehaviour
                         speedThrow = 0.20f;
                         break;
                 }
+
+                IntFile createNew = new IntFile();
+                createNew.value = outputValue;
+                SerializeIntValue.S(createNew);
 
                 output.autoSpeed = speedThrow;
                 output.maxSeeds = outputValue;
