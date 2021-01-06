@@ -22,7 +22,6 @@ public class TheGunSystem : MonoBehaviour
             if (interactPoint.clicked > 0)
             {
                 interactPoint.clicked = 0;
-
                 interactPoint.update = false;
 
                 this.tt("TheGunDoesntWantYou")

@@ -2,7 +2,7 @@
     THINGS TO DO
 
         Probably a way to classify the Singleton pattern, for documentation
-        reasons?
+        reasons, a way to analize it.
 
         Cache needs to be optional, like // !gigas !nocache, on by default
 
