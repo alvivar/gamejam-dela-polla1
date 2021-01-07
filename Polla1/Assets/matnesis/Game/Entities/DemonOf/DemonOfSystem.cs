@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class DemonOfSystem : MonoBehaviour
 {
+    float dotTolerance = 0.30f;
+
     Transform player;
 
     void Update()
@@ -34,7 +36,7 @@ public class DemonOfSystem : MonoBehaviour
             }
             else
             {
-                if (dot < 0.20 && playerDistance > 3)
+                if (dot < dotTolerance && playerDistance > 3)
                 {
                     demonOf.rigidBody.isKinematic = true;
                     demonOf.collidr.enabled = false;
@@ -65,7 +67,7 @@ public class DemonOfSystem : MonoBehaviour
 
             // Look at the player
 
-            if (dot < 0.20 && playerDistance > 3)
+            if (dot < dotTolerance && playerDistance > 3)
             {
                 demonOf.rigidBody.isKinematic = false;
                 demonOf.transform.LookAt(playerPos);
@@ -80,7 +82,7 @@ public class DemonOfSystem : MonoBehaviour
         // Farest demon reposition
 
         var farestDot = Vector3.Dot(player.forward, (farestDemon.transform.position - playerPos).normalized);
-        if (farestDemon.touched && closestDistance > 15 && farestDot < 0.20)
+        if (farestDemon.touched && closestDistance > 15 && farestDot < dotTolerance)
         {
             var randomPos = Random.insideUnitSphere * 10;
             var behind = -10 * player.forward + playerPos + randomPos;
