@@ -36,9 +36,10 @@ public class TheGunSystem : MonoBehaviour
                     })
                     .Add(4, () =>
                     {
+                        // @todo This should be a conversation.
                         mainMessage.main.text = "";
                         mainMessage.main.text += "\t\t\"I belong to the huntress\n";
-                        mainMessage.main.text += "\t\t\tthat no one remembers but me...\"";
+                        mainMessage.main.text += "\t\t\twith the Curse of Hope...\"";
                     })
                     .Add(2, () =>
                     {

@@ -66,10 +66,11 @@ public class PartyHouseSystem : MonoBehaviour
                     {
                         message.main.text += "\t\tSomeone is coming";
                     })
-                    .Add(3, () =>
+                    .Add(2, () =>
                     {
                         // @todo Probably a female voice
-                        message.main.text = "\t\tYes?";
+                        message.mainDamp = 1;
+                        message.main.text = "\t\t\"Yes?\"";
                     })
                     .Add(0.5f, t =>
                     {
