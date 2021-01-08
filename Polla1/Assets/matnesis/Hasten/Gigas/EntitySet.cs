@@ -812,6 +812,139 @@ using UnityEngine;
             return DemonOfs.Elements[index];
         }
 
+        // EyeOfBorn
+
+        public static Arrayx<int> EyeOfBornIds = new Arrayx<int>();
+        public static Arrayx<EyeOfBorn> EyeOfBorns = new Arrayx<EyeOfBorn>();
+
+        public static void AddEyeOfBorn(EyeOfBorn component, bool componentEnabled = true)
+        {
+            // Setup
+
+            if (EyeOfBornIds.Elements == null)
+            {
+                EyeOfBornIds.Size = 8;
+                EyeOfBornIds.Elements = new int[EyeOfBornIds.Size];
+            }
+
+            if (EyeOfBorns.Elements == null)
+            {
+                EyeOfBorns.Size = 8;
+                EyeOfBorns.Elements = new EyeOfBorn[EyeOfBorns.Size];
+            }
+
+            // Add
+
+            EyeOfBornIds.Elements[EyeOfBornIds.Length++] = component.gameObject.GetInstanceID();
+            EyeOfBorns.Elements[EyeOfBorns.Length++] = component;
+
+            // Resize check
+
+            if (EyeOfBornIds.Length >= EyeOfBornIds.Size)
+            {
+                EyeOfBornIds.Size *= 2;
+                Array.Resize(ref EyeOfBornIds.Elements, EyeOfBornIds.Size);
+
+                EyeOfBorns.Size *= 2;
+                Array.Resize(ref EyeOfBorns.Elements, EyeOfBorns.Size);
+            }
+
+            // Enable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static void RemoveEyeOfBorn(EyeOfBorn component, bool componentEnabled = false)
+        {
+            // Index
+
+            var id = component.gameObject.GetInstanceID();
+            var indexToRemove = -1;
+            for (int i = 0; i < EyeOfBornIds.Length; i++)
+            {
+                if (EyeOfBornIds.Elements[i] == id)
+                {
+                    indexToRemove = i;
+                    break;
+                }
+            }
+
+            // Overwrite
+
+            Array.Copy(
+                EyeOfBornIds.Elements, indexToRemove + 1,
+                EyeOfBornIds.Elements, indexToRemove,
+                EyeOfBornIds.Length - indexToRemove - 1);
+            EyeOfBornIds.Length--;
+
+            Array.Copy(
+                EyeOfBorns.Elements, indexToRemove + 1,
+                EyeOfBorns.Elements, indexToRemove,
+                EyeOfBorns.Length - indexToRemove - 1);
+            EyeOfBorns.Length--;
+
+            // Cache clean up
+
+            EyeOfBornIdCache.Clear();
+
+            // Disable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static Arrayx<EyeOfBorn> GetEyeOfBorn(params Arrayx<int>[] ids)
+        {
+            // EyeOfBornIds needs to be the first in the array parameter,
+            // that's how Gigas.Get relates the ids to the components
+
+            Arrayx<int>[] EyeOfBornPlusIds = new Arrayx<int>[ids.Length + 1];
+            EyeOfBornPlusIds[0] = EyeOfBornIds;
+            Array.Copy(ids, 0, EyeOfBornPlusIds, 1, ids.Length);
+
+            return Gigas.Get<EyeOfBorn>(EyeOfBornPlusIds, EntitySet.EyeOfBorns);
+        }
+
+        public static EyeOfBorn GetEyeOfBorn(MonoBehaviour component)
+        {
+            return GetEyeOfBorn(component.gameObject.GetInstanceID());
+        }
+
+        public static EyeOfBorn GetEyeOfBorn(GameObject gameobject)
+        {
+            return GetEyeOfBorn(gameobject.GetInstanceID());
+        }
+
+        private static Dictionary<int, int> EyeOfBornIdCache = new Dictionary<int, int>();
+        public static EyeOfBorn GetEyeOfBorn(int instanceID)
+        {
+            var id = instanceID;
+
+            // Cache
+
+            if (EyeOfBornIdCache.ContainsKey(id))
+                return EyeOfBorns.Elements[EyeOfBornIdCache[id]];
+
+            // Index of
+
+            var index = -1;
+            for (int i = 0; i < EyeOfBornIds.Length; i++)
+            {
+                if (EyeOfBornIds.Elements[i] == id)
+                {
+                    index = i;
+                    EyeOfBornIdCache[id] = i; // Cache
+                    break;
+                }
+            }
+
+            // Value
+
+            if (index < 0)
+                return null;
+
+            return EyeOfBorns.Elements[index];
+        }
+
         // EyeOfCreator
 
         public static Arrayx<int> EyeOfCreatorIds = new Arrayx<int>();
@@ -2807,126 +2940,6 @@ using UnityEngine;
             return WatchingTheSeas.Elements[index];
         }
 
-        // Alt DemonOf
-
-        public static Arrayx<int> AltDemonOfIds = new Arrayx<int>();
-        public static Arrayx<DemonOf> AltDemonOfs = new Arrayx<DemonOf>();
-
-        public static void AddAltDemonOf(DemonOf component, bool componentEnabled = true)
-        {
-            // Setup
-
-            if (AltDemonOfIds.Elements == null)
-            {
-                AltDemonOfIds.Size = 8;
-                AltDemonOfIds.Elements = new int[AltDemonOfIds.Size];
-            }
-
-            if (AltDemonOfs.Elements == null)
-            {
-                AltDemonOfs.Size = 8;
-                AltDemonOfs.Elements = new DemonOf[AltDemonOfs.Size];
-            }
-
-            // Add
-
-            AltDemonOfIds.Elements[AltDemonOfIds.Length++] = component.gameObject.GetInstanceID();
-            AltDemonOfs.Elements[AltDemonOfs.Length++] = component;
-
-            // Resize check
-
-            if (AltDemonOfIds.Length >= AltDemonOfIds.Size)
-            {
-                AltDemonOfIds.Size *= 2;
-                Array.Resize(ref AltDemonOfIds.Elements, AltDemonOfIds.Size);
-
-                AltDemonOfs.Size *= 2;
-                Array.Resize(ref AltDemonOfs.Elements, AltDemonOfs.Size);
-            }
-
-            // Enable
-
-            component.enabled = componentEnabled;
-        }
-
-        public static void RemoveAltDemonOf(DemonOf component, bool componentEnabled = false)
-        {
-            // Index
-
-            var id = component.gameObject.GetInstanceID();
-            var indexToRemove = -1;
-            for (int i = 0; i < AltDemonOfIds.Length; i++)
-            {
-                if (AltDemonOfIds.Elements[i] == id)
-                {
-                    indexToRemove = i;
-                    break;
-                }
-            }
-
-            // Overwrite
-
-            Array.Copy(
-                AltDemonOfIds.Elements, indexToRemove + 1,
-                AltDemonOfIds.Elements, indexToRemove,
-                AltDemonOfIds.Length - indexToRemove - 1);
-            AltDemonOfIds.Length--;
-
-            Array.Copy(
-                AltDemonOfs.Elements, indexToRemove + 1,
-                AltDemonOfs.Elements, indexToRemove,
-                AltDemonOfs.Length - indexToRemove - 1);
-            AltDemonOfs.Length--;
-
-            // Cache clean up
-
-            AltDemonOfIdCache.Clear();
-
-            // Disable
-
-            component.enabled = componentEnabled;
-        }
-
-        public static DemonOf GetAltDemonOf(MonoBehaviour component)
-        {
-            return GetAltDemonOf(component.gameObject.GetInstanceID());
-        }
-
-        public static DemonOf GetAltDemonOf(GameObject gameobject)
-        {
-            return GetAltDemonOf(gameobject.GetInstanceID());
-        }
-
-        private static Dictionary<int, int> AltDemonOfIdCache = new Dictionary<int, int>();
-        public static DemonOf GetAltDemonOf(int instanceID)
-        {
-            var id = instanceID;
-
-            // Cache
-
-            if (AltDemonOfIdCache.ContainsKey(id))
-                return AltDemonOfs.Elements[AltDemonOfIdCache[id]];
-
-            // Index of
-
-            var index = -1;
-            for (int i = 0; i < AltDemonOfIds.Length; i++)
-            {
-                if (AltDemonOfIds.Elements[i] == id)
-                {
-                    index = i;
-                    AltDemonOfIdCache[id] = i; // Cache
-                    break;
-                }
-            }
-
-            // Value
-
-            if (index < 0)
-                return null;
-
-            return AltDemonOfs.Elements[index];
-        }
 
         public static void Clear()
         {
@@ -2947,6 +2960,9 @@ using UnityEngine;
 
             DemonOfIds.Length = 0;
             DemonOfs.Length = 0;
+
+            EyeOfBornIds.Length = 0;
+            EyeOfBorns.Length = 0;
 
             EyeOfCreatorIds.Length = 0;
             EyeOfCreators.Length = 0;
@@ -2996,8 +3012,6 @@ using UnityEngine;
 
         public static void ClearAlt()
         {
-            AltDemonOfIds.Length = 0;
-            AltDemonOfs.Length = 0;
         }
     }
 //  }

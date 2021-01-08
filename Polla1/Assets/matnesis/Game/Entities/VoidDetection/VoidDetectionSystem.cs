@@ -18,14 +18,14 @@ public class VoidDetectionSystem : MonoBehaviour
             var voidDetection = voidDetections.Elements[i];
 
             if (intoTheVoid)
-                return;
+                continue;
 
             if (voidDetection.transform.position.y <= -200)
             {
                 intoTheVoid = true;
                 atLeastOneVoid = true;
 
-                mainMessage.mainDamp = 3;
+                mainMessage.mainDamp = 1;
                 mainMessage.main.text = "";
                 mainMessage.showMain = true;
 
@@ -33,29 +33,24 @@ public class VoidDetectionSystem : MonoBehaviour
                     .Reset()
                     .Add(3, t =>
                     {
-                        mainMessage.main.text = Texts.VOID_REJECTS_YOU[0];
-                    })
-                    .Add(2, () =>
-                    {
-                        mainMessage.main.text = Texts.VOID_REJECTS_YOU[1];
+                        mainMessage.main.text = "";
+                        mainMessage.main.text += "\t\tThe void rejects you";
                     })
                     .Add(3, () =>
                     {
-                        mainMessage.main.text = Texts.VOID_REJECTS_YOU[2];
+                        mainMessage.main.text = "";
+                        mainMessage.main.text += "\t\tThe void rejects you\n\n\t\t\tYou remembered the time\n\t\t\twhen you wanted something and failed";
                     })
                     .Add(3, () =>
                     {
                         voidDetection.fps.enabled = false;
                         voidDetection.transform.position = new Vector3(0, 100, 0);
-
-                        mainMessage.main.text = Texts.VOID_REJECTS_YOU[3];
                     })
                     .Add(1, () =>
                     {
                         intoTheVoid = false;
 
                         voidDetection.fps.enabled = true;
-
                         mainMessage.mainDamp = 1;
                         mainMessage.showMain = false;
                     });

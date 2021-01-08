@@ -14,4 +14,9 @@ public class EyeOfCreator : MonoBehaviour
     {
         EntitySet.RemoveEyeOfCreator(this);
     }
+
+    public void New(string name)
+    {
+        queue.Add(name);
+    }
 }

@@ -17,6 +17,9 @@ public class EyeOfMindSystem : MonoBehaviour
         {
             var eye = eyeOfMinds.Elements[i];
 
+            if (eye.state != EyeOfMind.State.EyeOfMind)
+                continue;
+
             var eyePos = eye.transform.position;
             var playerPos = player.transform.position;
 

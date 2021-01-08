@@ -42,13 +42,13 @@ public class PartyHouseSystem : MonoBehaviour
                     {
                         message.mainDamp = 10;
                         message.showMain = true;
-                        message.main.text = "\t\t*knock";
+                        message.main.text = "\t\tknock";
 
                         knock.once = true;
                     })
                     .Add(0.5f, () =>
                     {
-                        message.main.text = "\t\t\t*knock";
+                        message.main.text = "\t\t\tknock";
                     })
                     .Add(0.5f, () =>
                     {
@@ -66,7 +66,7 @@ public class PartyHouseSystem : MonoBehaviour
                     {
                         message.main.text += "\t\tSomeone is coming";
                     })
-                    .Add(2, () =>
+                    .Add(1, () =>
                     {
                         // @todo Probably a female voice
                         message.mainDamp = 1;
