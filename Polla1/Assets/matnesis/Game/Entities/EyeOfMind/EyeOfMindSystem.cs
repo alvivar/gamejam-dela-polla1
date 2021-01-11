@@ -26,7 +26,7 @@ public class EyeOfMindSystem : MonoBehaviour
             // Ignore on player sight
 
             var dot = Vector3.Dot(player.forward, (eyePos - playerPos).normalized);
-            if (dot > 0.2f)
+            if (dot > 0.25f)
                 continue;
 
             // Closest eye to self

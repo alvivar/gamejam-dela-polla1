@@ -188,7 +188,6 @@ GameObject:
   - component: {fileID: 1908816571635138133}
   - component: {fileID: 2838687280711483600}
   - component: {fileID: 7294416210494860418}
-  - component: {fileID: 432249662876306114}
   m_Layer: 0
   m_Name: EyeOfMind
   m_TagString: Untagged
@@ -237,15 +236,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   content: {fileID: 1908816571493596511}
   state: 0
---- !u!114 &432249662876306114
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1908816571635138132}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f8fb302dc9749e44b586788ad50cee7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

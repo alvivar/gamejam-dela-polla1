@@ -1,4 +1,3 @@
-using DG.Tweening;
 using UnityEngine;
 
 public class EyeOfCreatorSystem : MonoBehaviour
@@ -32,7 +31,7 @@ public class EyeOfCreatorSystem : MonoBehaviour
             if (eyeOfCreator.queue.Length > 0)
             {
                 chosen.content.text = eyeOfCreator.queue.Elements[0];
-                chosen.state = EyeOfMind.State.Borning;
+                chosen.state = EyeOfMind.State.EyeOfMind;
                 eyeOfCreator.queue.RemoveAt(0);
             }
         }

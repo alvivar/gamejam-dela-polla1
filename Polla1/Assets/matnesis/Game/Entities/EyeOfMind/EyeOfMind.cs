@@ -6,7 +6,7 @@ public class EyeOfMind : MonoBehaviour
 {
     public TextMeshPro content;
 
-    public enum State { None, Borning, EyeOfMind }
+    public enum State { None, EyeOfBorn, EyeOfMind }
     public State state = State.None;
 
     private void OnEnable()

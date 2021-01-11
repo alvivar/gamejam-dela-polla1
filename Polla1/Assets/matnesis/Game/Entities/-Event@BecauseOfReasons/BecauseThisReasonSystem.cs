@@ -3,11 +3,15 @@ using UnityEngine;
 public class BecauseThisReasonSystem : MonoBehaviour
 {
     SoundClip thunder;
+    EyeOfCreator eyeOfCreator;
 
     void Update()
     {
         if (!thunder)
             thunder = EntitySet.SoundClips.Filter(x => x.id == "ThunderOverTheHouse", first : true).Elements[0];
+
+        if (!eyeOfCreator)
+            eyeOfCreator = EntitySet.EyeOfCreators.Elements[0];
 
         var becauseThisReasons = EntitySet.GetBecauseThisReason(EntitySet.InteractPointIds);
         for (int i = 0; i < becauseThisReasons.Length; i++)
@@ -25,6 +29,8 @@ public class BecauseThisReasonSystem : MonoBehaviour
                 becauseThisReason.chosen = true;
                 thunder.transform.position = interactPoint.transform.position;
                 thunder.once = true;
+
+                eyeOfCreator.New(becauseThisReason.trueReason);
             }
         }
     }
