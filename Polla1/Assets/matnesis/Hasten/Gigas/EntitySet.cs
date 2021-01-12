@@ -1078,6 +1078,139 @@ using UnityEngine;
             return EyeOfMinds.Elements[index];
         }
 
+        // HideOnEye
+
+        public static Arrayx<int> HideOnEyeIds = new Arrayx<int>();
+        public static Arrayx<HideOnEye> HideOnEyes = new Arrayx<HideOnEye>();
+
+        public static void AddHideOnEye(HideOnEye component, bool componentEnabled = true)
+        {
+            // Setup
+
+            if (HideOnEyeIds.Elements == null)
+            {
+                HideOnEyeIds.Size = 8;
+                HideOnEyeIds.Elements = new int[HideOnEyeIds.Size];
+            }
+
+            if (HideOnEyes.Elements == null)
+            {
+                HideOnEyes.Size = 8;
+                HideOnEyes.Elements = new HideOnEye[HideOnEyes.Size];
+            }
+
+            // Add
+
+            HideOnEyeIds.Elements[HideOnEyeIds.Length++] = component.gameObject.GetInstanceID();
+            HideOnEyes.Elements[HideOnEyes.Length++] = component;
+
+            // Resize check
+
+            if (HideOnEyeIds.Length >= HideOnEyeIds.Size)
+            {
+                HideOnEyeIds.Size *= 2;
+                Array.Resize(ref HideOnEyeIds.Elements, HideOnEyeIds.Size);
+
+                HideOnEyes.Size *= 2;
+                Array.Resize(ref HideOnEyes.Elements, HideOnEyes.Size);
+            }
+
+            // Enable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static void RemoveHideOnEye(HideOnEye component, bool componentEnabled = false)
+        {
+            // Index
+
+            var id = component.gameObject.GetInstanceID();
+            var indexToRemove = -1;
+            for (int i = 0; i < HideOnEyeIds.Length; i++)
+            {
+                if (HideOnEyeIds.Elements[i] == id)
+                {
+                    indexToRemove = i;
+                    break;
+                }
+            }
+
+            // Overwrite
+
+            Array.Copy(
+                HideOnEyeIds.Elements, indexToRemove + 1,
+                HideOnEyeIds.Elements, indexToRemove,
+                HideOnEyeIds.Length - indexToRemove - 1);
+            HideOnEyeIds.Length--;
+
+            Array.Copy(
+                HideOnEyes.Elements, indexToRemove + 1,
+                HideOnEyes.Elements, indexToRemove,
+                HideOnEyes.Length - indexToRemove - 1);
+            HideOnEyes.Length--;
+
+            // Cache clean up
+
+            HideOnEyeIdCache.Clear();
+
+            // Disable
+
+            component.enabled = componentEnabled;
+        }
+
+        public static Arrayx<HideOnEye> GetHideOnEye(params Arrayx<int>[] ids)
+        {
+            // HideOnEyeIds needs to be the first in the array parameter,
+            // that's how Gigas.Get relates the ids to the components
+
+            Arrayx<int>[] HideOnEyePlusIds = new Arrayx<int>[ids.Length + 1];
+            HideOnEyePlusIds[0] = HideOnEyeIds;
+            Array.Copy(ids, 0, HideOnEyePlusIds, 1, ids.Length);
+
+            return Gigas.Get<HideOnEye>(HideOnEyePlusIds, EntitySet.HideOnEyes);
+        }
+
+        public static HideOnEye GetHideOnEye(MonoBehaviour component)
+        {
+            return GetHideOnEye(component.gameObject.GetInstanceID());
+        }
+
+        public static HideOnEye GetHideOnEye(GameObject gameobject)
+        {
+            return GetHideOnEye(gameobject.GetInstanceID());
+        }
+
+        private static Dictionary<int, int> HideOnEyeIdCache = new Dictionary<int, int>();
+        public static HideOnEye GetHideOnEye(int instanceID)
+        {
+            var id = instanceID;
+
+            // Cache
+
+            if (HideOnEyeIdCache.ContainsKey(id))
+                return HideOnEyes.Elements[HideOnEyeIdCache[id]];
+
+            // Index of
+
+            var index = -1;
+            for (int i = 0; i < HideOnEyeIds.Length; i++)
+            {
+                if (HideOnEyeIds.Elements[i] == id)
+                {
+                    index = i;
+                    HideOnEyeIdCache[id] = i; // Cache
+                    break;
+                }
+            }
+
+            // Value
+
+            if (index < 0)
+                return null;
+
+            return HideOnEyes.Elements[index];
+        }
+
         // Interact
 
         public static Arrayx<int> InteractIds = new Arrayx<int>();
@@ -2833,6 +2966,9 @@ using UnityEngine;
 
             EyeOfMindIds.Length = 0;
             EyeOfMinds.Length = 0;
+
+            HideOnEyeIds.Length = 0;
+            HideOnEyes.Length = 0;
 
             InteractIds.Length = 0;
             Interacts.Length = 0;
