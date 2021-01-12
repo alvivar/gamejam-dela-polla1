@@ -30,9 +30,24 @@ public class EyeOfCreatorSystem : MonoBehaviour
 
             if (eyeOfCreator.queue.Length > 0)
             {
-                chosen.content.text = eyeOfCreator.queue.Elements[0];
-                chosen.state = EyeOfMind.State.EyeOfMind;
+                var content = eyeOfCreator.queue.Elements[0];
                 eyeOfCreator.queue.RemoveAt(0);
+
+                for (int j = 0; j < eyes.Length; j++)
+                {
+                    var eye = eyes.Elements[j];
+                    if (eye.content.text == content)
+                    {
+                        chosen = null;
+                        break;
+                    }
+                }
+
+                if (!chosen)
+                    continue;
+
+                chosen.content.text = content;
+                chosen.state = EyeOfMind.State.EyeOfMind;
             }
         }
     }

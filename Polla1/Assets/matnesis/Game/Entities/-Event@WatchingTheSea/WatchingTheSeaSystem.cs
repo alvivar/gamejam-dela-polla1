@@ -4,6 +4,7 @@ public class WatchingTheSeaSystem : MonoBehaviour
 {
     Transform player;
     Interact interact;
+    EyeOfCreator eyeOfCreator;
 
     enum Stage { CanDialog, Talking }
     Stage stage = Stage.CanDialog;
@@ -15,6 +16,9 @@ public class WatchingTheSeaSystem : MonoBehaviour
 
         if (!interact)
             interact = EntitySet.Interacts.Elements[0];
+
+        if (!eyeOfCreator)
+            eyeOfCreator = EntitySet.EyeOfCreators.Elements[0];
 
         var watchingTheSeas = EntitySet.GetWatchingTheSea(EntitySet.InteractPointIds, EntitySet.ConversationIds);
         for (int i = 0; i < watchingTheSeas.Length; i++)
@@ -37,6 +41,8 @@ public class WatchingTheSeaSystem : MonoBehaviour
                     conversation.once = true;
 
                     stage = Stage.Talking;
+
+                    eyeOfCreator.New(conversation.sentences[0].say);
                 }
             }
 
