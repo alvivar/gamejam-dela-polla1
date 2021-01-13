@@ -32,6 +32,7 @@ Transform:
   m_Children:
   - {fileID: 9080623407599328748}
   - {fileID: 2070360720831545159}
+  - {fileID: 5904404625160519270}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -49,6 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   character: {fileID: 9080623407599328748}
   animator: {fileID: 9177048647493180558}
+  sleepingPos: {fileID: 5904404625160519270}
   state: 1
   lastState: 0
 --- !u!114 &2259812393571359855
@@ -92,6 +94,36 @@ MonoBehaviour:
   - say: She has the Curse of Bounds.
     delay: 4
     clip: {fileID: 0}
+--- !u!1 &2518451172096826397
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5904404625160519270}
+  m_Layer: 0
+  m_Name: IzzySleepingPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5904404625160519270
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2518451172096826397}
+  m_LocalRotation: {x: -0.0046762465, y: 0.991417, z: 0.034586, w: 0.12599306}
+  m_LocalPosition: {x: 3.433, y: 0.824, z: -7.316}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6228892372117213872}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: -4, y: -554.484, z: -0.032}
 --- !u!1 &7239407922805507340
 GameObject:
   m_ObjectHideFlags: 0

@@ -32,6 +32,9 @@ public class IzzySystem : MonoBehaviour
             {
                 izzy.lastState = izzy.state;
 
+                izzy.character.transform.position = izzy.sleepingPos.transform.position;
+                izzy.character.transform.rotation = izzy.sleepingPos.transform.rotation;
+
                 izzy.animator.SetTrigger("sleepHurt");
                 interactPoint.update = true;
                 interactPoint.interactable = true;

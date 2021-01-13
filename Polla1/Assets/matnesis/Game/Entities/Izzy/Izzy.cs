@@ -6,6 +6,7 @@ public class Izzy : MonoBehaviour
     [Header("Required Children")]
     public Transform character;
     public Animator animator;
+    public Transform sleepingPos;
 
     [Header("State")]
     public State state = State.Sleeping;
@@ -20,5 +21,7 @@ public class Izzy : MonoBehaviour
     private void OnDisable()
     {
         EntitySet.RemoveIzzy(this);
+        state = State.Sleeping;
+        lastState = State.Idle;
     }
 }
