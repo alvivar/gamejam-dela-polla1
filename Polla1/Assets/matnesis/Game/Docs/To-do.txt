@@ -1,5 +1,4 @@
 
-The house is missing when you don't look at it
 Returning to the house when she is alone
 Eye of Mind pop in introduction
 
@@ -17,6 +16,7 @@ The player can shoot the rifle?
 A 3D character that walks and idle?
 
 
+x The house is missing when you don't look at it
 x The demons should appear at some point, gives players reasons
 x The words that fly around, the eye of mind
 x The demon follows you
