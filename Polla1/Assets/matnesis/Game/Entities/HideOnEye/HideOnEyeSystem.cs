@@ -17,6 +17,9 @@ public class HideOnEyeSystem : MonoBehaviour
         {
             var hideOnEye = hideOnEyes.Elements[i];
 
+            if (hideOnEye.clock > Time.time)
+                continue;
+
             if (hideOnEye.targets.Length < 1)
                 continue;
 
@@ -35,6 +38,7 @@ public class HideOnEyeSystem : MonoBehaviour
                 if (!hideOnEye.flag)
                 {
                     hideOnEye.flag = true;
+                    hideOnEye.clock = Time.time + 2;
                     hideOnEye.showing = !hideOnEye.showing;
 
                     for (int j = 0; j < hideOnEye.targets.Length; j++)
