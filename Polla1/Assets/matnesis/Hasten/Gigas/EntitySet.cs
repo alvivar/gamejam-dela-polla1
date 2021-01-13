@@ -19,7 +19,7 @@ using UnityEngine;
         public static Arrayx<int> BecauseOfReasonsIds = new Arrayx<int>();
         public static Arrayx<BecauseOfReasons> BecauseOfReasonss = new Arrayx<BecauseOfReasons>();
 
-        public static void AddBecauseOfReasons(BecauseOfReasons component, bool componentEnabled = true)
+        public static void AddBecauseOfReasons(BecauseOfReasons component)
         {
             // Setup
 
@@ -50,13 +50,9 @@ using UnityEngine;
                 BecauseOfReasonss.Size *= 2;
                 Array.Resize(ref BecauseOfReasonss.Elements, BecauseOfReasonss.Size);
             }
-
-            // Enable
-
-            component.enabled = componentEnabled;
         }
 
-        public static void RemoveBecauseOfReasons(BecauseOfReasons component, bool componentEnabled = false)
+        public static void RemoveBecauseOfReasons(BecauseOfReasons component)
         {
             // Index
 
@@ -88,10 +84,6 @@ using UnityEngine;
             // Cache clean up
 
             BecauseOfReasonsIdCache.Clear();
-
-            // Disable
-
-            component.enabled = componentEnabled;
         }
 
         public static Arrayx<BecauseOfReasons> GetBecauseOfReasons(params Arrayx<int>[] ids)
@@ -152,7 +144,7 @@ using UnityEngine;
         public static Arrayx<int> BecauseThisReasonIds = new Arrayx<int>();
         public static Arrayx<BecauseThisReason> BecauseThisReasons = new Arrayx<BecauseThisReason>();
 
-        public static void AddBecauseThisReason(BecauseThisReason component, bool componentEnabled = true)
+        public static void AddBecauseThisReason(BecauseThisReason component)
         {
             // Setup
 
@@ -183,13 +175,9 @@ using UnityEngine;
                 BecauseThisReasons.Size *= 2;
                 Array.Resize(ref BecauseThisReasons.Elements, BecauseThisReasons.Size);
             }
-
-            // Enable
-
-            component.enabled = componentEnabled;
         }
 
-        public static void RemoveBecauseThisReason(BecauseThisReason component, bool componentEnabled = false)
+        public static void RemoveBecauseThisReason(BecauseThisReason component)
         {
             // Index
 
@@ -221,10 +209,6 @@ using UnityEngine;
             // Cache clean up
 
             BecauseThisReasonIdCache.Clear();
-
-            // Disable
-
-            component.enabled = componentEnabled;
         }
 
         public static Arrayx<BecauseThisReason> GetBecauseThisReason(params Arrayx<int>[] ids)
@@ -285,7 +269,7 @@ using UnityEngine;
         public static Arrayx<int> CattleyaIds = new Arrayx<int>();
         public static Arrayx<Cattleya> Cattleyas = new Arrayx<Cattleya>();
 
-        public static void AddCattleya(Cattleya component, bool componentEnabled = true)
+        public static void AddCattleya(Cattleya component)
         {
             // Setup
 
@@ -316,13 +300,9 @@ using UnityEngine;
                 Cattleyas.Size *= 2;
                 Array.Resize(ref Cattleyas.Elements, Cattleyas.Size);
             }
-
-            // Enable
-
-            component.enabled = componentEnabled;
         }
 
-        public static void RemoveCattleya(Cattleya component, bool componentEnabled = false)
+        public static void RemoveCattleya(Cattleya component)
         {
             // Index
 
@@ -354,10 +334,6 @@ using UnityEngine;
             // Cache clean up
 
             CattleyaIdCache.Clear();
-
-            // Disable
-
-            component.enabled = componentEnabled;
         }
 
         public static Arrayx<Cattleya> GetCattleya(params Arrayx<int>[] ids)
@@ -418,7 +394,7 @@ using UnityEngine;
         public static Arrayx<int> ConversationIds = new Arrayx<int>();
         public static Arrayx<Conversation> Conversations = new Arrayx<Conversation>();
 
-        public static void AddConversation(Conversation component, bool componentEnabled = true)
+        public static void AddConversation(Conversation component)
         {
             // Setup
 
@@ -449,13 +425,9 @@ using UnityEngine;
                 Conversations.Size *= 2;
                 Array.Resize(ref Conversations.Elements, Conversations.Size);
             }
-
-            // Enable
-
-            component.enabled = componentEnabled;
         }
 
-        public static void RemoveConversation(Conversation component, bool componentEnabled = false)
+        public static void RemoveConversation(Conversation component)
         {
             // Index
 
@@ -487,10 +459,6 @@ using UnityEngine;
             // Cache clean up
 
             ConversationIdCache.Clear();
-
-            // Disable
-
-            component.enabled = componentEnabled;
         }
 
         public static Arrayx<Conversation> GetConversation(params Arrayx<int>[] ids)
@@ -551,7 +519,7 @@ using UnityEngine;
         public static Arrayx<int> DemonInvitationIds = new Arrayx<int>();
         public static Arrayx<DemonInvitation> DemonInvitations = new Arrayx<DemonInvitation>();
 
-        public static void AddDemonInvitation(DemonInvitation component, bool componentEnabled = true)
+        public static void AddDemonInvitation(DemonInvitation component)
         {
             // Setup
 
@@ -582,13 +550,9 @@ using UnityEngine;
                 DemonInvitations.Size *= 2;
                 Array.Resize(ref DemonInvitations.Elements, DemonInvitations.Size);
             }
-
-            // Enable
-
-            component.enabled = componentEnabled;
         }
 
-        public static void RemoveDemonInvitation(DemonInvitation component, bool componentEnabled = false)
+        public static void RemoveDemonInvitation(DemonInvitation component)
         {
             // Index
 
@@ -620,10 +584,6 @@ using UnityEngine;
             // Cache clean up
 
             DemonInvitationIdCache.Clear();
-
-            // Disable
-
-            component.enabled = componentEnabled;
         }
 
         public static Arrayx<DemonInvitation> GetDemonInvitation(params Arrayx<int>[] ids)
@@ -684,7 +644,7 @@ using UnityEngine;
         public static Arrayx<int> DemonOfIds = new Arrayx<int>();
         public static Arrayx<DemonOf> DemonOfs = new Arrayx<DemonOf>();
 
-        public static void AddDemonOf(DemonOf component, bool componentEnabled = true)
+        public static void AddDemonOf(DemonOf component)
         {
             // Setup
 
@@ -715,13 +675,9 @@ using UnityEngine;
                 DemonOfs.Size *= 2;
                 Array.Resize(ref DemonOfs.Elements, DemonOfs.Size);
             }
-
-            // Enable
-
-            component.enabled = componentEnabled;
         }
 
-        public static void RemoveDemonOf(DemonOf component, bool componentEnabled = false)
+        public static void RemoveDemonOf(DemonOf component)
         {
             // Index
 
@@ -753,10 +709,6 @@ using UnityEngine;
             // Cache clean up
 
             DemonOfIdCache.Clear();
-
-            // Disable
-
-            component.enabled = componentEnabled;
         }
 
         public static Arrayx<DemonOf> GetDemonOf(params Arrayx<int>[] ids)
@@ -817,7 +769,7 @@ using UnityEngine;
         public static Arrayx<int> EyeOfCreatorIds = new Arrayx<int>();
         public static Arrayx<EyeOfCreator> EyeOfCreators = new Arrayx<EyeOfCreator>();
 
-        public static void AddEyeOfCreator(EyeOfCreator component, bool componentEnabled = true)
+        public static void AddEyeOfCreator(EyeOfCreator component)
         {
             // Setup
 
@@ -848,13 +800,9 @@ using UnityEngine;
                 EyeOfCreators.Size *= 2;
                 Array.Resize(ref EyeOfCreators.Elements, EyeOfCreators.Size);
             }
-
-            // Enable
-
-            component.enabled = componentEnabled;
         }
 
-        public static void RemoveEyeOfCreator(EyeOfCreator component, bool componentEnabled = false)
+        public static void RemoveEyeOfCreator(EyeOfCreator component)
         {
             // Index
 
@@ -886,10 +834,6 @@ using UnityEngine;
             // Cache clean up
 
             EyeOfCreatorIdCache.Clear();
-
-            // Disable
-
-            component.enabled = componentEnabled;
         }
 
         public static Arrayx<EyeOfCreator> GetEyeOfCreator(params Arrayx<int>[] ids)
@@ -950,7 +894,7 @@ using UnityEngine;
         public static Arrayx<int> EyeOfMindIds = new Arrayx<int>();
         public static Arrayx<EyeOfMind> EyeOfMinds = new Arrayx<EyeOfMind>();
 
-        public static void AddEyeOfMind(EyeOfMind component, bool componentEnabled = true)
+        public static void AddEyeOfMind(EyeOfMind component)
         {
             // Setup
 
@@ -981,13 +925,9 @@ using UnityEngine;
                 EyeOfMinds.Size *= 2;
                 Array.Resize(ref EyeOfMinds.Elements, EyeOfMinds.Size);
             }
-
-            // Enable
-
-            component.enabled = componentEnabled;
         }
 
-        public static void RemoveEyeOfMind(EyeOfMind component, bool componentEnabled = false)
+        public static void RemoveEyeOfMind(EyeOfMind component)
         {
             // Index
 
@@ -1019,10 +959,6 @@ using UnityEngine;
             // Cache clean up
 
             EyeOfMindIdCache.Clear();
-
-            // Disable
-
-            component.enabled = componentEnabled;
         }
 
         public static Arrayx<EyeOfMind> GetEyeOfMind(params Arrayx<int>[] ids)
@@ -1083,7 +1019,7 @@ using UnityEngine;
         public static Arrayx<int> HideOnEyeIds = new Arrayx<int>();
         public static Arrayx<HideOnEye> HideOnEyes = new Arrayx<HideOnEye>();
 
-        public static void AddHideOnEye(HideOnEye component, bool componentEnabled = true)
+        public static void AddHideOnEye(HideOnEye component)
         {
             // Setup
 
@@ -1114,13 +1050,9 @@ using UnityEngine;
                 HideOnEyes.Size *= 2;
                 Array.Resize(ref HideOnEyes.Elements, HideOnEyes.Size);
             }
-
-            // Enable
-
-            component.enabled = componentEnabled;
         }
 
-        public static void RemoveHideOnEye(HideOnEye component, bool componentEnabled = false)
+        public static void RemoveHideOnEye(HideOnEye component)
         {
             // Index
 
@@ -1152,10 +1084,6 @@ using UnityEngine;
             // Cache clean up
 
             HideOnEyeIdCache.Clear();
-
-            // Disable
-
-            component.enabled = componentEnabled;
         }
 
         public static Arrayx<HideOnEye> GetHideOnEye(params Arrayx<int>[] ids)
@@ -1216,7 +1144,7 @@ using UnityEngine;
         public static Arrayx<int> InteractIds = new Arrayx<int>();
         public static Arrayx<Interact> Interacts = new Arrayx<Interact>();
 
-        public static void AddInteract(Interact component, bool componentEnabled = true)
+        public static void AddInteract(Interact component)
         {
             // Setup
 
@@ -1247,13 +1175,9 @@ using UnityEngine;
                 Interacts.Size *= 2;
                 Array.Resize(ref Interacts.Elements, Interacts.Size);
             }
-
-            // Enable
-
-            component.enabled = componentEnabled;
         }
 
-        public static void RemoveInteract(Interact component, bool componentEnabled = false)
+        public static void RemoveInteract(Interact component)
         {
             // Index
 
@@ -1285,10 +1209,6 @@ using UnityEngine;
             // Cache clean up
 
             InteractIdCache.Clear();
-
-            // Disable
-
-            component.enabled = componentEnabled;
         }
 
         public static Arrayx<Interact> GetInteract(params Arrayx<int>[] ids)
@@ -1349,7 +1269,7 @@ using UnityEngine;
         public static Arrayx<int> InteractPointIds = new Arrayx<int>();
         public static Arrayx<InteractPoint> InteractPoints = new Arrayx<InteractPoint>();
 
-        public static void AddInteractPoint(InteractPoint component, bool componentEnabled = true)
+        public static void AddInteractPoint(InteractPoint component)
         {
             // Setup
 
@@ -1380,13 +1300,9 @@ using UnityEngine;
                 InteractPoints.Size *= 2;
                 Array.Resize(ref InteractPoints.Elements, InteractPoints.Size);
             }
-
-            // Enable
-
-            component.enabled = componentEnabled;
         }
 
-        public static void RemoveInteractPoint(InteractPoint component, bool componentEnabled = false)
+        public static void RemoveInteractPoint(InteractPoint component)
         {
             // Index
 
@@ -1418,10 +1334,6 @@ using UnityEngine;
             // Cache clean up
 
             InteractPointIdCache.Clear();
-
-            // Disable
-
-            component.enabled = componentEnabled;
         }
 
         public static Arrayx<InteractPoint> GetInteractPoint(params Arrayx<int>[] ids)
@@ -1482,7 +1394,7 @@ using UnityEngine;
         public static Arrayx<int> IzzyIds = new Arrayx<int>();
         public static Arrayx<Izzy> Izzys = new Arrayx<Izzy>();
 
-        public static void AddIzzy(Izzy component, bool componentEnabled = true)
+        public static void AddIzzy(Izzy component)
         {
             // Setup
 
@@ -1513,13 +1425,9 @@ using UnityEngine;
                 Izzys.Size *= 2;
                 Array.Resize(ref Izzys.Elements, Izzys.Size);
             }
-
-            // Enable
-
-            component.enabled = componentEnabled;
         }
 
-        public static void RemoveIzzy(Izzy component, bool componentEnabled = false)
+        public static void RemoveIzzy(Izzy component)
         {
             // Index
 
@@ -1551,10 +1459,6 @@ using UnityEngine;
             // Cache clean up
 
             IzzyIdCache.Clear();
-
-            // Disable
-
-            component.enabled = componentEnabled;
         }
 
         public static Arrayx<Izzy> GetIzzy(params Arrayx<int>[] ids)
@@ -1615,7 +1519,7 @@ using UnityEngine;
         public static Arrayx<int> LookAtVoidPlayerIds = new Arrayx<int>();
         public static Arrayx<LookAtVoidPlayer> LookAtVoidPlayers = new Arrayx<LookAtVoidPlayer>();
 
-        public static void AddLookAtVoidPlayer(LookAtVoidPlayer component, bool componentEnabled = true)
+        public static void AddLookAtVoidPlayer(LookAtVoidPlayer component)
         {
             // Setup
 
@@ -1646,13 +1550,9 @@ using UnityEngine;
                 LookAtVoidPlayers.Size *= 2;
                 Array.Resize(ref LookAtVoidPlayers.Elements, LookAtVoidPlayers.Size);
             }
-
-            // Enable
-
-            component.enabled = componentEnabled;
         }
 
-        public static void RemoveLookAtVoidPlayer(LookAtVoidPlayer component, bool componentEnabled = false)
+        public static void RemoveLookAtVoidPlayer(LookAtVoidPlayer component)
         {
             // Index
 
@@ -1684,10 +1584,6 @@ using UnityEngine;
             // Cache clean up
 
             LookAtVoidPlayerIdCache.Clear();
-
-            // Disable
-
-            component.enabled = componentEnabled;
         }
 
         public static Arrayx<LookAtVoidPlayer> GetLookAtVoidPlayer(params Arrayx<int>[] ids)
@@ -1748,7 +1644,7 @@ using UnityEngine;
         public static Arrayx<int> MainMessageIds = new Arrayx<int>();
         public static Arrayx<MainMessage> MainMessages = new Arrayx<MainMessage>();
 
-        public static void AddMainMessage(MainMessage component, bool componentEnabled = true)
+        public static void AddMainMessage(MainMessage component)
         {
             // Setup
 
@@ -1779,13 +1675,9 @@ using UnityEngine;
                 MainMessages.Size *= 2;
                 Array.Resize(ref MainMessages.Elements, MainMessages.Size);
             }
-
-            // Enable
-
-            component.enabled = componentEnabled;
         }
 
-        public static void RemoveMainMessage(MainMessage component, bool componentEnabled = false)
+        public static void RemoveMainMessage(MainMessage component)
         {
             // Index
 
@@ -1817,10 +1709,6 @@ using UnityEngine;
             // Cache clean up
 
             MainMessageIdCache.Clear();
-
-            // Disable
-
-            component.enabled = componentEnabled;
         }
 
         public static Arrayx<MainMessage> GetMainMessage(params Arrayx<int>[] ids)
@@ -1881,7 +1769,7 @@ using UnityEngine;
         public static Arrayx<int> PartyHouseIds = new Arrayx<int>();
         public static Arrayx<PartyHouse> PartyHouses = new Arrayx<PartyHouse>();
 
-        public static void AddPartyHouse(PartyHouse component, bool componentEnabled = true)
+        public static void AddPartyHouse(PartyHouse component)
         {
             // Setup
 
@@ -1912,13 +1800,9 @@ using UnityEngine;
                 PartyHouses.Size *= 2;
                 Array.Resize(ref PartyHouses.Elements, PartyHouses.Size);
             }
-
-            // Enable
-
-            component.enabled = componentEnabled;
         }
 
-        public static void RemovePartyHouse(PartyHouse component, bool componentEnabled = false)
+        public static void RemovePartyHouse(PartyHouse component)
         {
             // Index
 
@@ -1950,10 +1834,6 @@ using UnityEngine;
             // Cache clean up
 
             PartyHouseIdCache.Clear();
-
-            // Disable
-
-            component.enabled = componentEnabled;
         }
 
         public static Arrayx<PartyHouse> GetPartyHouse(params Arrayx<int>[] ids)
@@ -2014,7 +1894,7 @@ using UnityEngine;
         public static Arrayx<int> RinIds = new Arrayx<int>();
         public static Arrayx<Rin> Rins = new Arrayx<Rin>();
 
-        public static void AddRin(Rin component, bool componentEnabled = true)
+        public static void AddRin(Rin component)
         {
             // Setup
 
@@ -2045,13 +1925,9 @@ using UnityEngine;
                 Rins.Size *= 2;
                 Array.Resize(ref Rins.Elements, Rins.Size);
             }
-
-            // Enable
-
-            component.enabled = componentEnabled;
         }
 
-        public static void RemoveRin(Rin component, bool componentEnabled = false)
+        public static void RemoveRin(Rin component)
         {
             // Index
 
@@ -2083,10 +1959,6 @@ using UnityEngine;
             // Cache clean up
 
             RinIdCache.Clear();
-
-            // Disable
-
-            component.enabled = componentEnabled;
         }
 
         public static Arrayx<Rin> GetRin(params Arrayx<int>[] ids)
@@ -2147,7 +2019,7 @@ using UnityEngine;
         public static Arrayx<int> SoundClipIds = new Arrayx<int>();
         public static Arrayx<SoundClip> SoundClips = new Arrayx<SoundClip>();
 
-        public static void AddSoundClip(SoundClip component, bool componentEnabled = true)
+        public static void AddSoundClip(SoundClip component)
         {
             // Setup
 
@@ -2178,13 +2050,9 @@ using UnityEngine;
                 SoundClips.Size *= 2;
                 Array.Resize(ref SoundClips.Elements, SoundClips.Size);
             }
-
-            // Enable
-
-            component.enabled = componentEnabled;
         }
 
-        public static void RemoveSoundClip(SoundClip component, bool componentEnabled = false)
+        public static void RemoveSoundClip(SoundClip component)
         {
             // Index
 
@@ -2216,10 +2084,6 @@ using UnityEngine;
             // Cache clean up
 
             SoundClipIdCache.Clear();
-
-            // Disable
-
-            component.enabled = componentEnabled;
         }
 
         public static Arrayx<SoundClip> GetSoundClip(params Arrayx<int>[] ids)
@@ -2280,7 +2144,7 @@ using UnityEngine;
         public static Arrayx<int> TelepointIds = new Arrayx<int>();
         public static Arrayx<Telepoint> Telepoints = new Arrayx<Telepoint>();
 
-        public static void AddTelepoint(Telepoint component, bool componentEnabled = true)
+        public static void AddTelepoint(Telepoint component)
         {
             // Setup
 
@@ -2311,13 +2175,9 @@ using UnityEngine;
                 Telepoints.Size *= 2;
                 Array.Resize(ref Telepoints.Elements, Telepoints.Size);
             }
-
-            // Enable
-
-            component.enabled = componentEnabled;
         }
 
-        public static void RemoveTelepoint(Telepoint component, bool componentEnabled = false)
+        public static void RemoveTelepoint(Telepoint component)
         {
             // Index
 
@@ -2349,10 +2209,6 @@ using UnityEngine;
             // Cache clean up
 
             TelepointIdCache.Clear();
-
-            // Disable
-
-            component.enabled = componentEnabled;
         }
 
         public static Arrayx<Telepoint> GetTelepoint(params Arrayx<int>[] ids)
@@ -2413,7 +2269,7 @@ using UnityEngine;
         public static Arrayx<int> TheGunIds = new Arrayx<int>();
         public static Arrayx<TheGun> TheGuns = new Arrayx<TheGun>();
 
-        public static void AddTheGun(TheGun component, bool componentEnabled = true)
+        public static void AddTheGun(TheGun component)
         {
             // Setup
 
@@ -2444,13 +2300,9 @@ using UnityEngine;
                 TheGuns.Size *= 2;
                 Array.Resize(ref TheGuns.Elements, TheGuns.Size);
             }
-
-            // Enable
-
-            component.enabled = componentEnabled;
         }
 
-        public static void RemoveTheGun(TheGun component, bool componentEnabled = false)
+        public static void RemoveTheGun(TheGun component)
         {
             // Index
 
@@ -2482,10 +2334,6 @@ using UnityEngine;
             // Cache clean up
 
             TheGunIdCache.Clear();
-
-            // Disable
-
-            component.enabled = componentEnabled;
         }
 
         public static Arrayx<TheGun> GetTheGun(params Arrayx<int>[] ids)
@@ -2546,7 +2394,7 @@ using UnityEngine;
         public static Arrayx<int> VoidCamIds = new Arrayx<int>();
         public static Arrayx<VoidCam> VoidCams = new Arrayx<VoidCam>();
 
-        public static void AddVoidCam(VoidCam component, bool componentEnabled = true)
+        public static void AddVoidCam(VoidCam component)
         {
             // Setup
 
@@ -2577,13 +2425,9 @@ using UnityEngine;
                 VoidCams.Size *= 2;
                 Array.Resize(ref VoidCams.Elements, VoidCams.Size);
             }
-
-            // Enable
-
-            component.enabled = componentEnabled;
         }
 
-        public static void RemoveVoidCam(VoidCam component, bool componentEnabled = false)
+        public static void RemoveVoidCam(VoidCam component)
         {
             // Index
 
@@ -2615,10 +2459,6 @@ using UnityEngine;
             // Cache clean up
 
             VoidCamIdCache.Clear();
-
-            // Disable
-
-            component.enabled = componentEnabled;
         }
 
         public static Arrayx<VoidCam> GetVoidCam(params Arrayx<int>[] ids)
@@ -2679,7 +2519,7 @@ using UnityEngine;
         public static Arrayx<int> VoidPlayerIds = new Arrayx<int>();
         public static Arrayx<VoidPlayer> VoidPlayers = new Arrayx<VoidPlayer>();
 
-        public static void AddVoidPlayer(VoidPlayer component, bool componentEnabled = true)
+        public static void AddVoidPlayer(VoidPlayer component)
         {
             // Setup
 
@@ -2710,13 +2550,9 @@ using UnityEngine;
                 VoidPlayers.Size *= 2;
                 Array.Resize(ref VoidPlayers.Elements, VoidPlayers.Size);
             }
-
-            // Enable
-
-            component.enabled = componentEnabled;
         }
 
-        public static void RemoveVoidPlayer(VoidPlayer component, bool componentEnabled = false)
+        public static void RemoveVoidPlayer(VoidPlayer component)
         {
             // Index
 
@@ -2748,10 +2584,6 @@ using UnityEngine;
             // Cache clean up
 
             VoidPlayerIdCache.Clear();
-
-            // Disable
-
-            component.enabled = componentEnabled;
         }
 
         public static Arrayx<VoidPlayer> GetVoidPlayer(params Arrayx<int>[] ids)
@@ -2812,7 +2644,7 @@ using UnityEngine;
         public static Arrayx<int> WatchingTheSeaIds = new Arrayx<int>();
         public static Arrayx<WatchingTheSea> WatchingTheSeas = new Arrayx<WatchingTheSea>();
 
-        public static void AddWatchingTheSea(WatchingTheSea component, bool componentEnabled = true)
+        public static void AddWatchingTheSea(WatchingTheSea component)
         {
             // Setup
 
@@ -2843,13 +2675,9 @@ using UnityEngine;
                 WatchingTheSeas.Size *= 2;
                 Array.Resize(ref WatchingTheSeas.Elements, WatchingTheSeas.Size);
             }
-
-            // Enable
-
-            component.enabled = componentEnabled;
         }
 
-        public static void RemoveWatchingTheSea(WatchingTheSea component, bool componentEnabled = false)
+        public static void RemoveWatchingTheSea(WatchingTheSea component)
         {
             // Index
 
@@ -2881,10 +2709,6 @@ using UnityEngine;
             // Cache clean up
 
             WatchingTheSeaIdCache.Clear();
-
-            // Disable
-
-            component.enabled = componentEnabled;
         }
 
         public static Arrayx<WatchingTheSea> GetWatchingTheSea(params Arrayx<int>[] ids)
