@@ -22,5 +22,7 @@ public class Rin : MonoBehaviour
     private void OnDisable()
     {
         EntitySet.RemoveRin(this);
+        state = State.Praying;
+        lastState = State.Idle;
     }
 }

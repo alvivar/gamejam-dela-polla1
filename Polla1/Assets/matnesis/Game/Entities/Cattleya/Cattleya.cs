@@ -25,5 +25,7 @@ public class Cattleya : MonoBehaviour
     private void OnDisable()
     {
         EntitySet.RemoveCattleya(this);
+        state = State.Bathroom;
+        lastState = State.Idle;
     }
 }
