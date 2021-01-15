@@ -26,7 +26,7 @@ public class EyeOfMindSystem : MonoBehaviour
             // Ignore on player sight
 
             var dot = Vector3.Dot(player.forward, (eyePos - playerPos).normalized);
-            if (dot > 0.22f)
+            if (dot > 0.20f)
                 continue;
 
             // Closest eye to self
@@ -70,6 +70,12 @@ public class EyeOfMindSystem : MonoBehaviour
             if (playerDistance > 3f)
             {
                 eye.transform.position = Vector3.Lerp(eyePos, playerPos, Time.deltaTime * damp);
+            }
+
+            // But don't be over the player
+            if (playerDistance < 2)
+            {
+                eye.transform.position = Vector3.Lerp(eyePos, eyePos + Vector3.up, Time.deltaTime * damp);
             }
 
             // Don't go below

@@ -4,6 +4,7 @@ public class IzzySystem : MonoBehaviour
 {
     Transform player;
     Interact interact;
+    EyeOfCreator eyeOfCreator;
 
     void Update()
     {
@@ -12,6 +13,9 @@ public class IzzySystem : MonoBehaviour
 
         if (!interact)
             interact = EntitySet.Interacts.Elements[0];
+
+        if (!eyeOfCreator)
+            eyeOfCreator = EntitySet.EyeOfCreators.Elements[0];
 
         var izzys = EntitySet.Izzys;
         for (int i = 0; i < izzys.Length; i++)
@@ -64,11 +68,15 @@ public class IzzySystem : MonoBehaviour
             if (izzy.state == Izzy.State.WaitingConversation)
             {
                 var len = Vector3.Distance(player.position, interactPoint.transform.position);
-                var lenLimit = interactPoint.distance * 2.5f;
+                var lenLimit = interactPoint.distance * 5f;
                 if (!conversation.once || len > lenLimit)
                 {
                     if (len > lenLimit)
+                    {
                         conversation.stop = true;
+
+                        eyeOfCreator.New("She can't talk");
+                    }
 
                     interactPoint.update = true;
                     izzy.state = Izzy.State.Talking;

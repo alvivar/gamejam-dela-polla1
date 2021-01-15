@@ -4,6 +4,7 @@ public class RinSystem : MonoBehaviour
 {
     Transform player;
     Interact interact;
+    EyeOfCreator eyeOfCreator;
 
     void Update()
     {
@@ -12,6 +13,9 @@ public class RinSystem : MonoBehaviour
 
         if (!interact)
             interact = EntitySet.Interacts.Elements[0];
+
+        if (!eyeOfCreator)
+            eyeOfCreator = EntitySet.EyeOfCreators.Elements[0];
 
         var rins = EntitySet.GetRin(EntitySet.InteractPointIds, EntitySet.ConversationIds);
         for (int i = 0; i < rins.Length; i++)
@@ -78,11 +82,16 @@ public class RinSystem : MonoBehaviour
             if (rin.state == Rin.State.WaitingConversation)
             {
                 var len = Vector3.Distance(player.position, interactPoint.transform.position);
-                var lenLimit = interactPoint.distance * 2.5f;
+                var lenLimit = interactPoint.distance * 5f;
                 if (!conversation.once || len > lenLimit)
                 {
                     if (len > lenLimit)
+                    {
                         conversation.stop = true;
+
+                        eyeOfCreator.New("What do you want?");
+                        eyeOfCreator.New("You got nothing to say");
+                    }
 
                     interactPoint.update = true;
                     rin.state = Rin.State.Talking;

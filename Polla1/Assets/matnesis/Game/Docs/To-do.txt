@@ -1,9 +1,15 @@
 
-Reasons text check
+Should eyes hide during conversations?
+Reasons should hide from the window after their first fade
+Animals eyes of mind
+
+The gun ask a question: Do you want to kill someone?
+The player can pick up the rifle
+
+Make sure eyes born on all the situations
 
 Returning to the house when she is alone
 Looking at the moon
-The player can pick up the rifle
 
 A 3D character that walks and idle?
 The player can shoot the rifle?
@@ -14,6 +20,8 @@ Eye of Mind pop in introduction
 Demons invitation sounds
 
 
+x Hide Eyes phrases that are pretty close
+x Reasons text check
 x Demons first decent conversation
 x The house is missing when you don't look at it
 x The demons should appear at some point, gives players reasons

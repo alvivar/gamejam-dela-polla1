@@ -4,6 +4,7 @@ public class CattleyaSystem : MonoBehaviour
 {
     Transform player;
     Interact interact;
+    EyeOfCreator eyeOfCreator;
 
     void Update()
     {
@@ -12,6 +13,9 @@ public class CattleyaSystem : MonoBehaviour
 
         if (!interact)
             interact = EntitySet.Interacts.Elements[0];
+
+        if (!eyeOfCreator)
+            eyeOfCreator = EntitySet.EyeOfCreators.Elements[0];
 
         var cattleyas = EntitySet.GetCattleya(EntitySet.InteractPointIds, EntitySet.ConversationIds);
         for (int i = 0; i < cattleyas.Length; i++)
@@ -90,11 +94,16 @@ public class CattleyaSystem : MonoBehaviour
             if (cattleya.state == Cattleya.State.WaitingConversation)
             {
                 var len = Vector3.Distance(player.position, interactPoint.transform.position);
-                var lenLimit = interactPoint.distance * 2.5f;
+                var lenLimit = interactPoint.distance * 5f;
                 if (!conversation.once || len > lenLimit)
                 {
                     if (len > lenLimit)
+                    {
                         conversation.stop = true;
+
+                        eyeOfCreator.New("How dare you?");
+                        eyeOfCreator.New("Why are you here?");
+                    }
 
                     interactPoint.update = true;
                     cattleya.state = Cattleya.State.Talking;

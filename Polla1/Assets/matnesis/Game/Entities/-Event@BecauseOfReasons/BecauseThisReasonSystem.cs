@@ -30,6 +30,7 @@ public class BecauseThisReasonSystem : MonoBehaviour
                 thunder.transform.position = interactPoint.transform.position;
                 thunder.once = true;
 
+                eyeOfCreator.New(becauseThisReason.reason);
                 eyeOfCreator.New(becauseThisReason.trueReason);
             }
         }
