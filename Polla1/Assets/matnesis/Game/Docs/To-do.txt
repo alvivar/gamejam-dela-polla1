@@ -1,4 +1,5 @@
 
+Demons should appear when we aren't looking at them
 Should eyes hide during conversations?
 Reasons should hide from the window after their first fade
 Animals eyes of mind
