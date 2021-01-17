@@ -1889,6 +1889,131 @@ using UnityEngine;
             return PartyHouses.Elements[index];
         }
 
+        // PartyHouseHide
+
+        public static Arrayx<int> PartyHouseHideIds = new Arrayx<int>();
+        public static Arrayx<PartyHouseHide> PartyHouseHides = new Arrayx<PartyHouseHide>();
+
+        public static void AddPartyHouseHide(PartyHouseHide component)
+        {
+            // Setup
+
+            if (PartyHouseHideIds.Elements == null)
+            {
+                PartyHouseHideIds.Size = 8;
+                PartyHouseHideIds.Elements = new int[PartyHouseHideIds.Size];
+            }
+
+            if (PartyHouseHides.Elements == null)
+            {
+                PartyHouseHides.Size = 8;
+                PartyHouseHides.Elements = new PartyHouseHide[PartyHouseHides.Size];
+            }
+
+            // Add
+
+            PartyHouseHideIds.Elements[PartyHouseHideIds.Length++] = component.gameObject.GetInstanceID();
+            PartyHouseHides.Elements[PartyHouseHides.Length++] = component;
+
+            // Resize check
+
+            if (PartyHouseHideIds.Length >= PartyHouseHideIds.Size)
+            {
+                PartyHouseHideIds.Size *= 2;
+                Array.Resize(ref PartyHouseHideIds.Elements, PartyHouseHideIds.Size);
+
+                PartyHouseHides.Size *= 2;
+                Array.Resize(ref PartyHouseHides.Elements, PartyHouseHides.Size);
+            }
+        }
+
+        public static void RemovePartyHouseHide(PartyHouseHide component)
+        {
+            // Index
+
+            var id = component.gameObject.GetInstanceID();
+            var indexToRemove = -1;
+            for (int i = 0; i < PartyHouseHideIds.Length; i++)
+            {
+                if (PartyHouseHideIds.Elements[i] == id)
+                {
+                    indexToRemove = i;
+                    break;
+                }
+            }
+
+            // Overwrite
+
+            Array.Copy(
+                PartyHouseHideIds.Elements, indexToRemove + 1,
+                PartyHouseHideIds.Elements, indexToRemove,
+                PartyHouseHideIds.Length - indexToRemove - 1);
+            PartyHouseHideIds.Length--;
+
+            Array.Copy(
+                PartyHouseHides.Elements, indexToRemove + 1,
+                PartyHouseHides.Elements, indexToRemove,
+                PartyHouseHides.Length - indexToRemove - 1);
+            PartyHouseHides.Length--;
+
+            // Cache clean up
+
+            PartyHouseHideIdCache.Clear();
+        }
+
+        public static Arrayx<PartyHouseHide> GetPartyHouseHide(params Arrayx<int>[] ids)
+        {
+            // PartyHouseHideIds needs to be the first in the array parameter,
+            // that's how Gigas.Get relates the ids to the components
+
+            Arrayx<int>[] PartyHouseHidePlusIds = new Arrayx<int>[ids.Length + 1];
+            PartyHouseHidePlusIds[0] = PartyHouseHideIds;
+            Array.Copy(ids, 0, PartyHouseHidePlusIds, 1, ids.Length);
+
+            return Gigas.Get<PartyHouseHide>(PartyHouseHidePlusIds, EntitySet.PartyHouseHides);
+        }
+
+        public static PartyHouseHide GetPartyHouseHide(MonoBehaviour component)
+        {
+            return GetPartyHouseHide(component.gameObject.GetInstanceID());
+        }
+
+        public static PartyHouseHide GetPartyHouseHide(GameObject gameobject)
+        {
+            return GetPartyHouseHide(gameobject.GetInstanceID());
+        }
+
+        private static Dictionary<int, int> PartyHouseHideIdCache = new Dictionary<int, int>();
+        public static PartyHouseHide GetPartyHouseHide(int instanceID)
+        {
+            var id = instanceID;
+
+            // Cache
+
+            if (PartyHouseHideIdCache.ContainsKey(id))
+                return PartyHouseHides.Elements[PartyHouseHideIdCache[id]];
+
+            // Index of
+
+            var index = -1;
+            for (int i = 0; i < PartyHouseHideIds.Length; i++)
+            {
+                if (PartyHouseHideIds.Elements[i] == id)
+                {
+                    index = i;
+                    PartyHouseHideIdCache[id] = i; // Cache
+                    break;
+                }
+            }
+
+            // Value
+
+            if (index < 0)
+                return null;
+
+            return PartyHouseHides.Elements[index];
+        }
+
         // Rin
 
         public static Arrayx<int> RinIds = new Arrayx<int>();
@@ -2811,6 +2936,9 @@ using UnityEngine;
 
             PartyHouseIds.Length = 0;
             PartyHouses.Length = 0;
+
+            PartyHouseHideIds.Length = 0;
+            PartyHouseHides.Length = 0;
 
             RinIds.Length = 0;
             Rins.Length = 0;

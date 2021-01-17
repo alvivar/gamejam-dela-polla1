@@ -3,6 +3,8 @@ using UnityEngine;
 // !Gigas
 public class HideOnEye : MonoBehaviour
 {
+    public bool update = true;
+
     [Header("Internal")]
     public bool showing = true;
     public bool flag = false;

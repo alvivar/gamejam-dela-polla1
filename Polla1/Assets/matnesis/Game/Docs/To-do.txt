@@ -16,8 +16,8 @@ The player can shoot the rifle?
 
 Eye of Mind cool floating when look at him
 
-Demons invitation sounds
 
+x House won't hide again after first conversation
 x Yes / No for the systema
 x Demons should appear when we aren't looking at them
 x Hide Eyes phrases that are pretty close

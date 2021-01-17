@@ -91,6 +91,11 @@ public class PartyHouseSystem : MonoBehaviour
 
                 cattleya.character.transform.LookAt(player);
                 cattleya.character.eulerAngles = new Vector3(0, cattleya.character.eulerAngles.y, 0);
+
+                // Turn off house hidding
+
+                var hideOnEye = EntitySet.GetHideOnEye(EntitySet.PartyHouseHides.Elements[0]);
+                hideOnEye.update = false;
             }
         }
     }

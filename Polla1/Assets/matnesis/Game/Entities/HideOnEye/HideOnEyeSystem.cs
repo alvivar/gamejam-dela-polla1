@@ -17,6 +17,9 @@ public class HideOnEyeSystem : MonoBehaviour
         {
             var hideOnEye = hideOnEyes.Elements[i];
 
+            if (!hideOnEye.update)
+                continue;
+
             if (hideOnEye.clock > Time.time)
                 continue;
 
