@@ -30,6 +30,7 @@ public class GameStartSystem : MonoBehaviour
                 })
                 .Add(1, () =>
                 {
+                    // I don't think I need this intro?
                     // this.tt("FadingMemories").Play();
                     // this.tt("NotYet").Play();
                 });
