@@ -40,9 +40,6 @@ public class IzzySystem : MonoBehaviour
                 izzy.character.transform.rotation = izzy.sleepingPos.transform.rotation;
 
                 izzy.animator.SetTrigger("sleepHurt");
-                interactPoint.update = true;
-                interactPoint.interactable = true;
-
                 izzy.state = Izzy.State.Talking;
             }
 

@@ -77,6 +77,15 @@ public class PartyHouseSystem : MonoBehaviour
                         message.showMain = false;
                         partyHouse.state = PartyHouse.State.GirlAnsweringTheDoor;
 
+                        // Turn off house hidding
+                        var hideOnEye = EntitySet.GetHideOnEye(EntitySet.PartyHouseHides.Elements[0]);
+                        hideOnEye.update = false;
+
+                        // Turn on conversation with the girl on the bed
+                        var izzy = EntitySet.GetInteractPoint(EntitySet.Izzys.Elements[0]);
+                        izzy.update = true;
+                        izzy.interactable = true;
+
                         t.self.Reset();
                     })
                     .Immutable();
@@ -91,11 +100,6 @@ public class PartyHouseSystem : MonoBehaviour
 
                 cattleya.character.transform.LookAt(player);
                 cattleya.character.eulerAngles = new Vector3(0, cattleya.character.eulerAngles.y, 0);
-
-                // Turn off house hidding
-
-                var hideOnEye = EntitySet.GetHideOnEye(EntitySet.PartyHouseHides.Elements[0]);
-                hideOnEye.update = false;
             }
         }
     }
