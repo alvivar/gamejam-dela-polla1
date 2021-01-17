@@ -16,10 +16,20 @@ public class EyeOfCreatorSystem : MonoBehaviour
             for (int j = 0; j < eyes.Length; j++)
             {
                 var eye = eyes.Elements[j];
+
                 if (eye.state == EyeOfMind.State.None)
                 {
                     chosen = eye;
                     break;
+                }
+
+                if (eyeOfCreator.show)
+                {
+                    eye.content.color = Color.Lerp(eye.content.color, Color.white, Time.deltaTime);
+                }
+                else
+                {
+                    eye.content.color = Color.Lerp(eye.content.color, Colorf.ColorAlpha(eye.content.color, 0), Time.deltaTime);
                 }
             }
 
