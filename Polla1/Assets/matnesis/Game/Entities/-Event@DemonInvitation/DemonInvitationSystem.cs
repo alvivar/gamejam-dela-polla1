@@ -36,6 +36,11 @@ public class DemonInvitationSystem : MonoBehaviour
                 for (int j = 0; j < demonOfs.Length; j++)
                 {
                     var demonOf = demonOfs.Elements[j];
+
+                    demonOf.show = false;
+                    demonOf.rigidBody.isKinematic = true;
+                    demonOf.collidr.enabled = false;
+                    demonOf.render.enabled = false;
                     demonOf.transform.position = demonInvitation.cabinPositions[j].transform.position;
                 }
 

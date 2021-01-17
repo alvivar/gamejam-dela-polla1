@@ -31,8 +31,11 @@ public class DemonOfSystem : MonoBehaviour
 
             if (demonOf.show)
             {
-                demonOf.collidr.enabled = true;
-                demonOf.render.enabled = true;
+                if (dot < dotTolerance)
+                {
+                    demonOf.collidr.enabled = true;
+                    demonOf.render.enabled = true;
+                }
             }
             else
             {
