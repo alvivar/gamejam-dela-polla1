@@ -1031,8 +1031,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6778521391434945285}
   - component: {fileID: 6778521391425279143}
-  - component: {fileID: 5865112804971333258}
-  - component: {fileID: 6038294555317295578}
+  - component: {fileID: 3070998289567874382}
   m_Layer: 0
   m_Name: Elf
   m_TagString: Untagged
@@ -1049,7 +1048,7 @@ Transform:
   m_GameObject: {fileID: 6778521391434700391}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 63.84, y: 23.81, z: -97.38}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_Children:
   - {fileID: 6778521391434853215}
   - {fileID: 6778521391434906397}
@@ -1075,7 +1074,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &5865112804971333258
+--- !u!114 &3070998289567874382
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1084,28 +1083,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6778521391434700391}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3053ed9568d63cf4aac5bcaf822bbae7, type: 3}
+  m_Script: {fileID: 11500000, guid: e8f3374408425c04ea2826f89fd641bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6038294555317295578
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6778521391434700391}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bbb2698db5d13f4383a8785456d7420, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sentences:
-  - say: We don't have enough sand...
-    delay: 4
-    clip: {fileID: 0}
-  - say: I wish I could swim without worrying about the void
-    delay: 6
-    clip: {fileID: 0}
+  state: 1
+  lastState: 0
 --- !u!1 &6778521391434700589
 GameObject:
   m_ObjectHideFlags: 0

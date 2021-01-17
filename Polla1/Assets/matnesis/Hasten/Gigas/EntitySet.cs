@@ -764,6 +764,131 @@ using UnityEngine;
             return DemonOfs.Elements[index];
         }
 
+        // Elf
+
+        public static Arrayx<int> ElfIds = new Arrayx<int>();
+        public static Arrayx<Elf> Elfs = new Arrayx<Elf>();
+
+        public static void AddElf(Elf component)
+        {
+            // Setup
+
+            if (ElfIds.Elements == null)
+            {
+                ElfIds.Size = 8;
+                ElfIds.Elements = new int[ElfIds.Size];
+            }
+
+            if (Elfs.Elements == null)
+            {
+                Elfs.Size = 8;
+                Elfs.Elements = new Elf[Elfs.Size];
+            }
+
+            // Add
+
+            ElfIds.Elements[ElfIds.Length++] = component.gameObject.GetInstanceID();
+            Elfs.Elements[Elfs.Length++] = component;
+
+            // Resize check
+
+            if (ElfIds.Length >= ElfIds.Size)
+            {
+                ElfIds.Size *= 2;
+                Array.Resize(ref ElfIds.Elements, ElfIds.Size);
+
+                Elfs.Size *= 2;
+                Array.Resize(ref Elfs.Elements, Elfs.Size);
+            }
+        }
+
+        public static void RemoveElf(Elf component)
+        {
+            // Index
+
+            var id = component.gameObject.GetInstanceID();
+            var indexToRemove = -1;
+            for (int i = 0; i < ElfIds.Length; i++)
+            {
+                if (ElfIds.Elements[i] == id)
+                {
+                    indexToRemove = i;
+                    break;
+                }
+            }
+
+            // Overwrite
+
+            Array.Copy(
+                ElfIds.Elements, indexToRemove + 1,
+                ElfIds.Elements, indexToRemove,
+                ElfIds.Length - indexToRemove - 1);
+            ElfIds.Length--;
+
+            Array.Copy(
+                Elfs.Elements, indexToRemove + 1,
+                Elfs.Elements, indexToRemove,
+                Elfs.Length - indexToRemove - 1);
+            Elfs.Length--;
+
+            // Cache clean up
+
+            ElfIdCache.Clear();
+        }
+
+        public static Arrayx<Elf> GetElf(params Arrayx<int>[] ids)
+        {
+            // ElfIds needs to be the first in the array parameter,
+            // that's how Gigas.Get relates the ids to the components
+
+            Arrayx<int>[] ElfPlusIds = new Arrayx<int>[ids.Length + 1];
+            ElfPlusIds[0] = ElfIds;
+            Array.Copy(ids, 0, ElfPlusIds, 1, ids.Length);
+
+            return Gigas.Get<Elf>(ElfPlusIds, EntitySet.Elfs);
+        }
+
+        public static Elf GetElf(MonoBehaviour component)
+        {
+            return GetElf(component.gameObject.GetInstanceID());
+        }
+
+        public static Elf GetElf(GameObject gameobject)
+        {
+            return GetElf(gameobject.GetInstanceID());
+        }
+
+        private static Dictionary<int, int> ElfIdCache = new Dictionary<int, int>();
+        public static Elf GetElf(int instanceID)
+        {
+            var id = instanceID;
+
+            // Cache
+
+            if (ElfIdCache.ContainsKey(id))
+                return Elfs.Elements[ElfIdCache[id]];
+
+            // Index of
+
+            var index = -1;
+            for (int i = 0; i < ElfIds.Length; i++)
+            {
+                if (ElfIds.Elements[i] == id)
+                {
+                    index = i;
+                    ElfIdCache[id] = i; // Cache
+                    break;
+                }
+            }
+
+            // Value
+
+            if (index < 0)
+                return null;
+
+            return Elfs.Elements[index];
+        }
+
         // EyeOfCreator
 
         public static Arrayx<int> EyeOfCreatorIds = new Arrayx<int>();
@@ -2909,6 +3034,9 @@ using UnityEngine;
 
             DemonOfIds.Length = 0;
             DemonOfs.Length = 0;
+
+            ElfIds.Length = 0;
+            Elfs.Length = 0;
 
             EyeOfCreatorIds.Length = 0;
             EyeOfCreators.Length = 0;

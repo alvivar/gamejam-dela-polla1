@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 7956587935019808611}
   - component: {fileID: 7956587935031122531}
   - component: {fileID: 7956587935865185828}
-  - component: {fileID: 3403723055651980989}
   m_Layer: 11
   m_Name: GunTower
   m_TagString: Untagged
@@ -115,15 +114,3 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300010, guid: 683f7c9a5dac6a44caaa4b601e92dfcc, type: 3}
---- !u!114 &3403723055651980989
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7956587935021738403}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3053ed9568d63cf4aac5bcaf822bbae7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

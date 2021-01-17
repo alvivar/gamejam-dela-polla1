@@ -6,9 +6,6 @@ public class WatchingTheSeaSystem : MonoBehaviour
     Interact interact;
     EyeOfCreator eyeOfCreator;
 
-    enum Stage { CanDialog, Talking }
-    Stage stage = Stage.CanDialog;
-
     void Update()
     {
         if (!player)
@@ -27,9 +24,12 @@ public class WatchingTheSeaSystem : MonoBehaviour
             var interactPoint = EntitySet.GetInteractPoint(watchingTheSea);
             var conversation = EntitySet.GetConversation(watchingTheSea);
 
+            if (watchingTheSea.state == WatchingTheSea.State.Idle)
+                continue;
+
             // Start the conversation
 
-            if (stage == Stage.CanDialog)
+            if (watchingTheSea.state == WatchingTheSea.State.CanDialog)
             {
                 if (interactPoint.clicked > 0)
                 {
@@ -40,7 +40,7 @@ public class WatchingTheSeaSystem : MonoBehaviour
                     interact.show = false;
                     conversation.once = true;
 
-                    stage = Stage.Talking;
+                    watchingTheSea.state = WatchingTheSea.State.Talking;
 
                     eyeOfCreator.New(conversation.sentences[0].say);
                 }
@@ -48,7 +48,7 @@ public class WatchingTheSeaSystem : MonoBehaviour
 
             // Wait until the dialog ends
 
-            if (stage == Stage.Talking)
+            if (watchingTheSea.state == WatchingTheSea.State.Talking)
             {
                 var len = Vector3.Distance(player.position, interactPoint.transform.position);
                 var lenLimit = interactPoint.distance * 3f;
@@ -58,7 +58,7 @@ public class WatchingTheSeaSystem : MonoBehaviour
                         conversation.stop = true;
 
                     interactPoint.update = true;
-                    stage = Stage.CanDialog;
+                    watchingTheSea.state = WatchingTheSea.State.CanDialog;
                 }
             }
         }
