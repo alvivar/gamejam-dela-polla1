@@ -1,26 +1,25 @@
 
-Demons should appear when we aren't looking at them
-Should eyes hide during conversations?
-Reasons should hide from the window after their first fade
 Animals eyes of mind
-
-The gun ask a question: Do you want to kill someone?
-The player can pick up the rifle
-
 Make sure eyes born on all the situations
 
-Returning to the house when she is alone
+Should eyes hide during conversations?
+Reasons should hide from the window after their first fade?
+
 Looking at the moon
+The gun ask a question: Do you want to kill someone?
+The player can pick up the rifle to shoot the moon
+
+Returning to the house when she is alone
 
 A 3D character that walks and idle?
 The player can shoot the rifle?
 
 Eye of Mind cool floating when look at him
-Eye of Mind pop in introduction
 
 Demons invitation sounds
 
-
+x Yes / No for the systema
+x Demons should appear when we aren't looking at them
 x Hide Eyes phrases that are pretty close
 x Reasons text check
 x Demons first decent conversation
