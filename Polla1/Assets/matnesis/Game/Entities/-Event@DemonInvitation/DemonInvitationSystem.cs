@@ -5,6 +5,7 @@ public class DemonInvitationSystem : MonoBehaviour
     public ConversationSentence[] sentences;
 
     Interact interact;
+    EyeOfCreator eyeOfCreator;
     Conversation lastConversation;
     int conversationIndex;
 
@@ -16,6 +17,9 @@ public class DemonInvitationSystem : MonoBehaviour
     {
         if (!interact)
             interact = EntitySet.Interacts.Elements[0];
+
+        if (!eyeOfCreator)
+            eyeOfCreator = EntitySet.EyeOfCreators.Elements[0];
 
         var demonInvitations = EntitySet.DemonInvitations;
         for (int i = 0; i < demonInvitations.Length; i++)
@@ -124,6 +128,12 @@ public class DemonInvitationSystem : MonoBehaviour
             if (demonInvitation.state == DemonInvitation.State.UntilLater)
             {
                 // @todo Something special here
+
+                eyeOfCreator.New("We have reasons");
+                eyeOfCreator.New("Do you have reasons?");
+                eyeOfCreator.New("We need you");
+                eyeOfCreator.New("Show us");
+                eyeOfCreator.New("Do for us");
             }
         }
     }
