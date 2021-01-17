@@ -5,12 +5,18 @@ using UnityEngine.UI;
 // !Gigas
 public class MainMessage : MonoBehaviour
 {
+    [Header("State")]
     public bool showMain = false;
     public bool showConversation = false;
     public bool showQuestion = false;
 
+    [Header("Config")]
     public float mainDamp = 10;
     public float conversationDamp = 10;
+
+    [Header("Info")]
+    public int yesPressed = 0;
+    public int noPressed = 0;
 
     [Header("Children References")]
     public Canvas canvas;

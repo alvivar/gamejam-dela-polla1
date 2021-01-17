@@ -44,6 +44,20 @@ public class MainMessageSystem : MonoBehaviour
 
                 mainMessage.yesAnswer.color = Color.Lerp(mainMessage.yesAnswer.color, Colorf.ColorAlpha(Color.white, 1), Time.deltaTime * mainMessage.conversationDamp);
                 mainMessage.noAnswer.color = Color.Lerp(mainMessage.noAnswer.color, Colorf.ColorAlpha(Color.white, 1), Time.deltaTime * mainMessage.conversationDamp);
+
+                // Key detection
+
+                if (Input.GetKeyDown(KeyCode.Y))
+                {
+                    mainMessage.yesPressed += 1;
+                    mainMessage.showQuestion = false;
+                }
+
+                if (Input.GetKeyDown(KeyCode.N))
+                {
+                    mainMessage.yesPressed += 1;
+                    mainMessage.showQuestion = false;
+                }
             }
             else
             {
