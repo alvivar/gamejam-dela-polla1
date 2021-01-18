@@ -4,6 +4,7 @@ Goal
     Expose your darkness
     What are your reasons?
     Why are you here?
+    What do you want to leave for others?
 
 How
     Give examples to the player
