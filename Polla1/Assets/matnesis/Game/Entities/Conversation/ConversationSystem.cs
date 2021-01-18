@@ -8,6 +8,8 @@ public class ConversationSystem : MonoBehaviour
     MainMessage message;
     Conversation lockedBy;
 
+    bool eToSkip = false;
+
     void Update()
     {
         if (!message)
@@ -25,6 +27,9 @@ public class ConversationSystem : MonoBehaviour
             {
                 lockedBy = conversation;
 
+                if (Input.GetKeyDown(KeyCode.E))
+                    eToSkip = true;
+
                 // Have a say
 
                 message.conversation.text = conversation.sentences[index].say;
@@ -32,8 +37,10 @@ public class ConversationSystem : MonoBehaviour
 
                 // Progress through the delays
 
-                if (delay > conversation.sentences[index].delay)
+                if (delay > conversation.sentences[index].delay || eToSkip)
                 {
+                    eToSkip = false;
+
                     delay = 0;
                     index += 1;
                 }

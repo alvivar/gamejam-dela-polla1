@@ -1,5 +1,11 @@
 
 
+Demons: We just want to watch
+Looking at the sea: I want to tell you something, but I don't want
+Look at the moon to enter the other world
+The words are keys to others, things that we don't say
+The island of the Giant
+
 Check conversation with girl watching the sea
 New positions after talking with the girl hurt in the bed
 Eyes should come back after leaving the house for the first time, with the animals
@@ -11,7 +17,6 @@ The shotgun girl needs to go back with them
 Make sure eyes born on all the situations
 
 The other world? Where the player writes
-[E] to continue the conversation
 
 Should eyes hide during conversations?
 Reasons should hide from the window after their first fade?
@@ -30,27 +35,36 @@ The player can shoot the rifle?
 Eye of Mind cool floating when look at him
 
 
+x [E] to continue the conversation
 x Hurt girl can't talk until the player opens the house
 x Animals eyes of mind
+
 x House won't hide again after first conversation
+
 x Yes / No for the systema
+
 x Demons should appear when we aren't looking at them
 x Hide Eyes phrases that are pretty close
 x Reasons text check
 x Demons first decent conversation
 x The house is missing when you don't look at it
+
 x The demons should appear at some point, gives players reasons
+
 x The words that fly around, the eye of mind
 x The demon follows you
+
 x The conversation with Rin
 x The conversation with Cattle
 x The conversation about Izzy
 x Dialog system
+
 x A rifle / Gun
 x The tower for the gun
 x The girl near the shore
 x The house girls
 x The house party asset
+
 x VOID detection and narrative
 x Dialog system
 x A message text field to communicate with the player
