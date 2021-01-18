@@ -35,6 +35,7 @@ The player can shoot the rifle?
 Eye of Mind cool floating when look at him
 
 
+2021.01.18
 x [E] to continue the conversation
 x Hurt girl can't talk until the player opens the house
 x Animals eyes of mind
