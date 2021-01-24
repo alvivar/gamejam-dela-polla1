@@ -12,7 +12,7 @@ public class r_trees_handler : MonoBehaviour
     {
         for (int i = 0; i < trees.Count; i++)
         {
-            trees[i].waiting = waiting;
+            trees[i].waitingInfo = waiting;
         }
     }
 

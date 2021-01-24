@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5709455980141322114}
   m_Layer: 0
   m_Name: tangerine
-  m_TagString: Untagged
+  m_TagString: TANGERINE
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 5709455980295307084}
   m_Layer: 0
   m_Name: tangerine (3)
-  m_TagString: Untagged
+  m_TagString: TANGERINE
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -174,7 +174,7 @@ GameObject:
   - component: {fileID: 5709455980764877323}
   m_Layer: 0
   m_Name: tangerine (1)
-  m_TagString: Untagged
+  m_TagString: TANGERINE
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -365,7 +365,7 @@ GameObject:
   - component: {fileID: 5709455980858813687}
   m_Layer: 0
   m_Name: tangerine (2)
-  m_TagString: Untagged
+  m_TagString: TANGERINE
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

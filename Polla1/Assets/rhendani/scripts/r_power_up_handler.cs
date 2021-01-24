@@ -15,6 +15,11 @@ public class r_power_up_handler : MonoBehaviour
     int outputValue = 1;
     float speedThrow = 0.35f;
 
+    private void Start()
+    {
+        storedTangerines = SerializeIntValue.L("tangerines").value;
+        print("STORED TANGERINES IS " + SerializeIntValue.L("tangerines").value);
+    }
 
     public void SetPower()
     {
@@ -159,7 +164,9 @@ public class r_power_up_handler : MonoBehaviour
 
                 IntFile createNew = new IntFile();
                 createNew.value = outputValue;
-                SerializeIntValue.S(createNew);
+                SerializeIntValue.S(createNew, "seed");
+                createNew.value = storedTangerines;
+                SerializeIntValue.S(createNew, "tangerines");
 
                 output.autoSpeed = speedThrow;
                 output.maxSeeds = outputValue;

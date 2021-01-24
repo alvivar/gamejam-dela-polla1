@@ -17,7 +17,7 @@ public class r_mouse_input : MonoBehaviour
 
     private void Start()
     {
-        maxSeeds = SerializeIntValue.L().value;
+        maxSeeds = SerializeIntValue.L("seed").value;
         inputPowerValue.SetPower();
     }
 

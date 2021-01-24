@@ -7,7 +7,7 @@ public class r_tree_component : MonoBehaviour
 {
 
     [HideInInspector]
-    public float waiting;
+    public float waitingInfo;
     [ShowInfo("Trees")]
     public Sprite phase1;
     public Sprite phase2;
@@ -24,61 +24,90 @@ public class r_tree_component : MonoBehaviour
     int enabledTangerines = 0;
     //int tangerineTarget = 0;
     List<int> tangerinesGenerated = new List<int>();
+    public bool hack = false;
 
     public void OnEnable()
     {
 
         SpriteRenderer spr = GetComponent<SpriteRenderer>();
         spr.sprite = phase1;
-        this.tt(name).Add(waiting,
+        this.tt(name).Add(() => waitingInfo,
             (tt) =>
             {
 
                 spr.sprite = phase2;
+                if (hack)
+                {
+                    waitingInfo = 0.5f;
+                }
 
-            }).Add(waiting,
+            }).Add(() => waitingInfo,
             (tt) =>
             {
 
                 spr.sprite = phase3;
+                if (hack)
+                {
+                    waitingInfo = 0.5f;
+                }
 
-            }).Add(waiting,
+            }).Add(() => waitingInfo,
             (tt) =>
             {
 
                 spr.sprite = phase4;
+                if (hack)
+                {
+                    waitingInfo = 0.5f;
+                }
 
-            }).Add(waiting,
+            }).Add(() => waitingInfo,
             (tt) =>
             {
 
                 spr.sprite = phase5;
+                if (hack)
+                {
+                    waitingInfo = 0.5f;
+                }
 
-            }).Add(waiting,
+            }).Add(() => waitingInfo,
             (tt) =>
             {
 
                 // 1
                 StartCoroutine(GenRandomTangerine());
                 tangerineActivation.Invoke();
+                if (hack)
+                {
+                    waitingInfo = 0.5f;
+                }
 
-            }).Add(waiting,
+            }).Add(() => waitingInfo,
             (tt) =>
             {
 
                 // 2
                 StartCoroutine(GenRandomTangerine());
                 tangerineActivation.Invoke();
+                if (hack)
+                {
+                    waitingInfo = 0.5f;
+                }
 
-            }).Add(waiting,
+            }).Add(() => waitingInfo,
             (tt) =>
             {
 
                 // 3
                 StartCoroutine(GenRandomTangerine());
                 tangerineActivation.Invoke();
+                if (hack)
+                {
+                    waitingInfo = 0.5f;
+                }
 
-            }).Add(waiting,
+            }).Add(() => waitingInfo,
             (tt) =>
             {
 
@@ -86,34 +115,44 @@ public class r_tree_component : MonoBehaviour
                 StartCoroutine(GenRandomTangerine());
                 tangerineActivation.Invoke();
 
-            }).Add(waiting * 2,
+
+            }).Add(() => waitingInfo * 2,
             (tt) =>
             {
                 // Alive Time 1
                 StartCoroutine(HideRandomTangerine());
-            }).Add(waiting,
+
+
+            }).Add(() => 12,
             (tt) =>
             {
                 // Alive Time 2
                 StartCoroutine(HideRandomTangerine());
-            }).Add(waiting,
+
+
+            }).Add(() => 12,
             (tt) =>
             {
                 // Alive Time 3
                 StartCoroutine(HideRandomTangerine());
-            }).Add(waiting,
+
+
+            }).Add(() => 12,
             (tt) =>
             {
 
                 // Alive Time 4
                 HideAll();
 
-            }).Add(waiting,
+
+            }).Add(() => 12,
             (tt) =>
             {
                 // Alive Time 4
                 spr.sprite = phase6;
-            }).Add(waiting * 2,
+
+
+            }).Add(() => 12 * 2,
             (tt) =>
             {
                 // Alive Time 4

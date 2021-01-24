@@ -7,9 +7,9 @@ using System.Runtime.Serialization.Formatters.Binary;
 public static class SerializeIntValue
 {
 
-    public static void S(IntFile target)
+    public static void S(IntFile target, string name)
     {
-        string path = Application.persistentDataPath + "/SaveData/Seed_Power.filedat";
+        string path = Application.persistentDataPath + "/SaveData/Seed_Power_" + name +" .filedat";
 
         if (!Directory.Exists(Application.persistentDataPath + "/SaveData/"))
         {
@@ -28,9 +28,9 @@ public static class SerializeIntValue
     }
 
 
-    public static IntFile L()
+    public static IntFile L(string name)
     {
-        string path = Application.persistentDataPath + "/SaveData/Seed_Power.filedat";
+        string path = Application.persistentDataPath + "/SaveData/Seed_Power_" + name + " .filedat";
 
         if (File.Exists(path))
         {
