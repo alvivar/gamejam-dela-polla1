@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Sockets;
 using System.Text;
@@ -7,36 +8,93 @@ using UnityEngine;
 
 public class TCPTestClient : MonoBehaviour
 {
+    public bool messageSended = false;
+    public List<string> messages;
+
     private TcpClient socketConnection;
     private Thread clientReceiveThread;
+
+    void Start()
+    {
+        ConnectToTcpServer();
+    }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            using(TcpClient tcpClient = new TcpClient())
+            SendMessage();
+        }
+    }
+
+    private void ConnectToTcpServer()
+    {
+        try
+        {
+            clientReceiveThread = new Thread(new ThreadStart(ListenForData));
+            clientReceiveThread.IsBackground = true;
+            clientReceiveThread.Start();
+        }
+        catch (Exception e)
+        {
+            Debug.Log("On client connect exception " + e);
+        }
+    }
+
+    private void ListenForData()
+    {
+        try
+        {
+            socketConnection = new TcpClient("142.93.180.20", 1984);
+            while (true)
             {
-                try
+                if (!messageSended)
+                    continue;
+
+                Debug.Log($"Doint it!");
+
+                using(NetworkStream stream = socketConnection.GetStream())
                 {
-                    tcpClient.Connect("localhost", 1984);
+                    StreamReader reader = new StreamReader(stream);
 
-                    StreamWriter writer = new StreamWriter(tcpClient.GetStream());
-                    writer.AutoFlush = true;
+                    var incommingData = reader.ReadLine();
 
-                    writer.WriteLine("set adros 1984");
-                    writer.WriteLine("set uno 1984");
-                    writer.WriteLine("set dos 1984");
-                    writer.WriteLine("set tres 1984");
-
-                    StreamReader reader = new StreamReader(tcpClient.GetStream());
-                    var result = reader.ReadLine();
-                    Debug.Log(result);
+                    Debug.Log("server message received as: " + incommingData);
                 }
-                catch (Exception ex)
-                {
-                    Console.Error.WriteLine(ex.ToString());
-                }
+
+                messageSended = false;
             }
+        }
+        catch (SocketException socketException)
+        {
+            Debug.Log("Socket exception: " + socketException);
+        }
+    }
+
+    private void SendMessage()
+    {
+        if (socketConnection == null)
+        {
+            return;
+        }
+
+        try
+        {
+            NetworkStream stream = socketConnection.GetStream();
+            StreamWriter writer = new StreamWriter(stream);
+            writer.AutoFlush = true;
+
+            if (stream.CanWrite)
+            {
+                string clientMessage = "This is a message from one of your clients.";
+                writer.WriteLine(clientMessage);
+                Debug.Log("Client sent his message - should be received by server");
+                messageSended = true;
+            }
+        }
+        catch (SocketException socketException)
+        {
+            Debug.Log("Socket exception: " + socketException);
         }
     }
 }
