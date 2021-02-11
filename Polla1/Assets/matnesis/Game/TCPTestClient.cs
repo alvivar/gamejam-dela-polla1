@@ -2,28 +2,24 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
 using UnityEngine;
 
 public class TCPTestClient : MonoBehaviour
 {
-    public bool messageSended = false;
-    public List<string> messages;
+    public List<string> messages = new List<string>();
 
     private TcpClient socketConnection;
-    private Thread clientReceiveThread;
+    private Thread clientServerThread;
+    private NetworkStream stream;
 
-    void Start()
-    {
-        ConnectToTcpServer();
-    }
+    void Start() { ConnectToTcpServer(); }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            SendMessage();
+            Send("j");
         }
     }
 
@@ -31,13 +27,13 @@ public class TCPTestClient : MonoBehaviour
     {
         try
         {
-            clientReceiveThread = new Thread(new ThreadStart(ListenForData));
-            clientReceiveThread.IsBackground = true;
-            clientReceiveThread.Start();
+            clientServerThread = new Thread(new ThreadStart(ListenForData));
+            clientServerThread.IsBackground = true;
+            clientServerThread.Start();
         }
         catch (Exception e)
         {
-            Debug.Log("On client connect exception " + e);
+            Debug.Log($"ConnectToTcpServer exception:\n{e}");
         }
     }
 
@@ -46,55 +42,41 @@ public class TCPTestClient : MonoBehaviour
         try
         {
             socketConnection = new TcpClient("142.93.180.20", 1984);
+            stream = socketConnection.GetStream();
+
             while (true)
             {
-                if (!messageSended)
+                if (messages.Count <= 0)
                     continue;
 
-                Debug.Log($"Doint it!");
+                var reader = new StreamReader(stream);
+                var writer = new StreamWriter(stream);
 
-                using(NetworkStream stream = socketConnection.GetStream())
-                {
-                    StreamReader reader = new StreamReader(stream);
+                var message = messages[0];
+                messages.RemoveAt(0);
 
-                    var incommingData = reader.ReadLine();
+                writer.WriteLine(message);
+                writer.Flush();
+                Debug.Log($"Sent:\n{message}");
 
-                    Debug.Log("server message received as: " + incommingData);
-                }
-
-                messageSended = false;
+                var response = reader.ReadLine();
+                Debug.Log("Received:\n" + response);
             }
         }
         catch (SocketException socketException)
         {
-            Debug.Log("Socket exception: " + socketException);
+            Debug.Log($"ListenForData exception:\n{socketException}");
         }
     }
 
-    private void SendMessage()
+    private void Send(string message)
     {
-        if (socketConnection == null)
+        if (socketConnection == null || !socketConnection.Connected)
         {
+            Debug.Log($"Socket disconnected.");
             return;
         }
 
-        try
-        {
-            NetworkStream stream = socketConnection.GetStream();
-            StreamWriter writer = new StreamWriter(stream);
-            writer.AutoFlush = true;
-
-            if (stream.CanWrite)
-            {
-                string clientMessage = "This is a message from one of your clients.";
-                writer.WriteLine(clientMessage);
-                Debug.Log("Client sent his message - should be received by server");
-                messageSended = true;
-            }
-        }
-        catch (SocketException socketException)
-        {
-            Debug.Log("Socket exception: " + socketException);
-        }
+        messages.Add(message);
     }
 }
