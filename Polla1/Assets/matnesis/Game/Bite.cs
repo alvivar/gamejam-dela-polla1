@@ -4,6 +4,20 @@ using System.IO;
 using System.Net.Sockets;
 using System.Threading;
 
+// To connect.
+
+//     var bite = new Bite("127.0.0.1", 1984);
+
+// To send.
+
+//     bite.Send("s author Andrés Villalobos");
+//     bite.Send("j author");
+
+// To receive use the System.Actions that receive <string>.
+
+//     bite.OnError = YourOnError;
+//     bite.OnResponse = YourOnResponse;
+
 public class Bite
 {
     public List<string> messages = new List<string>();
@@ -30,7 +44,7 @@ public class Bite
     {
         try
         {
-            clientServerThread = new Thread(new ThreadStart(ListenForData));
+            clientServerThread = new Thread(new ThreadStart(HandleMessage));
             clientServerThread.IsBackground = true;
             clientServerThread.Start();
         }
@@ -41,7 +55,7 @@ public class Bite
         }
     }
 
-    private void ListenForData()
+    private void HandleMessage()
     {
         try
         {
