@@ -7,8 +7,12 @@ public class BiteUserData : MonoBehaviour
     public string id = "";
     public string _name = "";
     public int timePlayed = 0;
+    public Vector3 lastPosition;
     public long lastEpoch = 0;
     public long startedEpoch = 0;
+
+    [Header("Internal")]
+    public Transform player;
 
     private Bite bite;
 
@@ -27,6 +31,10 @@ public class BiteUserData : MonoBehaviour
 
     void Update()
     {
+        if (!player)
+            player = EntitySet.VoidPlayers.Elements[0].transform;
+
+        // Every.
         var tick = 3;
 
         if (Time.time < timer)
@@ -43,6 +51,7 @@ public class BiteUserData : MonoBehaviour
         // Statistics.
         SaveTimePlayed(tick);
         SaveLastEpoch();
+        SaveLastPosition();
     }
 
     void OnError(string error) { Debug.Log($"{error}"); }
@@ -105,6 +114,14 @@ public class BiteUserData : MonoBehaviour
                 bite.Send($"s {key} {startedEpoch}");
             }
         });
+    }
+
+    void SaveLastPosition()
+    {
+        lastPosition = player.position;
+        bite.Send($"s {app}.{id}.lastPosition.x {lastPosition.x}");
+        bite.Send($"s {app}.{id}.lastPosition.y {lastPosition.y}");
+        bite.Send($"s {app}.{id}.lastPosition.z {lastPosition.z}");
     }
 
     void SetName(string name)
