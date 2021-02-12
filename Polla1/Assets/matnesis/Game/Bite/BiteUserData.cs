@@ -24,11 +24,9 @@ public class BiteUserData : MonoBehaviour
 
     void Update()
     {
-        // Save every second.
-
         if (Time.time < timer)
             return;
-        timer = Time.time + 1;
+        timer = Time.time + 1; // Save every second.
 
         timePlayed += 1;
 
