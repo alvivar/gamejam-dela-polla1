@@ -1,14 +1,19 @@
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Sockets;
-using UnityEngine;
+using System.Threading;
 
 public class Bite
 {
-    private TcpClient tcp;
-    private StreamWriter writer;
-    private StreamReader reader;
+    public List<string> messages = new List<string>();
+
+    public Action<string> OnResponse;
+    public Action<string> OnError;
+
+    private TcpClient socketConnection;
+    private Thread clientServerThread;
+    private NetworkStream stream;
 
     private string host;
     private int port;
@@ -18,34 +23,66 @@ public class Bite
         this.host = host;
         this.port = port;
 
-        Connect(host, port);
+        ConnectToTcpServer();
     }
 
-    void Connect(string host, int port)
-    {
-        tcp = new TcpClient(host, port);
-        writer = new StreamWriter(tcp.GetStream());
-        reader = new StreamReader(tcp.GetStream());
-    }
-
-    public IEnumerator Set(string key, string value, Action<string> OnSet)
+    private void ConnectToTcpServer()
     {
         try
         {
-            writer.WriteLine($"s {key} {value}");
-            var response = reader.ReadLine();
-
-            if (OnSet != null)
-                OnSet(response);
+            clientServerThread = new Thread(new ThreadStart(ListenForData));
+            clientServerThread.IsBackground = true;
+            clientServerThread.Start();
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            Debug.Log($"{ex} at {Time.time}");
+            if (OnError != null)
+                OnError($"{e}");
+        }
+    }
 
-            if (OnSet != null)
-                OnSet(ex.ToString());
+    private void ListenForData()
+    {
+        try
+        {
+            socketConnection = new TcpClient(host, port);
+            stream = socketConnection.GetStream();
+
+            while (true)
+            {
+                if (messages.Count <= 0)
+                    continue;
+
+                var reader = new StreamReader(stream);
+                var writer = new StreamWriter(stream);
+
+                var query = messages[0];
+                messages.RemoveAt(0);
+
+                writer.WriteLine(query);
+                writer.Flush();
+
+                var response = reader.ReadLine();
+                if (OnResponse != null)
+                    OnResponse(response);
+            }
+        }
+        catch (SocketException e)
+        {
+            if (OnError != null)
+                OnError($"{e}");
+        }
+    }
+
+    public void Send(string message)
+    {
+        if (socketConnection == null || !socketConnection.Connected)
+        {
+            if (OnError != null)
+                OnError("Disconnected.");
+            return;
         }
 
-        yield return null;
+        messages.Add(message);
     }
 }
