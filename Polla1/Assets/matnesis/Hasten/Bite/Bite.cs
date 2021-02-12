@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Sockets;
 using System.Threading;
+using UnityEngine;
 
 // To connect.
 
@@ -105,7 +106,7 @@ public class Bite
         if (socketConnection == null || !socketConnection.Connected)
         {
             if (OnError != null)
-                OnError("Disconnected.");
+                OnError($"Disconnected while sending: {message}");
             return;
         }
 

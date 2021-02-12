@@ -1,16 +1,18 @@
+using System;
 using UnityEngine;
 
 public class BiteUserData : MonoBehaviour
 {
+    public string app = "EyeOfMinds";
+    public string id = "";
+    public string _name = "";
+    public int timePlayed = 0;
+    public long startedEpoch = 0;
+
     private Bite bite;
 
-    private string app = "EyeOfMinds";
-    private string id = SystemInfo.deviceUniqueIdentifier;
-
-    private string username = "";
-    private int timePlayed = 0;
-
-    private float timer = 0;
+    private float timer = 3;
+    private bool firstResponse = false;
 
     void Start()
     {
@@ -19,18 +21,42 @@ public class BiteUserData : MonoBehaviour
         bite.OnError = OnError;
         bite.OnResponse = OnResponse;
 
-        Load();
+        id = SystemInfo.deviceUniqueIdentifier;
     }
 
     void Update()
     {
+        var tick = 3;
+
         if (Time.time < timer)
             return;
-        timer = Time.time + 1; // Save every second.
+        timer = Time.time + tick;
 
-        timePlayed += 1;
+        // Wait for server connection.
+        if (!firstResponse)
+        {
+            bite.Send("g");
+            return;
+        }
 
-        Save();
+        // Statistics.
+        SaveTimePlayed(tick);
+    }
+
+    void OnError(string error) { Debug.Log($"{error}"); }
+
+    void OnResponse(string response)
+    {
+        Debug.Log($"> {response}");
+
+        if (!firstResponse)
+        {
+            firstResponse = true;
+
+            Load();
+
+            SaveOrLoadStartedEpoch();
+        }
     }
 
     void Load()
@@ -40,34 +66,42 @@ public class BiteUserData : MonoBehaviour
             if (response.Trim().Length < 1)
                 response = "?";
 
-            username = response;
+            _name = response;
         });
 
         bite.Send($"g {app}.{id}.timePlayed", response =>
         {
-            var n = 0;
-            timePlayed = int.TryParse(response, out n) ? n : 0;
+            int num = 0;
+            timePlayed = int.TryParse(response, out num) ? num : 0;
         });
     }
 
-    void Save()
+    void SaveTimePlayed(int time)
     {
+        timePlayed += time;
         bite.Send($"s {app}.{id}.timePlayed {timePlayed}");
+    }
+
+    void SaveOrLoadStartedEpoch()
+    {
+        var key = $"{app}.{id}.startedEpoch";
+
+        bite.Send($"g {key}", response =>
+        {
+            long num;
+            startedEpoch = long.TryParse(response, out num) ? num : 0;
+
+            if (startedEpoch <= 0)
+            {
+                startedEpoch = DateTimeOffset.Now.ToUnixTimeSeconds();
+                bite.Send($"s {key} {startedEpoch}");
+            }
+        });
     }
 
     void SetName(string name)
     {
-        username = name;
-        bite.Send($"s {app}.{id}.name {username}");
-    }
-
-    void OnResponse(string response)
-    {
-        Debug.Log($"> {response}");
-    }
-
-    void OnError(string error)
-    {
-        Debug.Log($"Error!\n{error}");
+        this._name = name;
+        bite.Send($"s {app}.{id}.name {this._name}");
     }
 }
