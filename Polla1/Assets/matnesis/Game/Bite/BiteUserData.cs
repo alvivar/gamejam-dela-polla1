@@ -33,7 +33,7 @@ public class BiteUserData : MonoBehaviour
             return;
         timer = Time.time + tick;
 
-        // Wait for server connection.
+        // Ping until server connection.
         if (!firstResponse)
         {
             bite.Send("g");
