@@ -7,6 +7,7 @@ public class BiteUserData : MonoBehaviour
     public string id = "";
     public string _name = "";
     public int timePlayed = 0;
+    public long lastEpoch = 0;
     public long startedEpoch = 0;
 
     private Bite bite;
@@ -41,6 +42,7 @@ public class BiteUserData : MonoBehaviour
 
         // Statistics.
         SaveTimePlayed(tick);
+        SaveLastEpoch();
     }
 
     void OnError(string error) { Debug.Log($"{error}"); }
@@ -80,6 +82,12 @@ public class BiteUserData : MonoBehaviour
     {
         timePlayed += time;
         bite.Send($"s {app}.{id}.timePlayed {timePlayed}");
+    }
+
+    void SaveLastEpoch()
+    {
+        lastEpoch = DateTimeOffset.Now.ToUnixTimeSeconds();
+        bite.Send($"s {app}.{id}.lastEpoch {lastEpoch}");
     }
 
     void SaveOrLoadStartedEpoch()
