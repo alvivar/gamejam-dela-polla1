@@ -4,11 +4,11 @@ public class BiteUserData : MonoBehaviour
 {
     private Bite bite;
 
-    private string app = "eyeOfMinds";
+    private string app = "EyeOfMinds";
     private string id = SystemInfo.deviceUniqueIdentifier;
 
     private string username = "";
-    private float timePlayed = 0;
+    private int timePlayed = 0;
 
     private float timer = 0;
 
@@ -46,9 +46,7 @@ public class BiteUserData : MonoBehaviour
         bite.Send($"g {app}.{id}.timePlayed", response =>
         {
             var n = 0;
-            var y = int.TryParse(response, out n);
-
-            timePlayed = y ? n : 0;
+            timePlayed = int.TryParse(response, out n) ? n : 0;
         });
     }
 
