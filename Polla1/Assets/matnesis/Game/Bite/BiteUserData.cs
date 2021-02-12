@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TCPTestClient : MonoBehaviour
+public class BiteUserData : MonoBehaviour
 {
     private Bite bite;
 

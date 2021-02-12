@@ -307,7 +307,7 @@ GameObject:
   - component: {fileID: 1231490001}
   - component: {fileID: 1231490000}
   m_Layer: 0
-  m_Name: TCPTestClient
+  m_Name: BiteTest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
