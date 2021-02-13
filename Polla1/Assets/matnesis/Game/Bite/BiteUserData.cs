@@ -1,4 +1,5 @@
 using System;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 
 public class BiteUserData : MonoBehaviour
@@ -84,6 +85,17 @@ public class BiteUserData : MonoBehaviour
         {
             int num = 0;
             timePlayed = int.TryParse(response, out num) ? num : 0;
+        });
+
+        bite.Send($"j {app}.{id}.lastPosition", response =>
+        {
+            var json = JObject.Parse(response);
+
+            lastPosition = new Vector3(
+                Bite.IntOr($"{json["x"]}", 0),
+                Bite.IntOr($"{json["y"]}", 100),
+                Bite.IntOr($"{json["z"]}", 0)
+            );
         });
     }
 

@@ -121,4 +121,10 @@ public class Bite
         queries.Add(message);
         callbacks.Add(callback);
     }
+
+    public static int IntOr(string fromVal, int orVal)
+    {
+        int num;
+        return int.TryParse(fromVal, out num) ? num : orVal;
+    }
 }
