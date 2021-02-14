@@ -2,16 +2,15 @@
 
 The girl watching the sea progress the conversation every time.
 The girl watching the sea wants to die.
+Bug: Skipping looking at the sea starts the conversation again.
 
 The gun starts a conversation asking you if you have reasons to wield it.
-
 
 The eye of the mind is to watch others minds.
 
 Asking for player keyboard text input system
 sound Unlock sound after knocking the door
 
-Bug: Skipping looking at the sea
 Looking at the sea: I want to tell you something, but I don't want to do it in front of them.
 Look at the moon to enter the other world
 The words are keys to others, things that we don't say
