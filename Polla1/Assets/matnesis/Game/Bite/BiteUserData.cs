@@ -20,7 +20,7 @@ public class BiteUserData : MonoBehaviour
 
     private float timer = 3;
     private bool firstResponse = false;
-    private bool updatePlayerPos = false;
+    private bool updatePlayerPosWithOnline = false;
     private bool allowPlayerPosSaving = false;
 
     void Start()
@@ -41,9 +41,10 @@ public class BiteUserData : MonoBehaviour
         if (!message)
             message = EntitySet.MainMessages.Elements[0];
 
-        if (updatePlayerPos)
+        // @todo This should be handled by a System in their own.
+        if (updatePlayerPosWithOnline)
         {
-            updatePlayerPos = false;
+            updatePlayerPosWithOnline = false;
 
             this.tt()
                 .Add(() =>
@@ -102,7 +103,7 @@ public class BiteUserData : MonoBehaviour
 
             FirstLoad();
 
-            SaveOrLoadStartedEpoch();
+            LoadOrSetStartedEpoch();
         }
     }
 
@@ -118,8 +119,7 @@ public class BiteUserData : MonoBehaviour
 
         bite.Send($"g {app}.{id}.timePlayed", response =>
         {
-            int num = 0;
-            timePlayed = int.TryParse(response, out num) ? num : 0;
+            timePlayed = Bite.IntOr(response, 0);
         });
 
         bite.Send($"j {app}.{id}.lastPosition", response =>
@@ -135,7 +135,7 @@ public class BiteUserData : MonoBehaviour
             if (lastPosition.y == 0)
                 return;
 
-            updatePlayerPos = true;
+            updatePlayerPosWithOnline = true;
         });
     }
 
@@ -151,14 +151,13 @@ public class BiteUserData : MonoBehaviour
         bite.Send($"s {app}.{id}.lastEpoch {lastEpoch}");
     }
 
-    void SaveOrLoadStartedEpoch()
+    void LoadOrSetStartedEpoch()
     {
         var key = $"{app}.{id}.startedEpoch";
 
         bite.Send($"g {key}", response =>
         {
-            long num;
-            startedEpoch = long.TryParse(response, out num) ? num : 0;
+            startedEpoch = Bite.LongOr(response, 0);
 
             if (startedEpoch <= 0)
             {

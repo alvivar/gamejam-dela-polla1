@@ -28,7 +28,7 @@ using System.Threading;
 
 public class Bite
 {
-    public List<string> queries = new List<string>();
+    public List<string> messages = new List<string>();
     public List<Action<string>> callbacks = new List<Action<string>>();
 
     public Action<string> OnResponse;
@@ -73,7 +73,7 @@ public class Bite
 
             while (true)
             {
-                if (queries.Count <= 0)
+                if (messages.Count <= 0 || callbacks.Count <= 0)
                     continue;
 
                 var reader = new StreamReader(stream);
@@ -81,8 +81,8 @@ public class Bite
 
                 // Send
 
-                var query = queries[0];
-                queries.RemoveAt(0);
+                var query = messages[0];
+                messages.RemoveAt(0);
 
                 var call = callbacks[0];
                 callbacks.RemoveAt(0);
@@ -118,7 +118,7 @@ public class Bite
             return;
         }
 
-        queries.Add(message);
+        messages.Add(message);
         callbacks.Add(callback);
     }
 
@@ -134,7 +134,7 @@ public class Bite
         return float.TryParse(str, out n) ? n : or;
     }
 
-    public static float LongOr(string str, long or)
+    public static long LongOr(string str, long or)
     {
         long n;
         return long.TryParse(str, out n) ? n : or;
