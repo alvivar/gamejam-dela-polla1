@@ -1,7 +1,11 @@
 
+The eye of the mind is to watch others minds.
 
-Demons: We just want to watch
-Looking at the sea: I want to tell you something, but I don't want
+Asking for player keyboard text input system
+sound Unlock sound after knocking the door
+
+Bug: Skipping looking at the sea
+Looking at the sea: I want to tell you something, but I don't want to do it in front of them.
 Look at the moon to enter the other world
 The words are keys to others, things that we don't say
 The island of the Giant
@@ -34,6 +38,9 @@ The player can shoot the rifle?
 
 Eye of Mind cool floating when look at him
 
+
+2021.02.14
+x Demons: We just want to watch
 
 2021.01.18
 x [E] to continue the conversation

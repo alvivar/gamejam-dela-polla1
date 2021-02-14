@@ -33,6 +33,8 @@ public class BiteUserData : MonoBehaviour
         id = SystemInfo.deviceUniqueIdentifier;
     }
 
+    void OnDestroy() { bite.Stop(); }
+
     void Update()
     {
         if (!player)

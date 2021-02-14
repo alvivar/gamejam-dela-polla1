@@ -38,6 +38,8 @@ public class Bite
     private Thread clientServerThread;
     private NetworkStream stream;
 
+    private bool allowThread = false;
+
     private string host;
     private int port;
 
@@ -49,10 +51,17 @@ public class Bite
         ConnectToTcpServer();
     }
 
+    public void Stop()
+    {
+        allowThread = false;
+        socketConnection.Close();
+    }
+
     private void ConnectToTcpServer()
     {
         try
         {
+            allowThread = true;
             clientServerThread = new Thread(new ThreadStart(HandleMessage));
             clientServerThread.IsBackground = true;
             clientServerThread.Start();
@@ -71,7 +80,7 @@ public class Bite
             socketConnection = new TcpClient(host, port);
             stream = socketConnection.GetStream();
 
-            while (true)
+            while (allowThread)
             {
                 if (messages.Count <= 0 || callbacks.Count <= 0)
                     continue;
