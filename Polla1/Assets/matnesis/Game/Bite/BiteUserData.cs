@@ -13,19 +13,22 @@ public class BiteUserData : MonoBehaviour
     public long startedEpoch = 0;
 
     [Header("Internal")]
-    public Transform player;
+    public VoidPlayer player;
+    public MainMessage message;
 
     private Bite bite;
 
     private float timer = 3;
     private bool firstResponse = false;
+    private bool updatePlayerPos = false;
+    private bool allowPlayerPosSaving = false;
 
     void Start()
     {
         bite = new Bite("142.93.180.20", 1984);
 
-        bite.OnError = OnError;
         bite.OnResponse = OnResponse;
+        bite.OnError = OnError;
 
         id = SystemInfo.deviceUniqueIdentifier;
     }
@@ -33,7 +36,36 @@ public class BiteUserData : MonoBehaviour
     void Update()
     {
         if (!player)
-            player = EntitySet.VoidPlayers.Elements[0].transform;
+            player = EntitySet.VoidPlayers.Elements[0];
+
+        if (!message)
+            message = EntitySet.MainMessages.Elements[0];
+
+        if (updatePlayerPos)
+        {
+            updatePlayerPos = false;
+
+            this.tt()
+                .Add(() =>
+                {
+                    message.mainDamp = 10;
+                    message.main.text = "";
+                    message.showMain = true;
+                })
+                .Add(0.1f, () =>
+                {
+                    player.fps.enabled = false;
+                    player.transform.position = lastPosition;
+                })
+                .Add(0.1f, () =>
+                {
+                    message.mainDamp = 10f;
+                    message.showMain = false;
+
+                    player.fps.enabled = true;
+                    allowPlayerPosSaving = true;
+                });
+        }
 
         // Every.
         var tick = 3;
@@ -52,26 +84,29 @@ public class BiteUserData : MonoBehaviour
         // Statistics.
         SaveTimePlayed(tick);
         SaveLastEpoch();
-        SaveLastPosition();
+
+        if (allowPlayerPosSaving)
+            SaveLastPosition();
     }
 
     void OnError(string error) { Debug.Log($"{error}"); }
 
     void OnResponse(string response)
     {
-        Debug.Log($"> {response}");
-
         if (!firstResponse)
         {
+            Debug.Log($"Starting to sync with Bite.");
+            Debug.Log($"> {response}");
+
             firstResponse = true;
 
-            Load();
+            FirstLoad();
 
             SaveOrLoadStartedEpoch();
         }
     }
 
-    void Load()
+    void FirstLoad()
     {
         bite.Send($"g {app}.{id}.name", response =>
         {
@@ -92,10 +127,15 @@ public class BiteUserData : MonoBehaviour
             var json = JObject.Parse(response);
 
             lastPosition = new Vector3(
-                Bite.IntOr($"{json["x"]}", 0),
-                Bite.IntOr($"{json["y"]}", 100),
-                Bite.IntOr($"{json["z"]}", 0)
+                Bite.FloatOr($"{json["x"]}", 0),
+                Bite.FloatOr($"{json["y"]}", 0),
+                Bite.FloatOr($"{json["z"]}", 0)
             );
+
+            if (lastPosition.y == 0)
+                return;
+
+            updatePlayerPos = true;
         });
     }
 
@@ -130,7 +170,8 @@ public class BiteUserData : MonoBehaviour
 
     void SaveLastPosition()
     {
-        lastPosition = player.position;
+        lastPosition = player.transform.position;
+
         bite.Send($"s {app}.{id}.lastPosition.x {lastPosition.x}");
         bite.Send($"s {app}.{id}.lastPosition.y {lastPosition.y}");
         bite.Send($"s {app}.{id}.lastPosition.z {lastPosition.z}");
