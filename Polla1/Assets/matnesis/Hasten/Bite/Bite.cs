@@ -48,7 +48,7 @@ public class Bite
         this.host = host;
         this.port = port;
 
-        ConnectToTcpServer();
+        StartConnectionThread();
     }
 
     public void Stop()
@@ -57,7 +57,7 @@ public class Bite
         socketConnection.Close();
     }
 
-    private void ConnectToTcpServer()
+    private void StartConnectionThread()
     {
         try
         {
