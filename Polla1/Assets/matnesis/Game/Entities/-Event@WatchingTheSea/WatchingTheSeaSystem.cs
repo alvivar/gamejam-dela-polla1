@@ -16,6 +16,7 @@ public class WatchingTheSeaSystem : MonoBehaviour
     Transform player;
     Interact interact;
     EyeOfCreator eyeOfCreator;
+    MainMessage message;
 
     void Start()
     {
@@ -38,6 +39,9 @@ public class WatchingTheSeaSystem : MonoBehaviour
         if (!eyeOfCreator)
             eyeOfCreator = EntitySet.EyeOfCreators.Elements[0];
 
+        if (!message)
+            message = EntitySet.MainMessages.Elements[0];
+
         var watchingTheSeas = EntitySet.GetWatchingTheSea(EntitySet.InteractPointIds, EntitySet.ConversationIds);
         for (int i = 0; i < watchingTheSeas.Length; i++)
         {
@@ -46,6 +50,9 @@ public class WatchingTheSeaSystem : MonoBehaviour
             var conversation = EntitySet.GetConversation(watchingTheSea);
 
             if (watchingTheSea.state == WatchingTheSea.State.Idle)
+                continue;
+
+            if (watchingTheSea.state == watchingTheSea.lastState)
                 continue;
 
             // Start the conversation
@@ -57,6 +64,12 @@ public class WatchingTheSeaSystem : MonoBehaviour
                     interactPoint.clicked = 0;
 
                     // One conversation from the index.
+                    if (conversationIndex >= conversations.Count)
+                    {
+                        watchingTheSea.state = WatchingTheSea.State.AskingForHelp;
+                        continue;
+                    }
+
                     conversation.sentences = conversations[conversationIndex];
                     conversationIndex += 1;
 
@@ -83,6 +96,16 @@ public class WatchingTheSeaSystem : MonoBehaviour
                     interactPoint.update = true;
                     watchingTheSea.state = WatchingTheSea.State.CanDialog;
                 }
+            }
+
+            // Asking for help
+
+            if (watchingTheSea.state == WatchingTheSea.State.AskingForHelp)
+            {
+                watchingTheSea.lastState = watchingTheSea.state;
+
+                message.showQuestion = true;
+                message.question.text = "Would you help me?";
             }
         }
     }
