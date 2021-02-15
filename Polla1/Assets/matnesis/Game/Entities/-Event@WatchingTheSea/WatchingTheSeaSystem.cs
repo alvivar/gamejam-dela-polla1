@@ -7,8 +7,10 @@ public class WatchingTheSeaSystem : MonoBehaviour
     public ConversationSentence[] conversation2;
     public ConversationSentence[] conversation3;
     public ConversationSentence[] conversation4;
+    public ConversationSentence[] conversation5;
+    public ConversationSentence[] conversation6;
 
-    List<ConversationSentence[]> conversations;
+    List<ConversationSentence[]> conversations = new List<ConversationSentence[]>();
     int conversationIndex = 0;
 
     Transform player;
@@ -21,6 +23,8 @@ public class WatchingTheSeaSystem : MonoBehaviour
         conversations.Add(conversation2);
         conversations.Add(conversation3);
         conversations.Add(conversation4);
+        conversations.Add(conversation5);
+        conversations.Add(conversation6);
     }
 
     void Update()
@@ -53,6 +57,8 @@ public class WatchingTheSeaSystem : MonoBehaviour
                     interactPoint.clicked = 0;
 
                     // One conversation from the index.
+                    conversation.sentences = conversations[conversationIndex];
+                    conversationIndex += 1;
 
                     // No interaction during the conversation
                     interactPoint.update = false;
