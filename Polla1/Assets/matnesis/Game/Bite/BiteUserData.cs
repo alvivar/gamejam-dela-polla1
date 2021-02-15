@@ -48,8 +48,7 @@ public class BiteUserData : MonoBehaviour
         {
             updatePlayerPosWithOnline = false;
 
-            this.tt()
-                .Add(() =>
+            this.tt().Add(() =>
                 {
                     message.mainDamp = 10;
                     message.main.text = "";
