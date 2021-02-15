@@ -2,6 +2,11 @@ using UnityEngine;
 
 public class WatchingTheSeaSystem : MonoBehaviour
 {
+    public ConversationSentence[] conversation1;
+    public ConversationSentence[] conversation2;
+    public ConversationSentence[] conversation3;
+    public ConversationSentence[] conversation4;
+
     Transform player;
     Interact interact;
     EyeOfCreator eyeOfCreator;
@@ -41,8 +46,6 @@ public class WatchingTheSeaSystem : MonoBehaviour
                     conversation.once = true;
 
                     watchingTheSea.state = WatchingTheSea.State.Talking;
-
-                    eyeOfCreator.New(conversation.sentences[0].say);
                 }
             }
 
