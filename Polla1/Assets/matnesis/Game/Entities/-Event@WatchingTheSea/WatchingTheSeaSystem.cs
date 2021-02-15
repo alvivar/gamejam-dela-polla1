@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class WatchingTheSeaSystem : MonoBehaviour
@@ -7,9 +8,20 @@ public class WatchingTheSeaSystem : MonoBehaviour
     public ConversationSentence[] conversation3;
     public ConversationSentence[] conversation4;
 
+    List<ConversationSentence[]> conversations;
+    int conversationIndex = 0;
+
     Transform player;
     Interact interact;
     EyeOfCreator eyeOfCreator;
+
+    void Start()
+    {
+        conversations.Add(conversation1);
+        conversations.Add(conversation2);
+        conversations.Add(conversation3);
+        conversations.Add(conversation4);
+    }
 
     void Update()
     {
@@ -39,6 +51,8 @@ public class WatchingTheSeaSystem : MonoBehaviour
                 if (interactPoint.clicked > 0)
                 {
                     interactPoint.clicked = 0;
+
+                    // One conversation from the index
 
                     // No interaction during the conversation
                     interactPoint.update = false;
