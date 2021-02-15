@@ -4,6 +4,7 @@ The girl watching the sea progress the conversation every time.
 The girl looks at the at the player, with a black fade.
 The girl watching the sea wants to die.
 The girl watching the sea have a sad animation.
+The girl should react based on the answer.
 Bug: Skipping looking at the sea starts the conversation again.
 
 The gun starts a conversation asking you if you have reasons to wield it.

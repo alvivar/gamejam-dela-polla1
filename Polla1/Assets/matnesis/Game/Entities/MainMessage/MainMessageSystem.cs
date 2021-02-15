@@ -39,7 +39,7 @@ public class MainMessageSystem : MonoBehaviour
 
             if (mainMessage.showQuestion)
             {
-                mainMessage.questionBackground.color = Color.Lerp(mainMessage.questionBackground.color, Colorf.ColorAlpha(Color.black, 1), Time.deltaTime * mainMessage.conversationDamp);
+                mainMessage.questionBackground.color = Color.Lerp(mainMessage.questionBackground.color, Colorf.ColorAlpha(Color.white, 1), Time.deltaTime * mainMessage.conversationDamp);
                 mainMessage.question.color = Color.Lerp(mainMessage.question.color, Colorf.ColorAlpha(Color.white, 1), Time.deltaTime * mainMessage.conversationDamp);
 
                 mainMessage.yesAnswer.color = Color.Lerp(mainMessage.yesAnswer.color, Colorf.ColorAlpha(Color.white, 1), Time.deltaTime * mainMessage.conversationDamp);
