@@ -120,7 +120,7 @@ public class BiteUserData : MonoBehaviour
 
         bite.Send($"g {app}.{id}.timePlayed", response =>
         {
-            timePlayed = Bite.IntOr(response, 0);
+            timePlayed = Bite.Int(response, 0);
         });
 
         bite.Send($"j {app}.{id}.lastPosition", response =>
@@ -128,9 +128,9 @@ public class BiteUserData : MonoBehaviour
             var json = JObject.Parse(response);
 
             lastPosition = new Vector3(
-                Bite.FloatOr($"{json["x"]}", 0),
-                Bite.FloatOr($"{json["y"]}", 0),
-                Bite.FloatOr($"{json["z"]}", 0)
+                Bite.Float($"{json["x"]}", 0),
+                Bite.Float($"{json["y"]}", 0),
+                Bite.Float($"{json["z"]}", 0)
             );
 
             if (lastPosition.y == 0)
@@ -158,7 +158,7 @@ public class BiteUserData : MonoBehaviour
 
         bite.Send($"g {key}", response =>
         {
-            startedEpoch = Bite.LongOr(response, 0);
+            startedEpoch = Bite.Long(response, 0);
 
             if (startedEpoch <= 0)
             {
