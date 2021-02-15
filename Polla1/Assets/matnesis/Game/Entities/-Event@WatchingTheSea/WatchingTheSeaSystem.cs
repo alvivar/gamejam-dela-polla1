@@ -66,6 +66,12 @@ public class WatchingTheSeaSystem : MonoBehaviour
                     // One conversation from the index.
                     if (conversationIndex >= conversations.Count)
                     {
+                        message.showQuestion = true;
+                        message.question.text = "Would you help me?";
+
+                        message.yesPressed = 0;
+                        message.noPressed = 0;
+
                         watchingTheSea.state = WatchingTheSea.State.AskingForHelp;
                         continue;
                     }
@@ -102,10 +108,15 @@ public class WatchingTheSeaSystem : MonoBehaviour
 
             if (watchingTheSea.state == WatchingTheSea.State.AskingForHelp)
             {
-                watchingTheSea.lastState = watchingTheSea.state;
+                if (message.yesPressed > 0)
+                {
 
-                message.showQuestion = true;
-                message.question.text = "Would you help me?";
+                }
+                else if (message.noPressed > 0)
+                {
+
+                }
+
             }
         }
     }
