@@ -52,7 +52,7 @@ public class WatchingTheSeaSystem : MonoBehaviour
                 {
                     interactPoint.clicked = 0;
 
-                    // One conversation from the index
+                    // One conversation from the index.
 
                     // No interaction during the conversation
                     interactPoint.update = false;
