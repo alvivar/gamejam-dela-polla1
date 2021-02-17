@@ -8,7 +8,7 @@ public class WaitForFunc : MonoBehaviour
 
     void Start()
     {
-        var untilSomethingIsTrueFunc = this.tt()
+        TeaTime untilTrueFunc = this.tt()
             .Wait(() => something, 0.1f)
             .Add(() =>
             {
@@ -21,7 +21,7 @@ public class WaitForFunc : MonoBehaviour
 
         // Both are equivalent. Wait( is syntactic sugar.
 
-        var exactlyTheSame = this.tt()
+        TeaTime waitIsSyntacticSugar = this.tt()
             .Loop((ttHandler t) =>
             {
                 if (something)
