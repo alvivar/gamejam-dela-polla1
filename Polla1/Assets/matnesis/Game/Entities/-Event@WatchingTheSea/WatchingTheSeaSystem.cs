@@ -3,12 +3,16 @@ using UnityEngine;
 
 public class WatchingTheSeaSystem : MonoBehaviour
 {
+    [Header("Conversations")]
     public ConversationSentence[] conversation1;
     public ConversationSentence[] conversation2;
     public ConversationSentence[] conversation3;
     public ConversationSentence[] conversation4;
     public ConversationSentence[] conversation5;
     public ConversationSentence[] conversation6;
+
+    [Header("Internal")]
+    public Elf elf;
 
     List<ConversationSentence[]> conversations = new List<ConversationSentence[]>();
     int conversationIndex = 0;
@@ -41,6 +45,9 @@ public class WatchingTheSeaSystem : MonoBehaviour
 
         if (!message)
             message = EntitySet.MainMessages.Elements[0];
+
+        if (!elf)
+            elf = EntitySet.Elfs.Elements[0];
 
         var watchingTheSeas = EntitySet.GetWatchingTheSea(EntitySet.InteractPointIds, EntitySet.ConversationIds);
         for (int i = 0; i < watchingTheSeas.Length; i++)
@@ -79,6 +86,28 @@ public class WatchingTheSeaSystem : MonoBehaviour
                     conversation.sentences = conversations[conversationIndex];
                     conversationIndex += 1;
 
+                    // Wait to be sad.
+                    if (conversationIndex == 4)
+                    {
+                        this.tt()
+                            .Wait(() => conversationIndex == 5)
+                            .Add(() =>
+                            {
+                                message.mainDamp = 15;
+                                message.main.text = "";
+                                message.showMain = true;
+                            })
+                            .Add(1, () =>
+                            {
+                                elf.state = Elf.State.Sad;
+                            })
+                            .Add(0.2f, () =>
+                            {
+                                message.mainDamp = 0.1f;
+                                message.showMain = false;
+                            });
+                    }
+
                     // No interaction during the conversation
                     interactPoint.update = false;
                     interact.show = false;
@@ -101,7 +130,7 @@ public class WatchingTheSeaSystem : MonoBehaviour
 
                     watchingTheSea.state = WatchingTheSea.State.CanDialog;
 
-                    this.tt().Add(1.5f, () => interactPoint.update = true);
+                    this.tt().Add(1f, () => interactPoint.update = true);
                 }
             }
 
