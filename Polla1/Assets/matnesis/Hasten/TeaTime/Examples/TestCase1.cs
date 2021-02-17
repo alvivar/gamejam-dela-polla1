@@ -5,47 +5,50 @@
 
 using UnityEngine;
 
-public class TeaTimeTestCase1 : MonoBehaviour
+public class TestCase1 : MonoBehaviour
 {
     TeaTime queue;
 
     void Start()
     {
-        queue = this.tt().Pause().Add(1, () =>
+        queue = this.tt().Pause()
+            .Add(() =>
             {
-                Debug.Log("step 1 " + Time.time);
+                Debug.Log($"Start 0 {Time.time}");
             })
             .Add(1, () =>
             {
-                Debug.Log("step 2 " + Time.time);
+                Debug.Log("Step 1 " + Time.time);
+            })
+            .Add(() => 1, () =>
+            {
+                Debug.Log("Step 2 " + Time.time);
             })
             .Add(1, (ttHandler t) =>
             {
-                Debug.Log("step 3 " + Time.time);
+                Debug.Log("Step 3 " + Time.time);
                 t.Wait(1);
             })
             .Add(() =>
             {
-                Debug.Log("step 4 " + Time.time);
+                Debug.Log("Step 4 " + Time.time);
             })
             .Loop(1, (ttHandler t) =>
             {
-                transform.position = Vector3.Lerp(transform.position, new Vector3(10, 10, 10), t.deltaTime);
+
             })
             .Add(() =>
             {
-                Debug.Log("step 5 " + Time.time);
+                Debug.Log("Step 5 " + Time.time);
             })
             .Loop((ttHandler t) =>
             {
-                transform.position = Vector3.Lerp(transform.position, Vector3.zero, t.deltaTime);
-
                 if (t.timeSinceStart >= 1)
                     t.Break();
             })
             .Add(() =>
             {
-                Debug.Log("step 6 " + Time.time);
+                Debug.Log("Step 6 " + Time.time);
             })
             .Loop(0, (ttHandler t) =>
             {
@@ -53,26 +56,43 @@ public class TeaTimeTestCase1 : MonoBehaviour
             })
             .Add(1, () =>
             {
-                Debug.Log("step 8 " + Time.time);
+                Debug.Log("Step 7 " + Time.time);
             })
             .Add((ttHandler t) =>
             {
                 // WaitFor a Loop and an Add
-                t.Wait(this.tt().Loop(0.5f, (ttHandler) => { }).Add(0.5f, () =>
+                t.Wait(this.tt()
+                    .Loop(0.5f, (ttHandler) => { })
+                    .Add(0.5f, () =>
                     {
-                        Debug.Log("step 9 " + Time.time);
+                        Debug.Log($"Step 8 {Time.time}");
                     })
                     .WaitForCompletion());
             })
+            .Add(1, () =>
+            {
+                Debug.Log($"Step 9 {Time.time}");
+            })
+            .Loop(t =>
+            {
+                Debug.Log($"End 0 {Time.time}");
+                t.Break();
+            })
             .Immutable();
-
-        // #todo
-        // Create tests for Func<float> as time
-        // Create a tests for Consume() mode
     }
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            queue.Consume();
+        }
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            queue.Reverse();
+        }
+
         if (Input.GetKeyDown(KeyCode.Y))
         {
             queue.Reset();
