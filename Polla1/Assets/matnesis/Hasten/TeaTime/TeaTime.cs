@@ -75,9 +75,10 @@ public class ttHandler
     /// Appends a time delay to wait after the current callback execution.
     public void Wait(float time)
     {
-        if (time <= 0) return;
+        if (time <= 0)
+            return;
 
-        Wait(new WaitForSeconds(time));
+        Wait(ttYield.WaifForSeconds(time));
     }
 
     /// Appends a TeaTime to wait after the current callback execution that
@@ -155,26 +156,20 @@ public static class ttYield
         int IEqualityComparer<float>.GetHashCode(float obj) { return obj.GetHashCode(); }
     }
 
-    static Dictionary<float, WaitForSeconds> _secondsCache = new Dictionary<float, WaitForSeconds>(100, new FloatComparer());
+    static Dictionary<float, WaitForSeconds> secondsCache = new Dictionary<float, WaitForSeconds>(new FloatComparer());
 
-    static WaitForEndOfFrame _endOfFrame = new WaitForEndOfFrame();
-    public static WaitForEndOfFrame EndOfFrame
+    static WaitForEndOfFrame endOfFrame = new WaitForEndOfFrame();
+    public static WaitForEndOfFrame EndOfFrame { get { return endOfFrame; } }
+
+    static WaitForFixedUpdate fixedUpdate = new WaitForFixedUpdate();
+    public static WaitForFixedUpdate FixedUpdate { get { return fixedUpdate; } }
+
+    public static WaitForSeconds WaifForSeconds(float seconds)
     {
-        get { return _endOfFrame; }
-    }
+        WaitForSeconds wfs;
 
-    static WaitForFixedUpdate _fixedUpdate = new WaitForFixedUpdate();
-    public static WaitForFixedUpdate FixedUpdate
-    {
-        get { return _fixedUpdate; }
-    }
-
-    public static WaitForSeconds Seconds(float seconds)
-    {
-        WaitForSeconds wfs = null;
-
-        if (!_secondsCache.TryGetValue(seconds, out wfs))
-            _secondsCache.Add(seconds, wfs = new WaitForSeconds(seconds));
+        if (!secondsCache.TryGetValue(seconds, out wfs))
+            secondsCache.Add(seconds, wfs = new WaitForSeconds(seconds));
 
         return wfs;
     }
@@ -552,13 +547,16 @@ public class TeaTime
         });
     }
 
-    /// The queue will wait until the boolean condition is fullfiled.
-    public TeaTime Wait(Func<bool> untilCondition, float checkDelay = 0)
+    /// The queue will wait until the boolean condition is fullfiled, checking
+    /// every tick.
+    public TeaTime Wait(Func<bool> until, float tick = 0)
     {
         return this.Loop((ttHandler t) =>
         {
-            if (untilCondition()) t.EndLoop();
-            t.Wait(checkDelay);
+            if (until())
+                t.EndLoop();
+
+            t.Wait(tick);
         });
     }
 
@@ -711,17 +709,17 @@ public class TeaTime
                 if (currentTask.timeByFunc != null)
                     delayDuration += currentTask.timeByFunc();
 
-                // // Time delay
-                // if (delayDuration > 0)
-                //     yield return ttYield.Seconds(delayDuration);
+                // Time delay
+                if (delayDuration > 0)
+                    yield return ttYield.WaifForSeconds(delayDuration);
 
-                // Is this more precise that the previous commented code?
-                float time = 0;
-                while (time < delayDuration)
-                {
-                    time += Time.deltaTime;
-                    yield return null;
-                }
+                // Is this more precise that the previous code?
+                // float time = 0;
+                // while (time < delayDuration)
+                // {
+                //     time += Time.deltaTime;
+                //     yield return null;
+                // }
 
                 // Pause?
                 while (_isPaused)
