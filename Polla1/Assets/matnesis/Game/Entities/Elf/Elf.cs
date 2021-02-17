@@ -4,9 +4,12 @@ using UnityEngine;
 public class Elf : MonoBehaviour
 {
     [Header("State")]
-    public State state = State.Start;
+    public State state = State.WatchingTheSea;
     public State lastState = State.Idle;
-    public enum State { Idle, Start }
+    public enum State { Idle, WatchingTheSea }
+
+    [Header("Required")]
+    public Animator animator;
 
     private void OnEnable()
     {

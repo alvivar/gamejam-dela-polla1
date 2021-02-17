@@ -99,8 +99,9 @@ public class WatchingTheSeaSystem : MonoBehaviour
                     if (len > lenLimit)
                         conversation.stop = true;
 
-                    interactPoint.update = true;
                     watchingTheSea.state = WatchingTheSea.State.CanDialog;
+
+                    this.tt().Add(1.5f, () => interactPoint.update = true);
                 }
             }
 
@@ -108,14 +109,24 @@ public class WatchingTheSeaSystem : MonoBehaviour
 
             if (watchingTheSea.state == WatchingTheSea.State.AskingForHelp)
             {
-                if (message.yesPressed > 0)
-                {
+                watchingTheSea.lastState = watchingTheSea.state;
 
-                }
-                else if (message.noPressed > 0)
+                this.tt("WatchingTheSea.State.AskingForHelp").Reset().Loop(t =>
                 {
+                    Debug.Log($"Waiting AskingForHelp at {Time.time}");
+                    t.Wait(1);
 
-                }
+                    if (message.yesPressed > 0)
+                    {
+                        Debug.Log($"YES at {Time.time}");
+                        t.EndLoop();
+                    }
+                    else if (message.noPressed > 0)
+                    {
+                        Debug.Log($"NO at {Time.time}");
+                        t.EndLoop();
+                    }
+                });
 
             }
         }

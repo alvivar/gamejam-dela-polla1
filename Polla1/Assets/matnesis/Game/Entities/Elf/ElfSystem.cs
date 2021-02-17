@@ -14,6 +14,13 @@ public class ElfSystem : MonoBehaviour
 
             if (elf.state == elf.lastState)
                 continue;
+
+            if (elf.state == Elf.State.WatchingTheSea)
+            {
+                elf.lastState = elf.state;
+
+                elf.animator.SetTrigger("idleSad");
+            }
         }
     }
 }
