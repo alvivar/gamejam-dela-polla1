@@ -1,7 +1,8 @@
 
 
-Bug: Skipping looking at the sea starts the conversation again.
-The girl watching the sea have a sad animation.
+x Return to last position on load to cause happiness when testing.
+x Bug: Skipping looking at the sea starts the conversation again.
+x The girl watching the sea have a sad animation.
 
 The girl looks at the at the player, with a black fade.
 The girl should react based on the answer.
