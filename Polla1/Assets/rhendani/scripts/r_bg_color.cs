@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class r_bg_color : MonoBehaviour
 {
-
     public float weirdSpeed;
     public float waitTime;
     public bool skip;
@@ -13,33 +10,30 @@ public class r_bg_color : MonoBehaviour
 
     void Start()
     {
-
         Camera cam = GetComponent<Camera>();
 
-        this.tt(name).Loop(waitTime,
-        (tt) => {
-
-            cam.backgroundColor = Color.LerpUnclamped(cam.backgroundColor, two, weirdSpeed * Time.deltaTime);
-
-            if(skip)
+        this.tt(name)
+            .Loop(waitTime, (tt) =>
             {
-                tt.EndLoop();
-                skip = false;
-            }
+                cam.backgroundColor = Color.LerpUnclamped(cam.backgroundColor, two, weirdSpeed * Time.deltaTime);
 
-        }).Loop(waitTime,
-        (tt) => {
-
-            cam.backgroundColor = Color.LerpUnclamped(cam.backgroundColor, one, weirdSpeed * Time.deltaTime);
-
-            if (skip)
+                if (skip)
+                {
+                    tt.Break();
+                    skip = false;
+                }
+            })
+            .Loop(waitTime, (tt) =>
             {
-                tt.EndLoop();
-                skip = false;
-            }
+                cam.backgroundColor = Color.LerpUnclamped(cam.backgroundColor, one, weirdSpeed * Time.deltaTime);
 
-        }).Repeat();
+                if (skip)
+                {
+                    tt.Break();
+                    skip = false;
+                }
 
+            })
+            .Repeat();
     }
-
 }

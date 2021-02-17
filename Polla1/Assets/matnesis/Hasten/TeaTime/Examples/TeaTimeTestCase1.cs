@@ -41,7 +41,7 @@ public class TeaTimeTestCase1 : MonoBehaviour
                 transform.position = Vector3.Lerp(transform.position, Vector3.zero, t.deltaTime);
 
                 if (t.timeSinceStart >= 1)
-                    t.EndLoop();
+                    t.Break();
             })
             .Add(() =>
             {

@@ -1,10 +1,10 @@
-﻿// TeaTime v0.8.7 beta
+﻿// TeaTime v0.8.8 beta
 
 // TeaTime is a fast & simple queue for timed callbacks, focused on solving
 // common coroutines patterns in Unity games.
 
-// Andrés Villalobos ~ twitter.com/matnesis ~ andresalvivar@gmail.com
-// Created 2014/12/26 12:21 am ~ Rewritten 2015/09/15 12:28 pm
+// Andrés Villalobos ~ andresalvivar@gmail.com ~ twitter.com/matnesis
+// Created 2014/12/26 12:21 am ~ Rewritten 2015/09/15 12:28 pm ~ Last revision 2021.02.16 11.53 pm
 
 // Copyright (c) 2014/12/26 andresalvivar@gmail.com
 
@@ -55,10 +55,10 @@ public class ttHandler
 
     internal bool isLooping = false;
     internal bool isReversed = false;
-    internal List<YieldInstruction> yieldsToWait = null;
+    internal List<YieldInstruction> yields = null;
 
     /// Ends the current loop.
-    public void EndLoop()
+    public void Break()
     {
         isLooping = false;
     }
@@ -66,10 +66,10 @@ public class ttHandler
     /// Appends a YieldInstruction to wait after the current callback execution.
     public void Wait(YieldInstruction yi)
     {
-        if (yieldsToWait == null)
-            yieldsToWait = new List<YieldInstruction>();
+        if (yields == null)
+            yields = new List<YieldInstruction>();
 
-        yieldsToWait.Add(yi);
+        yields.Add(yi);
     }
 
     /// Appends a time delay to wait after the current callback execution.
@@ -78,7 +78,7 @@ public class ttHandler
         if (time <= 0)
             return;
 
-        Wait(ttYield.WaifForSeconds(time));
+        Wait(ttYield.WaitForSeconds(time));
     }
 
     /// Appends a TeaTime to wait after the current callback execution that
@@ -97,7 +97,7 @@ public class ttHandler
     /// callback execution.
     public void Wait(Func<bool> condition, float checkDelay)
     {
-        // #todo This need to be cached somehow
+        // @todo This need to be cached somehow
         Wait(self._instance.tt().Wait(condition, checkDelay));
     }
 }
@@ -119,7 +119,7 @@ public static class TeaTimeExtensions
     /// access queues without a formal definition.
     public static TeaTime tt(this MonoBehaviour instance, string queueName)
     {
-        // #todo ttRegister will (probably) need an auto clean up from
+        // @todo ttRegister will (probably) need an auto clean up from
         // time to time if this technique is used in volatile GameObjects.
 
         // First time
@@ -164,7 +164,7 @@ public static class ttYield
     static WaitForFixedUpdate fixedUpdate = new WaitForFixedUpdate();
     public static WaitForFixedUpdate FixedUpdate { get { return fixedUpdate; } }
 
-    public static WaitForSeconds WaifForSeconds(float seconds)
+    public static WaitForSeconds WaitForSeconds(float seconds)
     {
         WaitForSeconds wfs;
 
@@ -453,10 +453,12 @@ public class TeaTime
         _isPaused = false;
 
         // Ignore if currently playing
-        if (_isPlaying) return this;
+        if (_isPlaying)
+            return this;
 
-        // or Empty?
-        if (_tasks.Count <= 0) return this;
+        // or empty?
+        if (_tasks.Count <= 0)
+            return this;
 
         // Restart if already finished
         if (_currentTask >= _tasks.Count)
@@ -529,10 +531,10 @@ public class TeaTime
         });
     }
 
-    // A note about .Wait(:
+    // A note about .Wait(
 
     // 1 It would be redundant to add a .Wait(time) because there is an
-    // Add(time) currently. Hm, I need to address this to avoid uglyness.
+    // Add(time) currently. #AvoidUglyness
 
     // 2 A Wait(YieldInstruction) would be useless after the first time a
     // TeaTime runs, because the Yield reference can't be used again when a
@@ -554,7 +556,7 @@ public class TeaTime
         return this.Loop((ttHandler t) =>
         {
             if (until())
-                t.EndLoop();
+                t.Break();
 
             t.Wait(tick);
         });
@@ -571,7 +573,7 @@ public class TeaTime
     /// Returns a YieldInstruction that waits until the queue is completed.
     public YieldInstruction WaitForCompletion()
     {
-        // #todo Could this be cached somehow?
+        // @todo Could this be cached somehow?
         return _instance.StartCoroutine(WaitForCompletion(this));
     }
 
@@ -585,6 +587,7 @@ public class TeaTime
         _isPlaying = true;
 
         int reverseLastTask = -1; // Important: This value needs to be reset to default on most queue changes
+
         _lastPlayExecutedCount = 0;
 
         // :D!
@@ -597,7 +600,10 @@ public class TeaTime
         {
             // Current task to be executed
             int taskId = _currentTask;
-            if (_isReversed) taskId = _tasks.Count - 1 - _currentTask;
+
+            if (_isReversed) taskId =
+                _tasks.Count - 1 - _currentTask;
+
             ttTask currentTask = _tasks[taskId];
 
             // Next task (or previous if the queue is backward)
@@ -605,7 +611,9 @@ public class TeaTime
 
             // Avoid executing a task twice when reversed and the queue
             // hasn't reached the end
-            if (taskId == reverseLastTask) continue;
+            if (taskId == reverseLastTask)
+                continue;
+
             reverseLastTask = taskId;
 
             // :D?
@@ -626,10 +634,10 @@ public class TeaTime
                     continue;
 
                 // Loops will always need a handler
-                ttHandler loopHandler = new ttHandler();
-                loopHandler.self = this;
-                loopHandler.isLooping = true;
-                loopHandler.isReversed = _isReversed;
+                var loop = new ttHandler();
+                loop.self = this;
+                loop.isLooping = true;
+                loop.isReversed = _isReversed;
 
                 // Negative time means the loop is infinite
                 bool isInfinite = loopDuration < 0;
@@ -638,61 +646,59 @@ public class TeaTime
                 float tRate = isInfinite ? 0 : 1 / loopDuration;
 
                 // Progresion depends on current direction
-                if (loopHandler.isReversed)
+                if (loop.isReversed)
                 {
-                    loopHandler.t = 1f;
+                    loop.t = 1f;
                     tRate = -tRate;
                 }
 
                 // While looping and, until time or infinite
-                while (loopHandler.isLooping && (loopHandler.isReversed ? loopHandler.t >= 0 : loopHandler.t <= 1))
+                while (loop.isLooping && (loop.isReversed ? loop.t >= 0 : loop.t <= 1))
                 {
                     // Check for queue reversal
-                    if (_isReversed != loopHandler.isReversed)
+                    if (_isReversed != loop.isReversed)
                     {
                         tRate = -tRate;
-                        loopHandler.isReversed = _isReversed;
+                        loop.isReversed = _isReversed;
                     }
 
                     float unityDeltaTime = Time.deltaTime;
 
                     // Completion % from 0 to 1
                     if (!isInfinite)
-                        loopHandler.t += tRate * unityDeltaTime;
+                        loop.t += tRate * unityDeltaTime;
 
                     // On finite loops this .deltaTime is sincronized with
                     // the exact loop duration
-                    loopHandler.deltaTime =
+                    loop.deltaTime =
                         isInfinite ?
                         unityDeltaTime :
-                        1 / (loopDuration - loopHandler.timeSinceStart) * unityDeltaTime;
+                        1 / (loopDuration - loop.timeSinceStart) * unityDeltaTime;
 
                     // .deltaTime is also reversed
-                    if (loopHandler.isReversed)
-                        loopHandler.deltaTime = -loopHandler.deltaTime;
+                    if (loop.isReversed)
+                        loop.deltaTime = -loop.deltaTime;
 
                     // A classic
-                    loopHandler.timeSinceStart += unityDeltaTime;
+                    loop.timeSinceStart += unityDeltaTime;
 
                     // Pause?
                     while (_isPaused)
                         yield return null;
 
                     // Loops will always have a callback with a handler
-                    currentTask.callbackWithHandler(loopHandler);
+                    currentTask.callbackWithHandler(loop);
 
                     // Handler .WaitFor(
-                    if (loopHandler.yieldsToWait != null)
+                    if (loop.yields != null)
                     {
-                        for (int i = 0, len = loopHandler.yieldsToWait.Count; i < len; i++)
-                            yield return loopHandler.yieldsToWait[i];
+                        for (int i = 0, len = loop.yields.Count; i < len; i++)
+                            yield return loop.yields[i];
 
-                        loopHandler.yieldsToWait.Clear();
+                        loop.yields.Clear();
                     }
-
                     // Minimum sane delay
-                    if (loopHandler.yieldsToWait == null)
-                        yield return null;
+                    else yield return null;
                 }
 
                 // Executed +1
@@ -711,7 +717,7 @@ public class TeaTime
 
                 // Time delay
                 if (delayDuration > 0)
-                    yield return ttYield.WaifForSeconds(delayDuration);
+                    yield return ttYield.WaitForSeconds(delayDuration);
 
                 // Is this more precise that the previous code?
                 // float time = 0;
@@ -742,16 +748,16 @@ public class TeaTime
                     currentTask.callbackWithHandler(handler);
 
                     // Handler WaitFor
-                    if (handler.yieldsToWait != null)
+                    if (handler.yields != null)
                     {
-                        for (int i = 0, len = handler.yieldsToWait.Count; i < len; i++)
-                            yield return handler.yieldsToWait[i];
+                        for (int i = 0, len = handler.yields.Count; i < len; i++)
+                            yield return handler.yields[i];
 
-                        handler.yieldsToWait.Clear();
+                        handler.yields.Clear();
                     }
 
                     // Minimum sane delay
-                    if (delayDuration <= 0 && handler.yieldsToWait == null)
+                    if (delayDuration <= 0 && handler.yields == null)
                         yield return null;
                 }
                 else if (delayDuration <= 0)
@@ -770,7 +776,7 @@ public class TeaTime
             }
 
             // Consume mode removes the task after execution
-            // #todo Need to be tested with .Reverse() stuff
+            // @todo Need to be tested with .Reverse() stuff
             if (_isConsuming)
             {
                 _currentTask -= 1;
@@ -800,12 +806,13 @@ public class TeaTime
         // Done!
         _isPlaying = false;
 
-        yield return null;
+        // @todo Is this necessary? Remove after heavy test.
+        // yield return null;
     }
 }
 
 // <3
-// Lerp t Formulas
+// Lerp Formulas
 
 // Ease out
 // t = Mathf.Sin(t * Mathf.PI * 0.5f);

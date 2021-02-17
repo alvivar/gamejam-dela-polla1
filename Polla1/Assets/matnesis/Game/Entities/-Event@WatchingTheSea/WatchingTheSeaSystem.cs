@@ -119,12 +119,12 @@ public class WatchingTheSeaSystem : MonoBehaviour
                     if (message.yesPressed > 0)
                     {
                         Debug.Log($"YES at {Time.time}");
-                        t.EndLoop();
+                        t.Break();
                     }
                     else if (message.noPressed > 0)
                     {
                         Debug.Log($"NO at {Time.time}");
-                        t.EndLoop();
+                        t.Break();
                     }
                 });
 
