@@ -1,10 +1,11 @@
 
 
+x The girl looks at the at the player, with a black fade.
 x Return to last position on load to cause happiness when testing.
 x Bug: Skipping looking at the sea starts the conversation again.
 x The girl watching the sea have a sad animation.
 
-The girl looks at the at the player, with a black fade.
+Rain stars pouring.
 The girl should react based on the answer.
 
 The gun starts a conversation asking you if you have reasons to wield it.

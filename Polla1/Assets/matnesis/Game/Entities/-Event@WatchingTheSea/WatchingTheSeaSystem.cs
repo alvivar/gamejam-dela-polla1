@@ -142,7 +142,6 @@ public class WatchingTheSeaSystem : MonoBehaviour
 
                 this.tt("WatchingTheSea.State.AskingForHelp").Reset().Loop(t =>
                 {
-                    Debug.Log($"Waiting AskingForHelp at {Time.time}");
                     t.Wait(1);
 
                     if (message.yesPressed > 0)
