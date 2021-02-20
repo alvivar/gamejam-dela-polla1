@@ -69,6 +69,8 @@ public class Bite
             return;
         }
 
+        Debug.Log($"Send {message}");
+
         messages.Add(message);
         callbacks.Add(callback);
     }
