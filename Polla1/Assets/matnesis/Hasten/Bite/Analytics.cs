@@ -44,7 +44,6 @@ public class Analytics : MonoBehaviour
         id = SystemInfo.deviceUniqueIdentifier;
         key = $"{user}.{id}";
 
-        // Query
         bite = new Bite("142.93.180.20", 1984);
 
         bite.OnResponse = OnResponse;
@@ -80,7 +79,7 @@ public class Analytics : MonoBehaviour
 
     void OnError(string error)
     {
-        Debug.Log($"{error}");
+        Debug.Log($"Bite Error: {error}");
     }
 
     void OnResponse(string response)
