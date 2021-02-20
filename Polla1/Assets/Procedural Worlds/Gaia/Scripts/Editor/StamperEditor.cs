@@ -607,7 +607,9 @@ namespace Gaia
                 //do we want to process those requests yet?
                 if ((m_stamper.m_lastHeightmapUpdateTimeStamp + m_gaiaSettings.m_autoTextureTreshold) < currentTimeStamp)
                 {
-                   
+                    //Clear the "waiting for unity terrain updates" progress bar.
+                    EditorUtility.ClearProgressBar();
+
                     if (m_stamper.m_heightUpdateRequested)
                     {
                         //force recalculate for the terrain we just stamped, then update our min max values
