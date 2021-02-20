@@ -4769,5 +4769,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TargetParticleSystem: {fileID: 6281280212293650497}
   RenderDistance: 200
-  CheckPeriod: 200
-  GameCamera: {fileID: 0}
+  CheckPeriodMin: 15
+  checkPeriodMax: 30

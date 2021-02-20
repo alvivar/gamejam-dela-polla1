@@ -861,7 +861,7 @@ ParticleSystem:
           m_PostInfinity: 2
           m_RotationOrder: 4
   EmissionModule:
-    enabled: 1
+    enabled: 0
     serializedVersion: 4
     rateOverTime:
       serializedVersion: 2
@@ -4787,5 +4787,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TargetParticleSystem: {fileID: 4805570640773428713}
   RenderDistance: 75
-  CheckPeriod: 200
-  GameCamera: {fileID: 0}
+  CheckPeriodMin: 15
+  checkPeriodMax: 30
