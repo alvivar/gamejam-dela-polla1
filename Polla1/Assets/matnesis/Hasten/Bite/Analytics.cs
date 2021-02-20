@@ -41,13 +41,14 @@ public class Analytics : MonoBehaviour
 
     void Start()
     {
+        id = SystemInfo.deviceUniqueIdentifier;
+        key = $"{user}.{id}";
+
+        // Query
         bite = new Bite("142.93.180.20", 1984);
 
         bite.OnResponse = OnResponse;
         bite.OnError = OnError;
-
-        id = SystemInfo.deviceUniqueIdentifier;
-        key = $"{user}.{id}";
     }
 
     void Update()
@@ -95,6 +96,11 @@ public class Analytics : MonoBehaviour
 
             LoadOrSetStartedEpoch();
         }
+    }
+
+    void OnSubscription(string response)
+    {
+        Debug.Log($"> # {response}");
     }
 
     void LoadDataFromServer()
@@ -164,7 +170,6 @@ public class Analytics : MonoBehaviour
     }
 
     public void SetName(string name)
-
     {
         data.name = name;
         bite.Send($"s {key}.name {data.name}");
