@@ -30,12 +30,12 @@ public class OnFirstLastPosition : MonoBehaviour
                 message.main.text = "";
                 message.showMain = true;
             })
-            .Add(0.1f, () =>
+            .Add(1f, () =>
             {
                 player.fps.enabled = false;
                 player.transform.position = lastPosition = analytics.data.lastPosition;
             })
-            .Add(0.1f, () =>
+            .Add(1f, () =>
             {
                 message.mainDamp = 10f;
                 message.showMain = false;
