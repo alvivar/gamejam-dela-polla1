@@ -27,13 +27,24 @@ using UnityEngine;
 
 // That's it!
 
+public class BiteMsg
+{
+    public string message;
+    public Action<string> callback;
+
+    public BiteMsg(string message, Action<string> callback)
+    {
+        this.message = message;
+        this.callback = callback;
+    }
+}
+
 public class Bite
 {
     public Action<string> OnResponse;
     public Action<string> OnError;
 
-    private List<string> messages = new List<string>();
-    private List<Action<string>> callbacks = new List<Action<string>>();
+    private Queue<BiteMsg> queue = new Queue<BiteMsg>();
 
     private TcpClient tcpClient;
     private Thread thread;
@@ -69,10 +80,9 @@ public class Bite
             return;
         }
 
-        Debug.Log($"Send {message}");
+        Debug.Log($"Queued {message}");
 
-        messages.Add(message);
-        callbacks.Add(callback);
+        queue.Enqueue(new BiteMsg(message, callback));
     }
 
     private void StartConnectionThread()
@@ -101,40 +111,44 @@ public class Bite
 
             while (allowThread)
             {
-                if (messages.Count <= 0 || callbacks.Count <= 0)
-                    continue;
+                BiteMsg some;
 
-                var reader = new StreamReader(stream);
-                var writer = new StreamWriter(stream);
+                lock(queue)
+                {
+                    if (queue.Count < 1)
+                        continue;
+
+                    some = queue.Dequeue();
+                }
+
+                if (some == null)
+                    continue;
 
                 // Send
 
-                var msg = messages[0];
-                messages.RemoveAt(0);
+                var writer = new StreamWriter(stream);
 
-                var call = callbacks[0];
-                callbacks.RemoveAt(0);
-
-                writer.WriteLine(msg);
+                writer.WriteLine(some.message);
                 writer.Flush();
 
                 // Receive
 
-                Debug.Log($"{msg}");
+                Debug.Log($"{some.message}");
+                var isSubscription = some.message.Trim().ToLower().StartsWith("#");
 
-                var isSub = msg.Trim().ToLower().StartsWith("#");
+                var reader = new StreamReader(stream);
 
                 do
                 {
                     var response = reader.ReadLine();
 
-                    if (call != null)
-                        call(response);
+                    if (some.callback != null)
+                        some.callback(response);
 
                     if (OnResponse != null)
                         OnResponse(response);
                 }
-                while (isSub && allowThread);
+                while (isSubscription && allowThread);
             }
         }
         catch (Exception e)
