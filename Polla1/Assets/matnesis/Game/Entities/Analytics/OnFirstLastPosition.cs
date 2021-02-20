@@ -11,9 +11,6 @@ public class OnFirstLastPosition : MonoBehaviour
     public VoidPlayer player;
     public MainMessage message;
 
-    private bool updatePlayerPosWithOnline = false;
-    private bool allowPlayerPosSaving = false;
-
     void Start()
     {
         if (!player)
@@ -29,19 +26,16 @@ public class OnFirstLastPosition : MonoBehaviour
                 message.mainDamp = 10;
                 message.main.text = "";
                 message.showMain = true;
-            })
-            .Add(1f, () =>
-            {
                 player.fps.enabled = false;
+            })
+            .Add(0.7f, () =>
+            {
                 player.transform.position = lastPosition = analytics.data.lastPosition;
             })
-            .Add(1f, () =>
+            .Add(0.3f, () =>
             {
-                message.mainDamp = 10f;
                 message.showMain = false;
-
                 player.fps.enabled = true;
-                allowPlayerPosSaving = true;
             });
     }
 }

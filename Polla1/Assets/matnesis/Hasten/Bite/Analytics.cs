@@ -44,10 +44,7 @@ public class Analytics : MonoBehaviour
         id = SystemInfo.deviceUniqueIdentifier;
         key = $"{user}.{id}";
 
-        bite = new Bite("142.93.180.20", 1984);
-
-        bite.OnResponse = OnResponse;
-        bite.OnError = OnError;
+        Connect();
     }
 
     void Update()
@@ -72,6 +69,13 @@ public class Analytics : MonoBehaviour
         SaveLastPosition();
     }
 
+    void Connect()
+    {
+        bite = new Bite("142.93.180.20", 1984);
+        bite.OnResponse = OnResponse;
+        bite.OnError = OnError;
+    }
+
     void OnDestroy()
     {
         bite.Stop();
@@ -84,6 +88,8 @@ public class Analytics : MonoBehaviour
 
     void OnResponse(string response)
     {
+        Debug.Log($"> {response}");
+
         if (!firstConnection)
         {
             firstConnection = true;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Sockets;
 using System.Threading;
+using UnityEngine;
 
 // To connect.
 
@@ -116,6 +117,8 @@ public class Bite
                 writer.Flush();
 
                 // Receive
+
+                Debug.Log($"{msg}");
 
                 var isSub = msg.Trim().ToLower().StartsWith("#");
 
