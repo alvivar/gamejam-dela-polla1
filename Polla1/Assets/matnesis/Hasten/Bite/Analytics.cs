@@ -103,11 +103,6 @@ public class Analytics : MonoBehaviour
         }
     }
 
-    void OnSubscription(string response)
-    {
-        Debug.Log($"> # {response}");
-    }
-
     void LoadDataFromServer()
     {
         bite.Send($"g {key}.name", response =>
