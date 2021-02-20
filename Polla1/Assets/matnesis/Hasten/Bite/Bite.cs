@@ -54,6 +54,7 @@ public class Bite
     public void Stop()
     {
         allowThread = false;
+
         tcpClient.Close();
     }
 
@@ -76,6 +77,7 @@ public class Bite
         try
         {
             allowThread = true;
+
             thread = new Thread(new ThreadStart(HandleConnection));
             thread.IsBackground = true;
             thread.Start();
