@@ -82,7 +82,10 @@ public class Bite
 
         Debug.Log($"Queued {message}");
 
-        queue.Enqueue(new BiteMsg(message, callback));
+        lock(queue)
+        {
+            queue.Enqueue(new BiteMsg(message, callback));
+        }
     }
 
     private void StartConnectionThread()
