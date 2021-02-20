@@ -1,0 +1,252 @@
+﻿// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel Carve
+#include "../Includes/Fractal.cginc"
+
+struct Sample
+{
+    float3 location;
+    float3 scale;
+    float timeInCurve;
+};
+
+struct Pivot
+{
+    uint U;
+    uint I;
+};
+
+struct LUT
+{
+    float3 P;
+    float t;
+};
+
+struct Curve
+{
+    float3 P0;
+    float3 P1;
+    float3 P2;
+    float3 P3;
+};
+
+Texture2D<float> _InputDisplacement;
+RWTexture2D<float> _OutputDisplacement;
+RWTexture2D<float> _OutputSolidDisplacement;
+StructuredBuffer<Pivot> _PivotTable;
+StructuredBuffer<int> _HashTable;
+StructuredBuffer<LUT> _LUT;
+StructuredBuffer<Curve> _Curves;
+StructuredBuffer<Curve> _ShoulderList;
+StructuredBuffer<Sample> _SampleList;
+uint _SampleCount = 0;
+uint _CurveCount = 0;
+uint _ShoulderListCount = 0;
+//Variables
+float _Edge = 0.03f;
+float _Smooth = 0.0f;
+float2 _iResolution = 513.0f;
+float2 _Offset = 0.0f;
+
+float noiseStrength = 1.0f;
+int fractalType = 0;
+float seed = 0.0f;
+int octaves = 1.0f;
+float frequency = 0.05f;
+float persistence = 0.65f;
+float lacunarity = 1.5f;
+float XOffset = 2.0f;
+float ZOffset = 5.0f;
+float YOffset = 7.0f;
+
+Sample SampleLerp(Sample a, Sample b, float t)
+{
+    Sample result;
+    result.location = lerp(a.location, b.location, t);
+    result.scale = lerp(a.scale, b.scale, t);
+    //TODO : Manny : You can add more logic here
+    return result;
+}
+
+bool SampleEquals(Sample a, Sample b)
+{
+    return a.timeInCurve == b.timeInCurve;
+}
+
+Sample GetSample(float time)
+{
+    int prevIndex = 0;
+    int nextIndex = 0;
+    for (uint i = 0; i < _SampleCount; i++)
+    {
+        Sample current = _SampleList[i];
+        if (current.timeInCurve >= time)
+        {
+            nextIndex = i;
+            break;
+        }
+        prevIndex = i;
+    }
+    Sample previous = _SampleList[prevIndex];
+    Sample next = _SampleList[nextIndex];
+    float t = SampleEquals(next, previous) ? 0.0f : (time - previous.timeInCurve) / (next.timeInCurve - previous.timeInCurve);
+    return SampleLerp(previous, next, t);
+}
+
+//-----------------------------------------------------------------------------
+float3 Bezier(float t)
+{
+    int index = (int)floor(t);
+    t = t - index;
+    Curve curve = _Curves[index];
+    float omt = 1.0f - t;
+    float omt2 = omt * omt;
+    float t2 = t * t;
+    float3 b = curve.P0 * (omt2 * omt) +
+        curve.P1 * (3.0f * omt2 * t) +
+        curve.P2 * (3.0f * omt * t2) +
+        curve.P3 * (t2 * t);
+    return b;
+}
+
+float BezierShoulder(float t)
+{
+    int i;
+    if (t >= 1.0f)
+    {
+        t = 1.0f;
+        i = _ShoulderListCount;
+    }
+    else
+    {
+        t = clamp(t, 0.0f, 1.0f) * _ShoulderListCount;
+        i = (int)t;
+        t -= i;
+    }
+    Curve curve = _ShoulderList[i];
+    float omt = 1.0f - t;
+    float omt2 = omt * omt;
+    float t2 = t * t;
+    float3 b = curve.P0 * (omt2 * omt) +
+        curve.P1 * (3.0f * omt2 * t) +
+        curve.P2 * (3.0f * omt * t2) +
+        curve.P3 * (t2 * t);
+    return b.y;
+}
+
+
+Sample GetClosestSample(LUT closestLUT, float2 coordinate)
+{
+    float time = closestLUT.t;
+    float u = 0.125f;
+    float min = time - u;
+    float max = time + u;
+    float minDistance = 1e10f;
+    float3 minLocation;
+    float minTime = time;
+    while (min < max)
+    {
+        float3 location = Bezier(min);
+        float normalizedDistance = length(location.xz - coordinate.xy);
+        if (normalizedDistance < minDistance)
+        {
+            minLocation = location;
+            minDistance = normalizedDistance;
+            minTime = min;
+        }
+        min += 0.001f;
+    }
+    Sample result = GetSample(minTime);
+    result.location = minLocation;
+    return result;
+}
+
+float GetNoise(float3 position)
+{
+    Fractal fractal;
+    fractal.type = fractalType;
+    fractal.frequency = frequency;
+    fractal.seed = seed;
+    fractal.xOffset = XOffset;
+    fractal.yOffset = YOffset;
+    fractal.zOffset = ZOffset;
+    fractal.persistence = persistence;
+    fractal.octaves = octaves;
+    fractal.lacunarity = lacunarity;
+    return Fractal_GetNormalisedValue(fractal, position.x, position.z);
+}
+
+
+[numthreads(32,32,1)]
+void Carve(uint3 id : SV_DispatchThreadID)
+{
+    uint2 coord = id.xy;
+    float2 coordinate = ((float2)coord + _Offset) / _iResolution.xy;
+    float3 worldPos = float3(coordinate.x * _iResolution.x, 0.f, coordinate.y * _iResolution.y);
+    float baseHeight = _InputDisplacement[coord];
+    float solidDisplacement = 0.0f;
+    float smooth = _Smooth;
+    float edge = _Edge;
+    //---------------
+    // TODO : Manny : Sample System needs implementing
+    // float samples = (float)_Samples;
+    // uint xCoord = (uint)floor(coordinate.x * samples);
+    // uint yCoord = (uint)floor(coordinate.y * samples);
+    // uint pivotIndex = Translate2DTo1D(xCoord, yCoord, samples);
+    Pivot pivot = _PivotTable[0];
+    if (pivot.U == 0)
+        return;
+    float displacement = 0.0f;
+    LUT closestLUT;
+    float minDistance = 1e10f;
+    for (int i = pivot.U; i >= 0; i--)
+    {
+        int hash = _HashTable[pivot.I + i];
+        LUT lut = _LUT[hash];
+        float distance = length(lut.P.xz - coordinate.xy);
+        if (distance < minDistance)
+        {
+            closestLUT = lut;
+            minDistance = distance;
+        }
+    }
+    Sample closestSample = GetClosestSample(closestLUT, coordinate);
+    edge *= closestSample.scale.x;
+    smooth *= closestSample.scale.x;
+    float cutoff = edge + smooth * smooth;
+    float proximity = cutoff / _iResolution.x;
+    float3 location = closestSample.location;
+    float normalizedDistance = length(location.xz - coordinate.xy);
+    float noise = GetNoise(worldPos); // 0 - 1
+    // This will get called for EVERY point along the spline within the radius of MinDistance
+    if (normalizedDistance < proximity)
+    {
+        // Get Height at Location
+        displacement = location.y * .5f - baseHeight;
+        solidDisplacement = 1.0f;
+    }
+    float denormDistance = normalizedDistance * _iResolution.x;
+    if (denormDistance < cutoff && smooth > 0.0f)
+    {
+        float shoulderPos = denormDistance - edge;
+        //float halfShoulderPos = shoulderPos * .5f;
+        //shoulderPos = halfShoulderPos + halfShoulderPos * noise;
+        if (shoulderPos > 0.0f)
+        {
+            float sqrSmooth = smooth * smooth;
+            float normalizedShoulderPos = (sqrSmooth - shoulderPos) / sqrSmooth;
+            if (normalizedShoulderPos > 0.0f)
+            {
+                float delta = smoothstep(0.0f, 1.0f, normalizedShoulderPos);
+                //TODO : Manny : Get the Height of Terrain Size for this (Don't Hard Code it)
+                float strength = noiseStrength / _iResolution.x;
+                displacement += (noise * (1.0f - delta)) * (strength * BezierShoulder(1.0f - delta));
+                displacement *= delta;
+                solidDisplacement = 1;
+                solidDisplacement -= round(noise * noiseStrength);
+            }
+        }
+    }
+
+    _OutputDisplacement[coord] = baseHeight + displacement;
+    _OutputSolidDisplacement[coord] = solidDisplacement;
+}
