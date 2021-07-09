@@ -15,7 +15,7 @@ public class GameStartSystem : MonoBehaviour
             this.tt("Intro")
                 .Reset()
                 .Wait(() => ready)
-                .Add(1, () =>
+                .Add(8, () =>
                 {
                     mainMessage = EntitySet.MainMessages.Elements[0];
                     mainMessage.main.text = Texts.INTRO;
@@ -31,7 +31,7 @@ public class GameStartSystem : MonoBehaviour
                 .Add(1, () =>
                 {
                     // I don't think I need this intro?
-                    // this.tt("FadingMemories").Play();
+                    this.tt("FadingMemories").Play();
                     // this.tt("NotYet").Play();
                 });
         }
