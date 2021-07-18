@@ -146,7 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dc6a487594d27b48b8b3d444158e23a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  show: 1
+  show: 0
   touched: 0
   rigidBody: {fileID: 7867301403280008378}
   collidr: {fileID: 9035073509910654323}
@@ -163,11 +163,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0af3d77590697a645a3c4d9569257b56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  update: 0
-  interactable: 0
+  update: 1
+  interactable: 1
   noPrefix: 0
   clicked: 0
-  content: Talk
+  content: Interact
   distance: 3.5
   dotApproved: 0.5
   positionSource: {fileID: 8869326566842780815}

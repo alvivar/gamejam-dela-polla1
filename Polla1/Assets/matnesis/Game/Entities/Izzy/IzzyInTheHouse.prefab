@@ -65,11 +65,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0af3d77590697a645a3c4d9569257b56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  update: 0
-  interactable: 0
+  update: 1
+  interactable: 1
   noPrefix: 0
   clicked: 0
-  content: Talk
+  content: Interact
   distance: 3.5
   dotApproved: 0.5
   positionSource: {fileID: 2070360720831545159}
@@ -87,13 +87,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   once: 0
   stop: 0
-  sentences:
-  - say: She can't talk.
-    delay: 3
-    clip: {fileID: 0}
-  - say: She has the Curse of Bounds.
-    delay: 4
-    clip: {fileID: 0}
+  sentences: []
 --- !u!1 &2518451172096826397
 GameObject:
   m_ObjectHideFlags: 0

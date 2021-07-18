@@ -97,11 +97,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0af3d77590697a645a3c4d9569257b56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  update: 0
-  interactable: 0
+  update: 1
+  interactable: 1
   noPrefix: 0
   clicked: 0
-  content: Talk
+  content: Interact
   distance: 3.5
   dotApproved: 0.5
   positionSource: {fileID: 2196348440325715224}
@@ -119,16 +119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   once: 0
   stop: 0
-  sentences:
-  - say: What do you want?
-    delay: 5
-    clip: {fileID: 0}
-  - say: It's ok if you got nothing to say, it happens all the time.
-    delay: 5
-    clip: {fileID: 0}
-  - say: But, I'm busy right now.
-    delay: 4
-    clip: {fileID: 0}
+  sentences: []
 --- !u!1 &4394622586981219347
 GameObject:
   m_ObjectHideFlags: 0
