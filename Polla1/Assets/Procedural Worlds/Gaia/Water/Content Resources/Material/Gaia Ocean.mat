@@ -76,7 +76,7 @@ Material:
     - _WaveSteepness: 0.1
     m_Colors:
     - _AmbientColor: {r: 0.41245386, g: 0.49914798, b: 0.6699091, a: 0.6250473}
-    - _EdgeWaterColor: {r: 0.09999969, g: 0.09999969, b: 0.19999969, a: 1}
+    - _EdgeWaterColor: {r: 0.099999435, g: 0.099999435, b: 0.19999945, a: 1}
     - _PW_MainLightColor: {r: 0.47450984, g: 0.7490196, b: 1, a: 1}
     - _PW_MainLightDir: {r: 0.3213938, g: 0.76604444, b: -0.5566705, a: 0}
     - _PW_MainLightSpecular: {r: 0.3137255, g: 0.27189302, b: 0.22345544, a: 1}
