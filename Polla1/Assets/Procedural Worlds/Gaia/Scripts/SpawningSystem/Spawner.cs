@@ -2,7 +2,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.Experimental.TerrainAPI;
 using System.Linq;
 using static Gaia.GaiaConstants;
 using System.Text;
@@ -254,7 +253,7 @@ namespace Gaia
         public float m_maxJitteredLocationOffsetPct = 0.9f;
 
         /// <summary>
-        /// Number of times a check is made for a new spawn location every interval 
+        /// Number of times a check is made for a new spawn location every interval
         /// </summary>
         public int m_locationChecksPerInt = 1;
 
@@ -875,7 +874,7 @@ namespace Gaia
         }
 
         /// <summary>
-        /// Use this for initialization - this will kick the spawner off 
+        /// Use this for initialization - this will kick the spawner off
         /// </summary>
         void Start()
         {
@@ -1255,7 +1254,7 @@ namespace Gaia
             {
                 float width = m_settings.m_spawnRange * 2f;
                 //reduce the loading width a bit => this is to prevent loading in terrains when the spawner bounds end exactly at the border of
-                //surrounding terrains, this loads in a lot of extra terrains which are not required for the spawn 
+                //surrounding terrains, this loads in a lot of extra terrains which are not required for the spawn
                 width -= 0.5f;
                 Vector3 center = transform.position;
                 TerrainLoader.m_loadingBoundsRegular.center = center;
@@ -1327,7 +1326,7 @@ namespace Gaia
             if (m_drawPreview)
             {
                 GaiaStopwatch.StartEvent("Drawing Spawner Preview");
-                //early out if no preview rule is active 
+                //early out if no preview rule is active
                 bool foundActive = false;
                 for (int i = 0; i < m_previewRuleIds.Count; i++)
                 {
@@ -1357,7 +1356,7 @@ namespace Gaia
                 //only re-generate all textures etc. if settings have changed and the preview is dirty, otherwise we can just use the cached textures
                 if (m_spawnPreviewDirty == true)
                 {
-                    //To get a combined preview of different textures on a single mesh we need one color texture each per previewed 
+                    //To get a combined preview of different textures on a single mesh we need one color texture each per previewed
                     // rule to determine the color areas on the heightmap mesh
                     // We need to iterate over the rules that are previewed, and build those color textures in this process
 
@@ -1584,7 +1583,7 @@ namespace Gaia
             RenderTexture spawnerOutputTexture = RenderTexture.GetTemporary(rtDescriptor);
             Graphics.Blit(ImageProcessing.ApplyMaskStack(inputTexture2, spawnerOutputTexture, spawnerStack, ImageMaskInfluence.Local), spawnerOutputTexture);
 
-            //Check if we have the special global output mask in the spawn rule - this mask routes the output from the spawner mask stack directly into the rule stack 
+            //Check if we have the special global output mask in the spawn rule - this mask routes the output from the spawner mask stack directly into the rule stack
             //(instead of utilizing the multiply below)
             bool globalOutputMaskFound = false;
             foreach (ImageMask mask in maskStack)
@@ -2300,7 +2299,7 @@ namespace Gaia
                         currentTerrain = spawner.GetCurrentTerrain();
                         if (currentTerrain != null)
                         {
-                            //the neighbor system can create issues with spawning if there is a spawn executed 
+                            //the neighbor system can create issues with spawning if there is a spawn executed
                             //while there is a gap between terrains, this can lead to faulty pixels on the edge of the normal map.
                             if (currentTerrain.allowAutoConnect)
                             {
@@ -3450,7 +3449,7 @@ namespace Gaia
             //Kill old image height map
             m_imageMaskHM = null;
 
-            //Check mode & exit 
+            //Check mode & exit
             if (m_areaMaskMode == GaiaConstants.ImageFitnessFilterMode.None || m_areaMaskMode == GaiaConstants.ImageFitnessFilterMode.PerlinNoise)
             {
                 return false;
@@ -3980,7 +3979,7 @@ namespace Gaia
                     //Update fitness based on distance evaluation
                     spawnInfo.m_fitness *= m_spawnFitnessAttenuator.Evaluate(Mathf.Clamp01(spawnInfo.m_hitDistanceWU / m_settings.m_spawnRange));
 
-                    //Udpate fitness based on area mask 
+                    //Udpate fitness based on area mask
                     if (m_areaMaskMode != GaiaConstants.ImageFitnessFilterMode.None)
                     {
                         if (m_areaMaskMode == GaiaConstants.ImageFitnessFilterMode.PerlinNoise ||
@@ -5288,7 +5287,7 @@ namespace Gaia
 
                 if (spawnRule.m_goSpawnTargetMode == SpawnerTargetMode.Terrain || allTerrains)
                 {
-                    //Terrain based target, or user choose to delete from all Terrains - this means deletion can be done fast and easy by removing the target object                     
+                    //Terrain based target, or user choose to delete from all Terrains - this means deletion can be done fast and easy by removing the target object
                     if (target != null)
                     {
                         deletedSomething = true;
@@ -5725,7 +5724,7 @@ namespace Gaia
         }
 
         /// <summary>
-        /// Get the closest gameobject to the centre of the area supplied that matches the tag 
+        /// Get the closest gameobject to the centre of the area supplied that matches the tag
         /// </summary>
         /// <param name="tagList">Tag to search for</param>
         /// <param name="area">The area to search</param>

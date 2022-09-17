@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Experimental.TerrainAPI;
+
 using UnityEngine.SocialPlatforms;
 using static Gaia.GaiaConstants;
 
@@ -145,12 +145,12 @@ namespace Gaia
         private Vector2 m_gameObjectPixelSize;
         private Vector2 m_collisionPixelSize;
 
-        private BrushTransform m_heightmapBrushTransform;
-        private BrushTransform m_textureBrushTransform;
-        private BrushTransform m_terrainTreeBrushTransform;
-        private BrushTransform m_bakedMaskBrushTransform;
-        private BrushTransform m_gameObjectBrushTransform;
-        public BrushTransform m_terrainDetailBrushTransform;
+        private UnityEngine.TerrainTools.BrushTransform m_heightmapBrushTransform;
+        private UnityEngine.TerrainTools.BrushTransform m_textureBrushTransform;
+        private UnityEngine.TerrainTools.BrushTransform m_terrainTreeBrushTransform;
+        private UnityEngine.TerrainTools.BrushTransform m_bakedMaskBrushTransform;
+        private UnityEngine.TerrainTools.BrushTransform m_gameObjectBrushTransform;
+        public UnityEngine.TerrainTools.BrushTransform m_terrainDetailBrushTransform;
 
         /// <summary>
         /// Holds the affected pixels per terrain per operation.
@@ -206,7 +206,7 @@ namespace Gaia
             m_originTerrain.terrainData.size.x / (heightmapResolution),
             m_originTerrain.terrainData.size.z / (heightmapResolution));
 
-            m_heightmapBrushTransform = TerrainPaintUtility.CalculateBrushTransform(m_originTerrain, GaiaUtils.ConvertPositonToTerrainUV(m_originTerrain, new Vector2(m_originTransform.position.x, m_originTransform.position.z)), m_range, m_originTransform.rotation.eulerAngles.y);
+            m_heightmapBrushTransform = UnityEngine.TerrainTools.TerrainPaintUtility.CalculateBrushTransform(m_originTerrain, GaiaUtils.ConvertPositonToTerrainUV(m_originTerrain, new Vector2(m_originTransform.position.x, m_originTransform.position.z)), m_range, m_originTransform.rotation.eulerAngles.y);
 
             m_heightmapPixels = GetPixelsForResolution(m_originTerrain.terrainData.size, m_heightmapBrushTransform.GetBrushXYBounds(), heightmapResolution, heightmapResolution, 0);
             AddAffectedTerrainPixels(m_heightmapPixels, MultiTerrainOperationType.AffectedTerrains, heightmapResolution, heightmapResolution);
@@ -230,7 +230,7 @@ namespace Gaia
             m_originTerrain.terrainData.size.x / (heightmapResolution),
             m_originTerrain.terrainData.size.z / (heightmapResolution));
 
-            m_heightmapBrushTransform = TerrainPaintUtility.CalculateBrushTransform(m_originTerrain, GaiaUtils.ConvertPositonToTerrainUV(m_originTerrain, new Vector2(m_originTransform.position.x, m_originTransform.position.z)), m_range, m_originTransform.rotation.eulerAngles.y);
+            m_heightmapBrushTransform = UnityEngine.TerrainTools.TerrainPaintUtility.CalculateBrushTransform(m_originTerrain, GaiaUtils.ConvertPositonToTerrainUV(m_originTerrain, new Vector2(m_originTransform.position.x, m_originTransform.position.z)), m_range, m_originTransform.rotation.eulerAngles.y);
 
             m_heightmapPixels = GetPixelsForResolution(m_originTerrain.terrainData.size, m_heightmapBrushTransform.GetBrushXYBounds(), heightmapResolution, heightmapResolution, 0);
 
@@ -240,7 +240,7 @@ namespace Gaia
           
 
             AddAffectedTerrainPixels(m_heightmapPixels, MultiTerrainOperationType.Heightmap, heightmapResolution, heightmapResolution);
-            Material blitMaterial = TerrainPaintUtility.GetBlitMaterial();
+            Material blitMaterial = UnityEngine.TerrainTools.TerrainPaintUtility.GetBlitMaterial();
             RenderTexture.active = RTheightmap;
             GL.Clear(false, true, new Color(0.0f, 0.0f, 0.0f, 0.0f));
             GL.PushMatrix();
@@ -346,7 +346,7 @@ namespace Gaia
             m_originTerrain.terrainData.size.x / (heightmapResolution),
             m_originTerrain.terrainData.size.z / (heightmapResolution));
 
-            m_terrainDetailBrushTransform = TerrainPaintUtility.CalculateBrushTransform(m_originTerrain, GaiaUtils.ConvertPositonToTerrainUV(m_originTerrain, new Vector2(m_originTransform.position.x, m_originTransform.position.z)), m_range, m_originTransform.rotation.eulerAngles.y);
+            m_terrainDetailBrushTransform = UnityEngine.TerrainTools.TerrainPaintUtility.CalculateBrushTransform(m_originTerrain, GaiaUtils.ConvertPositonToTerrainUV(m_originTerrain, new Vector2(m_originTransform.position.x, m_originTransform.position.z)), m_range, m_originTransform.rotation.eulerAngles.y);
 
             m_heightmapPixels = GetPixelsForResolution(m_originTerrain.terrainData.size, m_terrainDetailBrushTransform.GetBrushXYBounds(), heightmapResolution, heightmapResolution, 0);
 
@@ -356,7 +356,7 @@ namespace Gaia
             }
             CreateDefaultRenderTexture(ref RTnormalmap, m_heightmapPixels.width, m_heightmapPixels.height, Terrain.normalmapRenderTextureFormat);
 
-            Material mat = TerrainPaintUtility.GetBlitMaterial();
+            Material mat = UnityEngine.TerrainTools.TerrainPaintUtility.GetBlitMaterial();
 
             RenderTexture.active = RTnormalmap;
             GL.Clear(false, true, new Color(0.5f, 0.5f, 0.5f, 0.5f));
@@ -420,7 +420,7 @@ namespace Gaia
             m_originTerrain.terrainData.size.x / (controlTextureResolution - 1.0f),
             m_originTerrain.terrainData.size.z / (controlTextureResolution - 1.0f));
 
-            m_textureBrushTransform = TerrainPaintUtility.CalculateBrushTransform(m_originTerrain, GaiaUtils.ConvertPositonToTerrainUV(m_originTerrain, new Vector2(m_originTransform.position.x, m_originTransform.position.z)), m_range, m_originTransform.rotation.eulerAngles.y);
+            m_textureBrushTransform = UnityEngine.TerrainTools.TerrainPaintUtility.CalculateBrushTransform(m_originTerrain, GaiaUtils.ConvertPositonToTerrainUV(m_originTerrain, new Vector2(m_originTransform.position.x, m_originTransform.position.z)), m_range, m_originTransform.rotation.eulerAngles.y);
 
             m_texturePixels = GetPixelsForResolution(m_originTerrain.terrainData.size, m_textureBrushTransform.GetBrushXYBounds(), controlTextureResolution, controlTextureResolution,0);
 
@@ -444,7 +444,7 @@ namespace Gaia
 
 
 
-            Material mat = TerrainPaintUtility.GetCopyTerrainLayerMaterial();
+            Material mat = UnityEngine.TerrainTools.TerrainPaintUtility.GetCopyTerrainLayerMaterial();
 
             Vector4[] lmArray = {   new Vector4(1, 0, 0, 0),
                                     new Vector4(0, 1, 0, 0),
@@ -464,7 +464,7 @@ namespace Gaia
                     continue;
                 }
 
-                Texture originTexture = TerrainPaintUtility.GetTerrainAlphaMapChecked(entry.Key.terrain, entry.Value.splatMapID);
+                Texture originTexture = UnityEngine.TerrainTools.TerrainPaintUtility.GetTerrainAlphaMapChecked(entry.Key.terrain, entry.Value.splatMapID);
                 if ((originTexture.width != controlTextureResolution) || (originTexture.height != controlTextureResolution))
                 {
                     Debug.LogWarning("Mismatched control texture resolution on one of the terrains. Expected:( " +
@@ -504,7 +504,7 @@ namespace Gaia
 
             Vector4[] layerMasks = { new Vector4(1, 0, 0, 0), new Vector4(0, 1, 0, 0), new Vector4(0, 0, 1, 0), new Vector4(0, 0, 0, 1) };
 
-            Material mat = TerrainPaintUtility.GetCopyTerrainLayerMaterial();
+            Material mat = UnityEngine.TerrainTools.TerrainPaintUtility.GetCopyTerrainLayerMaterial();
 
             int controlTextureResolution = m_originTerrain.terrainData.alphamapResolution;
 
@@ -641,7 +641,7 @@ namespace Gaia
             m_originTerrain.terrainData.size.x / (terrainDetailResolution - 1.0f),
             m_originTerrain.terrainData.size.z / (terrainDetailResolution - 1.0f));
 
-            m_terrainDetailBrushTransform = TerrainPaintUtility.CalculateBrushTransform(m_originTerrain, GaiaUtils.ConvertPositonToTerrainUV(m_originTerrain, new Vector2(m_originTransform.position.x, m_originTransform.position.z)), m_range, m_originTransform.rotation.eulerAngles.y);
+            m_terrainDetailBrushTransform = UnityEngine.TerrainTools.TerrainPaintUtility.CalculateBrushTransform(m_originTerrain, GaiaUtils.ConvertPositonToTerrainUV(m_originTerrain, new Vector2(m_originTransform.position.x, m_originTransform.position.z)), m_range, m_originTransform.rotation.eulerAngles.y);
 
             m_terrainDetailPixels = GetPixelsForResolution(m_originTerrain.terrainData.size, m_terrainDetailBrushTransform.GetBrushXYBounds(), terrainDetailResolution, terrainDetailResolution, 0);
 
@@ -867,7 +867,7 @@ namespace Gaia
             m_originTerrain.terrainData.size.x / (terrainTreeResolution - 1.0f),
             m_originTerrain.terrainData.size.z / (terrainTreeResolution - 1.0f));
 
-            m_terrainTreeBrushTransform = TerrainPaintUtility.CalculateBrushTransform(m_originTerrain, GaiaUtils.ConvertPositonToTerrainUV(m_originTerrain, new Vector2(m_originTransform.position.x, m_originTransform.position.z)), m_range, m_originTransform.rotation.eulerAngles.y);
+            m_terrainTreeBrushTransform = UnityEngine.TerrainTools.TerrainPaintUtility.CalculateBrushTransform(m_originTerrain, GaiaUtils.ConvertPositonToTerrainUV(m_originTerrain, new Vector2(m_originTransform.position.x, m_originTransform.position.z)), m_range, m_originTransform.rotation.eulerAngles.y);
 
             m_terrainTreePixels = GetPixelsForResolution(m_originTerrain.terrainData.size, m_terrainTreeBrushTransform.GetBrushXYBounds(), terrainTreeResolution, terrainTreeResolution, 0);
 
@@ -1156,7 +1156,7 @@ namespace Gaia
             m_originTerrain.terrainData.size.x / terrainGameObjectResolution,
             m_originTerrain.terrainData.size.z / terrainGameObjectResolution);
 
-            m_gameObjectBrushTransform = TerrainPaintUtility.CalculateBrushTransform(m_originTerrain, GaiaUtils.ConvertPositonToTerrainUV(m_originTerrain, new Vector2(m_originTransform.position.x, m_originTransform.position.z)), m_range, m_originTransform.rotation.eulerAngles.y);
+            m_gameObjectBrushTransform = UnityEngine.TerrainTools.TerrainPaintUtility.CalculateBrushTransform(m_originTerrain, GaiaUtils.ConvertPositonToTerrainUV(m_originTerrain, new Vector2(m_originTransform.position.x, m_originTransform.position.z)), m_range, m_originTransform.rotation.eulerAngles.y);
 
             m_gameObjectPixels = GetPixelsForResolution(m_originTerrain.terrainData.size, m_terrainDetailBrushTransform.GetBrushXYBounds(), terrainGameObjectResolution, terrainGameObjectResolution, 0);
 
@@ -2316,7 +2316,7 @@ namespace Gaia
             m_originTerrain.terrainData.size.x / (terrainCollisionResolution - 1.0f),
             m_originTerrain.terrainData.size.z / (terrainCollisionResolution - 1.0f));
 
-            m_bakedMaskBrushTransform = TerrainPaintUtility.CalculateBrushTransform(m_originTerrain, GaiaUtils.ConvertPositonToTerrainUV(m_originTerrain, new Vector2(m_originTransform.position.x, m_originTransform.position.z)), m_range, m_originTransform.rotation.eulerAngles.y);
+            m_bakedMaskBrushTransform = UnityEngine.TerrainTools.TerrainPaintUtility.CalculateBrushTransform(m_originTerrain, GaiaUtils.ConvertPositonToTerrainUV(m_originTerrain, new Vector2(m_originTransform.position.x, m_originTransform.position.z)), m_range, m_originTransform.rotation.eulerAngles.y);
 
             m_bakedMaskPixels = GetPixelsForResolution(m_originTerrain.terrainData.size, m_bakedMaskBrushTransform.GetBrushXYBounds(), terrainCollisionResolution, terrainCollisionResolution, 0);
 
@@ -2333,7 +2333,7 @@ namespace Gaia
         public void GetCollisionMask(CollisionMask[] collisionMasks)
         {
             GaiaSessionManager gaiaSessionManager = GaiaSessionManager.GetSessionManager(false);
-            Material blitMaterial = TerrainPaintUtility.GetBlitMaterial();
+            Material blitMaterial = UnityEngine.TerrainTools.TerrainPaintUtility.GetBlitMaterial();
             RenderTexture currentRT = RenderTexture.active;
             RenderTextureDescriptor rtDesc = RTbakedMask.descriptor;
             //rtDesc.width = targetTextureWidth;
@@ -2490,7 +2490,7 @@ namespace Gaia
         public void GetWorldBiomeMask(string worldBiomeMaskGUID)
         {
             GaiaSessionManager gaiaSessionManager = GaiaSessionManager.GetSessionManager(false);
-            Material blitMaterial = TerrainPaintUtility.GetBlitMaterial();
+            Material blitMaterial = UnityEngine.TerrainTools.TerrainPaintUtility.GetBlitMaterial();
             RenderTexture currentRT = RenderTexture.active;
             RenderTextureDescriptor rtDesc = RTbakedMask.descriptor;
 
@@ -2682,7 +2682,7 @@ namespace Gaia
         {
             RectInt pixelRect = new RectInt();
             Vector2 pixelSize = new Vector2();
-            BrushTransform brushTransform = new BrushTransform();
+            UnityEngine.TerrainTools.BrushTransform brushTransform = new UnityEngine.TerrainTools.BrushTransform();
 
             GetOperationInfo(ref pixelRect, ref pixelSize, ref brushTransform, opType);
 
@@ -2724,7 +2724,7 @@ namespace Gaia
         //    return pcUV;
         //}
 
-        private void GetOperationInfo(ref RectInt pixelRect, ref Vector2 pixelSize, ref BrushTransform brushTransform, MultiTerrainOperationType opType)
+        private void GetOperationInfo(ref RectInt pixelRect, ref Vector2 pixelSize, ref UnityEngine.TerrainTools.BrushTransform brushTransform, MultiTerrainOperationType opType)
         {
             switch (opType)
             {
@@ -2778,7 +2778,7 @@ namespace Gaia
             }
             else
             {
-                int tileLayerIndex = TerrainPaintUtility.FindTerrainLayerIndex(m_originTerrain, layer);
+                int tileLayerIndex = UnityEngine.TerrainTools.TerrainPaintUtility.FindTerrainLayerIndex(m_originTerrain, layer);
                 if (tileLayerIndex == -1)
                 {
                     if (m_validTerrainNames.Count == 0 || m_validTerrainNames.Contains(m_originTerrain.name))
@@ -2819,7 +2819,7 @@ namespace Gaia
                         }
                         else
                         {
-                            int tileLayerIndex = TerrainPaintUtility.FindTerrainLayerIndex(t, layer);
+                            int tileLayerIndex = UnityEngine.TerrainTools.TerrainPaintUtility.FindTerrainLayerIndex(t, layer);
                             if (tileLayerIndex == -1)
                             {
                                 if (m_validTerrainNames.Count == 0 || m_validTerrainNames.Contains(t.name))
@@ -2922,7 +2922,7 @@ namespace Gaia
 
             RectInt pixels = new RectInt();
             Vector2 pixelSize = new Vector2();
-            BrushTransform brushTransform = new BrushTransform();
+            UnityEngine.TerrainTools.BrushTransform brushTransform = new UnityEngine.TerrainTools.BrushTransform();
 
             //Pull correct resolution sizes according to operation type
             GetOperationInfo(ref pixels, ref pixelSize, ref brushTransform, opType);

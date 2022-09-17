@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEditor;
 
-using UnityEditor.Experimental.TerrainAPI;
+
 
 using System;
 using System.Collections.Generic;
@@ -164,7 +164,7 @@ namespace Gaia {
         public void OnEnable() {}
 
         #region GUI
-        public void OnInspectorGUI(Terrain terrain, IOnInspectorGUI editContext) {
+        public void OnInspectorGUI(Terrain terrain, UnityEditor.TerrainTools.IOnInspectorGUI editContext) {
 
             m_ShowControls = TerrainToolGUIHelper.DrawHeaderFoldoutForErosion(ErosionStyles.m_HydroErosionControls, m_ShowControls, ResetToolVar);
 
@@ -227,7 +227,7 @@ namespace Gaia {
             m_ErosionSettings.Reset();
         }
 
-        public void OnMaterialInspectorGUI(Terrain terrain, IOnInspectorGUI editContext) {
+        public void OnMaterialInspectorGUI(Terrain terrain, UnityEditor.TerrainTools.IOnInspectorGUI editContext) {
             m_ShowControls = EditorGUILayout.Foldout(m_ShowControls, "Hydraulic Erosion Controls");
 
             if (m_ShowControls) {

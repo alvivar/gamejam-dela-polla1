@@ -10,14 +10,13 @@ using System.Text;
 using ProceduralWorlds.WaterSystem;
 using UnityEngine.SocialPlatforms;
 #if UNITY_EDITOR
-using UnityEngine.Experimental.TerrainAPI;
 #endif
 using System.Linq;
 
 namespace Gaia
 {
 
-    public enum AutoSpawnerStatus { Initial,Queued,Spawning,Done}
+    public enum AutoSpawnerStatus { Initial, Queued, Spawning, Done }
 
     /// <summary>
     /// Class to hold data about spawners being automatically triggered by a stamper
@@ -50,7 +49,7 @@ namespace Gaia
     [System.Serializable]
     public class Stamper : MonoBehaviour
     {
-#region Basic stamp control
+        #region Basic stamp control
 
         /// <summary>
         /// The stamp ID
@@ -84,17 +83,17 @@ namespace Gaia
         [NonSerialized]
         public float m_seaLevel = 0f;
 
-       
-                
+
+
 
         public StamperSettings m_settings;
 
         //public StamperSettings.ClipData[] m_clipData = new StamperSettings.ClipData[0];
 
-#endregion
+        #endregion
 
 
-#region Stamp variables
+        #region Stamp variables
 
         /// <summary>
         /// Toggling this value will toggle the inversion status on the stamp - preset to have the stamp inverted when it is loaded
@@ -134,7 +133,7 @@ namespace Gaia
         public AnimationCurve m_heightModifier = AnimationCurve.Linear(0f, 0f, 1f, 1f);
 
         /// <summary>
-        /// A curve that influences the strength of the stamp over distance from centre. LHS is centre of stamp, RHS is outer edge of stamp. 
+        /// A curve that influences the strength of the stamp over distance from centre. LHS is centre of stamp, RHS is outer edge of stamp.
         /// </summary>
         public AnimationCurve m_distanceMask = new AnimationCurve(new Keyframe(0f, 1f), new Keyframe(1f, 1f));
 
@@ -274,9 +273,9 @@ namespace Gaia
         /// </summary>
         public WorldMapStampToken m_worldMapStampToken;
 
-#region Effect Properties
+        #region Effect Properties
 
-    
+
 
         /// <summary>
         /// Whether or not the stamper operation will be recorded in the undo stack.
@@ -291,8 +290,8 @@ namespace Gaia
         /// <summary>
         /// The recorded undo operations for this stamper.
         /// </summary>
-        public List<GaiaWorldManager> m_stamperUndoOperations = new List<GaiaWorldManager>(); 
-#endregion
+        public List<GaiaWorldManager> m_stamperUndoOperations = new List<GaiaWorldManager>();
+        #endregion
 
         /// <summary>
         /// Gizmo colour
@@ -344,9 +343,9 @@ namespace Gaia
         public BiomeController m_linkedBiomeController;
 
 
-#endregion
+        #endregion
 
-#region Private variables
+        #region Private variables
 
         private Texture2D m_heightTransformCurveTexture;
         private Texture2D heightTransformCurveTexture
@@ -387,7 +386,7 @@ namespace Gaia
         //other terrain is there to take over, stamp preview will be drawn based on this terrain.
         //private Terrain m_lastActiveTerrain;
 
-        
+
 
         private Texture2D m_distanceMaskCurveTexture;
 
@@ -530,7 +529,7 @@ namespace Gaia
         }
 #endif
 
-#endregion
+        #endregion
 
 #if UNITY_EDITOR
         [UnityEditor.Callbacks.DidReloadScripts]
@@ -546,7 +545,7 @@ namespace Gaia
 #endif
 
 
-#region Public API Methods
+        #region Public API Methods
 
         /// <summary>
         /// Load the currently selected stamp
@@ -610,7 +609,7 @@ namespace Gaia
             //   (float)m_scanDepth * m_scanResolution * m_width));
 
             //Invert
-            //Note that stamp inversion is handled by inverting the brush strength before passing it into the 
+            //Note that stamp inversion is handled by inverting the brush strength before passing it into the
             //preview / stamp shader - faster this way than converting the heightmap
 
             //if (m_invertStamp)
@@ -779,7 +778,7 @@ namespace Gaia
         {
             GaiaStopwatch.StartEvent("Stamping");
             Terrain currentTerrain = GetCurrentTerrain();
-            
+
             if (currentTerrain == null)
             {
                 Debug.LogWarning("The stamper could not find a terrain for stamping! Please move the stamper over an active terrain to stamp!" +
@@ -822,7 +821,7 @@ namespace Gaia
             //limit the width to not overstep the max internal resolution value of the stamper preview
             float range = Mathf.RoundToInt(Mathf.Clamp(m_settings.m_width, 1, GetMaxStamperRange(currentTerrain)));
             float widthfactor = currentTerrain.terrainData.size.x / 100f;
-            
+
             return range * widthfactor;
         }
 
@@ -994,7 +993,7 @@ namespace Gaia
             else
             {
                 m_settings = settingsToLoad;
-                
+
             }
 
             //Try to look up all collision layer masks by their name where possible - layer orders could be different from when the stamper was saved.
@@ -1026,7 +1025,7 @@ namespace Gaia
         /// <summary>
         /// Position and fit the stamp perfectly to the terrain - will need to be followed by an UpdateStamp call
         /// </summary>
-        public void FitToTerrain(Terrain t =null)
+        public void FitToTerrain(Terrain t = null)
         {
             if (t == null)
             {
@@ -1115,7 +1114,7 @@ namespace Gaia
         }
 
         /// <summary>
-        /// Set up this stamper with a default set of masks for base terrain stamping 
+        /// Set up this stamper with a default set of masks for base terrain stamping
         /// </summary>
         public void SetBaseTerrainStandardMasks()
         {
@@ -1200,7 +1199,7 @@ namespace Gaia
         /// </summary>
         public void FlattenTerrain()
         {
-          
+
             //Get an undo buffer
             m_undoMgr = new GaiaWorldManager(Terrain.activeTerrains, m_settings.m_isWorldmapStamper);
             m_undoMgr.LoadFromWorld();
@@ -1247,9 +1246,9 @@ namespace Gaia
         //    TerrainHelper.ClearDetails();
         //}
 
-#endregion
+        #endregion
 
-#region Preview methods
+        #region Preview methods
 
         /// <summary>
         /// Return true if we have a preview we can use
@@ -1303,9 +1302,9 @@ namespace Gaia
             m_drawPreview = !m_drawPreview;
         }
 
-#endregion
+        #endregion
 
-#region Undo / Redo methods
+        #region Undo / Redo methods
 
         /// <summary>
         /// Whether or not we can undo an operation. Due to memory constraints only one level of undo is supported.
@@ -1377,9 +1376,9 @@ namespace Gaia
         //    }
         //}
 
-#endregion
+        #endregion
 
-#region Unity Related Methods
+        #region Unity Related Methods
 
         /// <summary>
         /// Called when the stamp is enabled, loads stamp if necessary
@@ -1427,8 +1426,8 @@ namespace Gaia
                     else
                     {
                         //no terrain? try placeholders then
-                        TerrainScene terrainScene = Gaia.TerrainHelper.GetDynamicLoadedTerrain(transform.position,SessionManager);
-                        if (terrainScene!=null)
+                        TerrainScene terrainScene = Gaia.TerrainHelper.GetDynamicLoadedTerrain(transform.position, SessionManager);
+                        if (terrainScene != null)
                         {
                             sizeFactor = (float)terrainScene.m_bounds.size.x / 100f;
                         }
@@ -1445,10 +1444,10 @@ namespace Gaia
                 float width = transform.localScale.x * sizeFactor * Mathf.Sqrt(2) * Mathf.Max(Mathf.Abs(Mathf.Cos(rad)), Mathf.Abs(Mathf.Sin(rad)));
 
                 //Overextend the height for the terrain loading a bit on top & bottom
-                //If the stamper only loads to the exact height it can be irritating 
-                //when you adjust the stamper 1mm above the max terrain height & all terrains unload immediately 
+                //If the stamper only loads to the exact height it can be irritating
+                //when you adjust the stamper 1mm above the max terrain height & all terrains unload immediately
                 float height = transform.localScale.y * sizeFactor * 6f;
-    
+
                 Vector3 center = transform.position;
 
                 TerrainLoader.m_loadingBoundsRegular.center = center;
@@ -1456,11 +1455,11 @@ namespace Gaia
                 TerrainLoader.m_loadingBoundsImpostor.center = center;
                 if (m_impostorLoadingRange > 0)
                 {
-                    TerrainLoader.m_loadingBoundsImpostor.size= new Vector3(width + m_impostorLoadingRange, height + m_impostorLoadingRange, width + m_impostorLoadingRange);
+                    TerrainLoader.m_loadingBoundsImpostor.size = new Vector3(width + m_impostorLoadingRange, height + m_impostorLoadingRange, width + m_impostorLoadingRange);
                 }
                 else
                 {
-                    TerrainLoader.m_loadingBoundsImpostor.size= Vector3.zero;
+                    TerrainLoader.m_loadingBoundsImpostor.size = Vector3.zero;
                 }
             }
             //Always set the load mode anew, setting it triggers re-evaluation of the loaded terrains
@@ -1494,7 +1493,7 @@ namespace Gaia
             }
         }
 
-        public void FitToAllTerrains(bool loadedOnly=false) 
+        public void FitToAllTerrains(bool loadedOnly = false)
         {
             BoundsDouble b = new BoundsDouble();
             BoundsDouble totalBounds = new BoundsDouble();
@@ -1502,7 +1501,7 @@ namespace Gaia
             if (TerrainHelper.GetTerrainBounds(ref b, loadedOnly))
             {
                 Terrain terrain = GetCurrentTerrain();
-                
+
                 m_settings.m_x = (float)b.center.x;
                 if (terrain != null)
                 {
@@ -1553,7 +1552,7 @@ namespace Gaia
             DestroyBakedTextures();
             ClearRTCache();
 #if UNITY_EDITOR && GAIA_PRO_PRESENT
-            if(m_Eroder!=null)
+            if (m_Eroder != null)
             {
                 m_Eroder.ReleaseRenderTextures();
                 m_Eroder = null;
@@ -1652,7 +1651,7 @@ namespace Gaia
                 //}
                 StopEditorUpdates();
             }
-             
+
 
             //if (m_updateCoroutine == null)
             //{
@@ -1750,7 +1749,7 @@ namespace Gaia
             }
             UpdateStamp();
 #if UNITY_EDITOR
-                //SceneView.RepaintAll();
+            //SceneView.RepaintAll();
 #endif
             //}
 
@@ -1835,7 +1834,7 @@ namespace Gaia
                 //RenderTexture.active = ctx.oldRenderTexture;
 
                 material.SetTexture("_HeightmapOrig", operation.RTheightmap);
-                
+
                 material.SetColor("_positiveHeightColor", m_gaiaSettings.m_stamperPositiveHeightChangeColor);
                 material.SetColor("_negativeHeightColor", m_gaiaSettings.m_stamperNegativeHeightChangeColor);
 
@@ -1857,9 +1856,9 @@ namespace Gaia
 
             }
 
-           
 
-           
+
+
 
         }
 
@@ -1871,7 +1870,7 @@ namespace Gaia
                 return;
             }
             transform.position = new Vector3(transform.position.x, currentTerrain.transform.position.y, transform.position.z);
-            transform.localScale = new Vector3(transform.localScale.x, m_settings.GetStampScaleByMeter(currentTerrain, absoluteHeightValue), transform.localScale.z) ; 
+            transform.localScale = new Vector3(transform.localScale.x, m_settings.GetStampScaleByMeter(currentTerrain, absoluteHeightValue), transform.localScale.z);
         }
 
         public float CurrentStampScaleToMeter()
@@ -1892,7 +1891,7 @@ namespace Gaia
                 heightDifference = transform.position.y - currentTerrain.transform.position.y;
                 return Mathf.Lerp(0, currentTerrain.terrainData.size.y, Mathf.InverseLerp(0, 50f, transform.localScale.y) + Mathf.InverseLerp(0, currentTerrain.terrainData.size.y, heightDifference));
             }
-            
+
         }
 
         /// <summary>
@@ -1923,7 +1922,7 @@ namespace Gaia
         void DrawGizmos(bool isSelected)
         {
 
-            Terrain activeTerrain = TerrainHelper.GetTerrain(transform.position,m_settings.m_isWorldmapStamper);
+            Terrain activeTerrain = TerrainHelper.GetTerrain(transform.position, m_settings.m_isWorldmapStamper);
 
             if (activeTerrain == null)
             {
@@ -1943,7 +1942,7 @@ namespace Gaia
             {
                 Bounds bounds = new Bounds();
                 Gizmos.color = new Color(Color.cyan.r, Color.cyan.g, Color.cyan.b, Color.cyan.a / 2f);
-                
+
                 float yPos = activeTerrain.transform.position.y + (activeTerrain.terrainData.size.y / 2f);
 
                 //The final gizmo will be drawn in LOCAL SPACE of the stamp to inherit its rotation
@@ -2060,7 +2059,7 @@ namespace Gaia
                     Gizmos.color = new Color(Color.blue.r, Color.blue.g, Color.blue.b, Color.blue.a / 4f);
                     Gizmos.DrawCube(bounds.center, bounds.size);
                 }
-            
+
             }
 
             //Stamp box
@@ -2096,7 +2095,7 @@ namespace Gaia
 
         }
 
-        
+
 
 
         //private List<string> GetLocalMapNames()
@@ -2234,12 +2233,12 @@ namespace Gaia
 #endif
         }
 
-#endregion
+        #endregion
 
-#region Private worker methods
+        #region Private worker methods
 
 
-        
+
         /// <summary>
         /// Applies the current image masks and creates a render texture containing the result
         /// </summary>
@@ -2257,7 +2256,7 @@ namespace Gaia
             //    m_cachedTerrain = currentTerrain;
             //}
 
-            //Still no terrain? -> Abort            
+            //Still no terrain? -> Abort
             if (currentTerrain == null)
             {
                 Debug.LogWarning("The Gaia Stamper could find no terrain to work on - Please position the stamper above an active terrain!");
@@ -2305,7 +2304,7 @@ namespace Gaia
                 RenderTexture outputTexture = RenderTexture.GetTemporary(rtDescriptor); ;
 
 
-                if (GaiaUtils.IsStampOperation(m_settings.m_operation) && m_settings.m_stamperInputImageMask.ImageMaskTexture !=null)
+                if (GaiaUtils.IsStampOperation(m_settings.m_operation) && m_settings.m_stamperInputImageMask.ImageMaskTexture != null)
                 {
                     RenderTexture tempTexture = RenderTexture.GetTemporary(localinputTexture.descriptor);
                     RenderTexture.active = tempTexture;
@@ -2420,7 +2419,7 @@ namespace Gaia
 
                         Vector4 contrastBrushParams = new Vector4(m_settings.m_contrastStrength, 0.0f, m_settings.m_contrastFeatureSize, 0);
                         //if (activeLocalFilters)
-                            contrastMat.SetTexture("_BrushTex", localOutputTexture);
+                        contrastMat.SetTexture("_BrushTex", localOutputTexture);
                         //else
                         //    contrastMat.SetTexture("_BrushTex", localinputTexture);
                         contrastMat.SetVector("_BrushParams", contrastBrushParams);
@@ -2435,13 +2434,13 @@ namespace Gaia
                         Vector4 terraceBrushParams = new Vector4(1f, m_settings.m_terraceCount, m_settings.m_terraceBevelAmountInterior, 0.0f);
 
                         //if (activeLocalFilters)
-                            terraceMat.SetTexture("_BrushTex", localOutputTexture);
+                        terraceMat.SetTexture("_BrushTex", localOutputTexture);
                         //else
                         //    terraceMat.SetTexture("_BrushTex", localinputTexture);
                         terraceMat.SetVector("_BrushParams", terraceBrushParams);
 
                         operation.SetupMaterialProperties(terraceMat, MultiTerrainOperationType.Heightmap);
-                        
+
                         Graphics.Blit(operation.RTheightmap, outputTexture, terraceMat, 0);
                         break;
                     case GaiaConstants.FeatureOperation.SharpenRidges:
@@ -2455,7 +2454,7 @@ namespace Gaia
                             0.0f);
 
                         //if (activeLocalFilters)
-                            sharpenRidgesMat.SetTexture("_BrushTex", localOutputTexture);
+                        sharpenRidgesMat.SetTexture("_BrushTex", localOutputTexture);
                         //else
                         //    sharpenRidgesMat.SetTexture("_BrushTex", localinputTexture);
                         sharpenRidgesMat.SetVector("_BrushParams", sharpenRidgesBrushParams);
@@ -2548,12 +2547,12 @@ namespace Gaia
                         mat.SetTexture("_GlobalMaskTex", globalOutputTexture);
                         mat.SetFloat("_BaseLevel", Mathf.Lerp(0f, 0.5f, m_settings.m_baseLevel));
                         mat.SetFloat("_BlendStrength", m_blendStrength);
-                        //Get relative y position according to terrain height where 
-                        //-1 = terrain y-position - max terrain height 
+                        //Get relative y position according to terrain height where
+                        //-1 = terrain y-position - max terrain height
                         //+1 = terrain y-position + max terrain height
                         //this covers the complete y range where a stamp could potentially still influence the terrain.
                         float relativeYPos = Mathf.Lerp(-0.5f, 0.5f, Mathf.InverseLerp(operation.m_originTerrain.transform.position.y - operation.m_originTerrain.terrainData.size.y, operation.m_originTerrain.transform.position.y + operation.m_originTerrain.terrainData.size.y, (float)m_settings.m_y));
-                        
+
                         mat.SetFloat("_yPos", relativeYPos);
                         if (m_settings.m_drawStampBase)
                             mat.SetFloat("_StampBase", 1f);
@@ -2625,16 +2624,16 @@ namespace Gaia
                 GaiaUtils.ReleaseAllTempRenderTextures();
 
             }
-            
-            
+
+
             return m_cachedRenderTexture;
-        
+
             //else
             //{
             //    //no re-calculation necessary, just return last result from cache
             //    return m_cachedRenderTexture;
             //}
-            
+
         }
 
         private Material GetCurrentFXMaterial()
@@ -2874,7 +2873,7 @@ namespace Gaia
         //    //Kill old image height map
         //    m_imageMaskHM = null;
 
-        //    //Check mode & exit 
+        //    //Check mode & exit
         //    if (m_areaMaskMode == GaiaConstants.ImageFitnessFilterMode.None)
         //    {
         //        return false;
@@ -2983,7 +2982,7 @@ namespace Gaia
         //    {
         //        //Or get a new one
 
-        //        //Grab the terrain 
+        //        //Grab the terrain
         //        Terrain t = Gaia.TerrainHelper.GetTerrain(transform.position);
         //        if (t == null)
         //        {
@@ -3205,7 +3204,7 @@ namespace Gaia
             return point;
         }
 
-#endregion
+        #endregion
 
     }
 

@@ -2,7 +2,6 @@
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
-using UnityEditor.Experimental.TerrainAPI;
 #endif
 
 namespace Gaia
@@ -14,9 +13,9 @@ namespace Gaia
 
         void Update()
         {
-            if(mat != null)
+            if (mat != null)
             {
-                noiseSettings.SetupMaterial( mat );
+                noiseSettings.SetupMaterial(mat);
             }
         }
     }

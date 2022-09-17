@@ -7,21 +7,20 @@ using UnityEditorInternal;
 using UnityEditor;
 #endif
 using UnityEngine;
-using UnityEngine.Experimental.TerrainAPI;
 using System.Linq;
 
 namespace Gaia
 {
     //The odd numbering is for alphabetical ordering of the enum values without destroying references to saved settings files
-    public enum ImageMaskOperation { CollisionMask = 5, DistanceMask = 1, GlobalSpawnerMaskStack=13, GrowAndShrink=12, HeightMask = 2, ImageMask = 0, NoiseMask = 4, SlopeMask = 3, Smooth = 8, StrengthTransform = 6, TerrainTexture = 9, WorldBiomeMask = 11, PROConcaveConvex = 10, PROHydraulicErosion = 7 }
+    public enum ImageMaskOperation { CollisionMask = 5, DistanceMask = 1, GlobalSpawnerMaskStack = 13, GrowAndShrink = 12, HeightMask = 2, ImageMask = 0, NoiseMask = 4, SlopeMask = 3, Smooth = 8, StrengthTransform = 6, TerrainTexture = 9, WorldBiomeMask = 11, PROConcaveConvex = 10, PROHydraulicErosion = 7 }
     //This "reduced" version of the operation enum is used in all mask locations that are not a spawn rule
     //This is done to filter out operations that make only sense in spawn rules (GlobalSpawnerOutputMask)
     public enum ImageMaskOperationReduced { CollisionMask = 5, DistanceMask = 1, GrowAndShrink = 12, HeightMask = 2, ImageMask = 0, NoiseMask = 4, SlopeMask = 3, Smooth = 8, StrengthTransform = 6, TerrainTexture = 9, WorldBiomeMask = 11, PROConcaveConvex = 10, PROHydraulicErosion = 7 }
 
     public enum ImageMaskBlendMode { Multiply, GreaterThan, SmallerThan, Add, Subtract }
-    public enum ImageMaskDistanceMaskAxes {[Description("XZ Circular")] XZ, [Description("X only")] X, [Description("Z Only")] Z }
+    public enum ImageMaskDistanceMaskAxes { [Description("XZ Circular")] XZ, [Description("X only")] X, [Description("Z Only")] Z }
     public enum ImageMaskInfluence { Local, Global }
-    public enum ImageMaskLocation { SpawnerGlobal,SpawnRule,Stamper,BiomeController,MaskMapExport}
+    public enum ImageMaskLocation { SpawnerGlobal, SpawnRule, Stamper, BiomeController, MaskMapExport }
 
     /// <summary>
     /// Toggle between two different ways of handling height masks
@@ -43,11 +42,11 @@ namespace Gaia
         public ImageMaskLocation m_imageMaskLocation;
         public float m_strength = 1f;
         public float m_seaLevel = 0f;
-        //The maximum terrain height, NOT the theoretical maximum height, but the highest measured physical point on the terrain 
+        //The maximum terrain height, NOT the theoretical maximum height, but the highest measured physical point on the terrain
         public float m_maxWorldHeight = 0f;
 
 
-        //The minimum terrain height, NOT the theoretical minimum height, but the lowest measured physical point on the terrain 
+        //The minimum terrain height, NOT the theoretical minimum height, but the lowest measured physical point on the terrain
         public float m_minWorldHeight = 0f;
 
         public float m_xOffSet = 0f;
@@ -638,7 +637,7 @@ namespace Gaia
                         m_smoothBlurRadius);                                  // kernel size
                     filterMat.SetVector("_SmoothWeights", smoothWeights);
 
-                    //Do not set up the UV properties according to the operation. In this case, this would lead to the "smoothness brush" 
+                    //Do not set up the UV properties according to the operation. In this case, this would lead to the "smoothness brush"
                     //being rotated inside our existing mask stack.
                     filterMat.SetVector("_PCUVToBrushUVScales", new Vector4(1, 0, 0, 1));
                     filterMat.SetVector("_PCUVToBrushUVOffset", new Vector4(0, 0, 0.0f, 0.0f));
@@ -719,7 +718,7 @@ namespace Gaia
                     m_concavityShader.SetVector("HeightmapResolution", new Vector2(m_multiTerrainOperation.RTheightmap.width, m_multiTerrainOperation.RTheightmap.height));
                     m_concavityShader.SetVector("TextureResolution", new Vector4(inputTexture.width, inputTexture.height, m_concavityFeatureSize, m_concavity));
                     m_concavityShader.Dispatch(kidx, outputTexture.width, outputTexture.height, 1);
-                 
+
                     m_concavityShader = null;
 #else
                     Graphics.Blit(inputTexture, outputTexture);
@@ -734,7 +733,7 @@ namespace Gaia
                     Graphics.Blit(inputTexture, outputTexture, filterMat, (int)m_blendMode);
                     filterMat.SetTexture("_ImageMaskTex", null);
 
-    
+
                     break;
                 case ImageMaskOperation.GrowAndShrink:
                     //translate the grow shrink distance into a scalar terrain value, as the shader works with U/V coordinates
@@ -1213,7 +1212,7 @@ namespace Gaia
 
 
 
-            //GaiaUtils.CopyFields(source.m_distanceMaskCurve, target.m_distanceMaskCurve); 
+            //GaiaUtils.CopyFields(source.m_distanceMaskCurve, target.m_distanceMaskCurve);
 #endif
             return target;
 

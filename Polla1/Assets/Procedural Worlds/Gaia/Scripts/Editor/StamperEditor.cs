@@ -3,8 +3,7 @@ using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
 using System;
-using UnityEditor.Experimental.TerrainAPI;
-using UnityEngine.Experimental.TerrainAPI;
+
 using PWCommon4;
 using Gaia.Internal;
 using UnityEditorInternal;
@@ -76,8 +75,8 @@ namespace Gaia
                 return m_sessionManager;
             }
         }
-      
-#endregion;
+
+        #endregion;
 
         private void OnDestroy()
         {
@@ -88,7 +87,7 @@ namespace Gaia
 
             //check if we opened a stamp selection window from this stamper, and if yes, close it down
             var allWindows = Resources.FindObjectsOfTypeAll<GaiaStampSelectorEditorWindow>();
-            for (int i = allWindows.Length-1; i>=0;i--)
+            for (int i = allWindows.Length - 1; i >= 0; i--)
             {
                 foreach (ImageMask imageMask in m_stamper.m_settings.m_imageMasks)
                 {
@@ -183,7 +182,7 @@ namespace Gaia
             }
         }
 
-#region AutoSpawnerList
+        #region AutoSpawnerList
 
         void CreateAutoSpawnerList()
         {
@@ -229,7 +228,7 @@ namespace Gaia
             return StamperAutoSpawnerListEditor.OnElementHeight();
         }
 
-#endregion
+        #endregion
 
         void CreateAutoMaskExportList()
         {
@@ -284,7 +283,7 @@ namespace Gaia
         private void CreateMaskList()
         {
             m_masksReorderable = new UnityEditorInternal.ReorderableList(m_stamper.m_settings.m_imageMasks, typeof(ImageMask), true, true, true, true);
-            m_masksReorderable.elementHeightCallback = OnElementHeightStamperMaskListEntry; 
+            m_masksReorderable.elementHeightCallback = OnElementHeightStamperMaskListEntry;
             m_masksReorderable.drawElementCallback = DrawStamperMaskListElement; ;
             m_masksReorderable.drawHeaderCallback = DrawStamperMaskListHeader;
             m_masksReorderable.onAddCallback = OnAddStamperMaskListEntry;
@@ -304,7 +303,7 @@ namespace Gaia
                 return ImageMaskListEditor.OnElementHeight(index, m_stamper.m_settings.m_imageMasks[index]);
             }
             else
-            { 
+            {
                 return EditorGUIUtility.singleLineHeight * 4;
             }
         }
@@ -319,16 +318,16 @@ namespace Gaia
             switch (mlbc)
             {
                 case MaskListButtonCommand.Delete:
-                        m_masksReorderable.index = index;
-                        OnRemoveStamperMaskListEntry(m_masksReorderable);
+                    m_masksReorderable.index = index;
+                    OnRemoveStamperMaskListEntry(m_masksReorderable);
                     break;
                 case MaskListButtonCommand.Duplicate:
                     ImageMask newImageMask = ImageMask.Clone(m_stamper.m_settings.m_imageMasks[index]);
-                        m_stamper.m_settings.m_imageMasks = GaiaUtils.InsertElementInArray(m_stamper.m_settings.m_imageMasks, newImageMask, index + 1);
-                        m_masksReorderable.list = m_stamper.m_settings.m_imageMasks;
-                        m_stamper.m_settings.m_imageMasks[index + 1].m_reorderableCollisionMaskList = CreateStamperCollisionMaskList(m_stamper.m_settings.m_imageMasks[index + 1].m_reorderableCollisionMaskList, m_stamper.m_settings.m_imageMasks[index + 1].m_collisionMasks);
-                        serializedObject.ApplyModifiedProperties();
- 
+                    m_stamper.m_settings.m_imageMasks = GaiaUtils.InsertElementInArray(m_stamper.m_settings.m_imageMasks, newImageMask, index + 1);
+                    m_masksReorderable.list = m_stamper.m_settings.m_imageMasks;
+                    m_stamper.m_settings.m_imageMasks[index + 1].m_reorderableCollisionMaskList = CreateStamperCollisionMaskList(m_stamper.m_settings.m_imageMasks[index + 1].m_reorderableCollisionMaskList, m_stamper.m_settings.m_imageMasks[index + 1].m_collisionMasks);
+                    serializedObject.ApplyModifiedProperties();
+
                     break;
                 case MaskListButtonCommand.Copy:
                     SessionManager.m_copiedImageMask = m_stamper.m_settings.m_imageMasks[index];
@@ -368,8 +367,8 @@ namespace Gaia
 
         private void OnReorderStamperMaskList(ReorderableList list)
         {
-                m_stamper.m_stampDirty = true;
-                m_stamper.DrawStampPreview();
+            m_stamper.m_stampDirty = true;
+            m_stamper.DrawStampPreview();
         }
 
 
@@ -471,7 +470,7 @@ namespace Gaia
                 m_stamper.m_worldMapStampToken.UpdateGizmoPos();
             }
             m_stamper.m_settings.ClearImageMaskTextures();
-            
+
             GaiaLighting.SetPostProcessingStatus(true);
         }
 
@@ -623,10 +622,10 @@ namespace Gaia
                         m_stamper.m_heightUpdateRequested = false;
                         EditorUtility.ClearProgressBar();
                     }
-                   
+
                     if (m_stamper.m_autoSpawnRequested)
                     {
-                        
+
                         if (!m_stamper.m_autoSpawnStarted)
                         {
                             GaiaStopwatch.StartEvent("Stamper AutoSpawning");
@@ -665,8 +664,8 @@ namespace Gaia
                     {
                         m_stamper.m_autoMaskExportRequested = false;
 #if GAIA_PRO_PRESENT
-                        int currentExporter=0;
-                        foreach (AutoMaskExport exporter in m_stamper.m_autoMaskExporter.FindAll(x=>x.isActive==true && x.maskMapExport != null))
+                        int currentExporter = 0;
+                        foreach (AutoMaskExport exporter in m_stamper.m_autoMaskExporter.FindAll(x => x.isActive == true && x.maskMapExport != null))
                         {
                             bool global = false;
                             if (m_stamper.m_settings.m_autoMaskExportArea == GaiaConstants.AutoSpawnerArea.World)
@@ -680,7 +679,7 @@ namespace Gaia
 
                             exporter.maskMapExport.StartExport(global);
 
-                        currentExporter++;
+                            currentExporter++;
                         }
                         EditorUtility.ClearProgressBar();
 #endif
@@ -715,7 +714,7 @@ namespace Gaia
                 m_wrapStyle.wordWrap = true;
             }
 
-            if(m_operationStyle == null || m_operationStyle.normal.background == null)
+            if (m_operationStyle == null || m_operationStyle.normal.background == null)
             {
                 m_operationStyle = new GUIStyle();
                 m_operationStyle.overflow = new RectOffset(2, 2, 2, 2);
@@ -754,7 +753,7 @@ namespace Gaia
             //    m_editorUtils.Panel("Workflow", DrawWorkflow, true);
             //}
 
-     
+
             //Check if sea level changed
             if (m_stamper.m_seaLevel != SessionManager.GetSeaLevel(m_stamper.m_settings.m_isWorldmapStamper))
             {
@@ -814,10 +813,10 @@ namespace Gaia
                 m_stamper.m_settings.m_operation = operation;
 
                 m_stamper.m_MaskTexturesDirty = true;
-            
+
                 m_stamper.m_smoothIterations = smoothIterations;
                 Vector3Double origin = TerrainLoaderManager.Instance.GetOrigin();
-                //only update these values if there is no preview drawing - 
+                //only update these values if there is no preview drawing -
                 //otherwise the stamperEditor code and the stamper code will both alter those values inbetween frames.
                 if (!m_stamper.m_drawPreview)
                 {
@@ -839,7 +838,7 @@ namespace Gaia
             //        m_volume = m_clipData.GetArrayElementAtIndex(x).FindPropertyRelative("m_volume").floatValue
             //    };
             //}
-                 
+
             serializedObject.ApplyModifiedProperties();
             //SerializedObject propObj = new SerializedObject(serializedObject.FindProperty("m_currentSettings").objectReferenceValue);
             //propObj.ApplyModifiedProperties();
@@ -900,19 +899,19 @@ namespace Gaia
         private void DrawSaveSettingsAndExport(bool helpEnabled)
         {
             m_editorUtils.Heading("SaveAndLoadSettings");
-            if(!String.IsNullOrEmpty(m_SaveAndLoadMessage))
+            if (!String.IsNullOrEmpty(m_SaveAndLoadMessage))
                 EditorGUILayout.HelpBox(m_SaveAndLoadMessage, m_SaveAndLoadMessageType, true);
 
             EditorGUILayout.BeginHorizontal();
             if (m_editorUtils.Button("LoadButton"))
             {
                 string openFilePath = EditorUtility.OpenFilePanel("Load Stamper settings..", GaiaDirectories.GetUserSettingsDirectory(), "asset");
-                
+
 
                 bool loadConditionsMet = true;
 
                 //Do we have a path to begin with?
-                if (openFilePath==null || openFilePath =="")
+                if (openFilePath == null || openFilePath == "")
                 {
                     //Silently abort in this case, the user has pressed "Abort" in the File Open Dialog
                     loadConditionsMet = false;
@@ -939,7 +938,7 @@ namespace Gaia
                         //Update the internal editor position / scale values after loading
                         m_stamper.transform.position = new Vector3((float)m_stamper.m_settings.m_x, (float)m_stamper.m_settings.m_y, (float)m_stamper.m_settings.m_z);
                         m_stamper.transform.rotation = Quaternion.Euler(0, m_stamper.m_settings.m_rotation, 0);
-                        m_stamper.transform.localScale = new Vector3(m_stamper.m_settings.m_width, m_stamper.m_settings.m_height, m_stamper.m_settings.m_width); 
+                        m_stamper.transform.localScale = new Vector3(m_stamper.m_settings.m_width, m_stamper.m_settings.m_height, m_stamper.m_settings.m_width);
                         //mark stamper as dirty so it will be redrawn
                         m_stamper.m_stampDirty = true;
                         m_SaveAndLoadMessage = m_editorUtils.GetContent("LoadSuccessful").text;
@@ -985,7 +984,7 @@ namespace Gaia
                     {
                         AssetDatabase.DeleteAsset(saveFilePath);
                     }
-                    
+
                     AssetDatabase.CreateAsset(m_stamper.m_settings, saveFilePath);
                     EditorUtility.SetDirty(m_stamper.m_settings);
                     AssetDatabase.SaveAssets();
@@ -1018,7 +1017,7 @@ namespace Gaia
 
             m_editorUtils.Panel("MaskBaking", DrawMaskBaking, false);
 
-            
+
         }
 
 
@@ -1029,7 +1028,7 @@ namespace Gaia
             hm.Flip();
             path += "/" + terrain.name;
             GaiaUtils.CompressToMultiChannelFileImage(path, hm, hm, hm, null, TextureFormat.RGBAFloat, GaiaConstants.ImageFileType.Exr);
-            
+
             string textureFileName = path + ".exr";
             GaiaUtils.SetDefaultStampImportSettings(GaiaDirectories.GetPathStartingAtAssetsFolder(textureFileName));
         }
@@ -1087,7 +1086,7 @@ namespace Gaia
                     {
                         if (m_stamper.m_stamperUndoOperations[m_stamper.m_currentStamperUndoOperation - 1].UpdatePhysicalTerrainArray())
                         {
-                            GaiaSessionManager.StampUndo(Terrain.activeTerrains.Select(x=>x.name).ToList(), true, m_stamper);
+                            GaiaSessionManager.StampUndo(Terrain.activeTerrains.Select(x => x.name).ToList(), true, m_stamper);
                         }
                     }
                 }
@@ -1156,7 +1155,7 @@ namespace Gaia
                 m_stamper.m_activatePreviewRequested = false;
                 m_stamper.TogglePreview();
             }
-            
+
             GUILayout.Space(7);
             if (m_stamper.m_autoSpawnRequested || m_stamper.m_heightUpdateRequested)
             {
@@ -1174,11 +1173,11 @@ namespace Gaia
             }
             else
             {
-                GUI.backgroundColor = m_gaiaSettings.GetActionButtonColor(); 
+                GUI.backgroundColor = m_gaiaSettings.GetActionButtonColor();
                 if (GUILayout.Button(GetLabel("Stamp")))
                 {
                     //Check if there are any terrains in the scene that don't use "Draw Instanced"
-                    if (Terrain.activeTerrains.Where(x => x.drawInstanced == false).Count()>0)
+                    if (Terrain.activeTerrains.Where(x => x.drawInstanced == false).Count() > 0)
                     {
                         if (!EditorUtility.DisplayDialog("Draw Instanced Warning", "This scene contains terrains that have the setting 'Draw Instanced' turned off. This can lead to wrong stamp results when using certain masks. Please enable 'Draw Instanced' in the terrain inspector settings tab on all terrains. ", "Continue Anyways", "Cancel"))
                         {
@@ -1226,7 +1225,7 @@ namespace Gaia
             }
             GUILayout.EndHorizontal();
             GUI.enabled = currentGUIState;
-            
+
         }
 
         private void DrawAutoTriggers(bool showHelp)
@@ -1290,7 +1289,7 @@ namespace Gaia
             bool currentGUIState = GUI.enabled;
             if (!TerrainLoaderManager.Instance.TerrainSceneStorage.m_terrainLoadingEnabled)
             {
-                EditorGUILayout.HelpBox(m_editorUtils.GetTextValue("AutoLoadTerrainsDisabled"),MessageType.Warning);
+                EditorGUILayout.HelpBox(m_editorUtils.GetTextValue("AutoLoadTerrainsDisabled"), MessageType.Warning);
                 GUI.enabled = false;
             }
 
@@ -1366,7 +1365,7 @@ namespace Gaia
                 EditorGUILayout.BeginVertical();
                 EditorGUI.DrawPreviewTexture(previewRect, m_stamper.m_cachedMaskTexture);
                 EditorGUILayout.EndVertical();
-                GUILayout.Space(Mathf.Abs(previewRect.height) *1.3f);
+                GUILayout.Space(Mathf.Abs(previewRect.height) * 1.3f);
             }
             m_maskBakingResolution = m_editorUtils.IntField("MaskBakingResolution", m_maskBakingResolution, showHelp);
             if (m_maskBakingPath == "")
@@ -1395,7 +1394,7 @@ namespace Gaia
             {
                 //Make sure the directory exists first, then suggest it to the user for exporting into there
                 GaiaDirectories.GetStamperTerrainExportsDirectory();
-                string exportTerrainsPath = EditorUtility.SaveFolderPanel("Save Terrains as Stamp Image...", GaiaDirectories.GetUserStampDirectory() , GaiaDirectories.STAMPER_TERRAIN_EXPORT_DIRECTORY.Replace("/",""));
+                string exportTerrainsPath = EditorUtility.SaveFolderPanel("Save Terrains as Stamp Image...", GaiaDirectories.GetUserStampDirectory(), GaiaDirectories.STAMPER_TERRAIN_EXPORT_DIRECTORY.Replace("/", ""));
                 int terrainCount = 0;
                 if (GaiaUtils.HasDynamicLoadedTerrains())
                 {
@@ -1435,8 +1434,8 @@ namespace Gaia
             GUILayout.BeginHorizontal();
             EditorGUILayout.LabelField(m_editorUtils.GetContent("StampImage"), GUILayout.Width(EditorGUIUtility.labelWidth));
             m_stamper.m_settings.m_stamperInputImageMask.ImageMaskTexture = (Texture2D)EditorGUILayout.ObjectField(m_stamper.m_settings.m_stamperInputImageMask.ImageMaskTexture, typeof(Texture2D), false, GUILayout.Height(EditorGUIUtility.singleLineHeight));
-           
-            if (GUILayout.Button(m_editorUtils.GetContent("MaskImageOpenStampButton"),GUILayout.Width(70)))
+
+            if (GUILayout.Button(m_editorUtils.GetContent("MaskImageOpenStampButton"), GUILayout.Width(70)))
             {
                 ImageMaskListEditor.OpenStampBrowser(m_stamper.m_settings.m_stamperInputImageMask);
             }
@@ -1444,7 +1443,7 @@ namespace Gaia
             m_editorUtils.InlineHelp("StampImage", showHelp);
             GUILayout.BeginHorizontal();
             m_stamper.m_settings.m_stamperInputImageMask.m_strengthTransformCurve = m_editorUtils.CurveField("MaskStrengthTransformCurve", m_stamper.m_settings.m_stamperInputImageMask.m_strengthTransformCurve);
-            if (GUILayout.Button(m_editorUtils.GetContent("MaskInvert"),GUILayout.Width(70)))
+            if (GUILayout.Button(m_editorUtils.GetContent("MaskInvert"), GUILayout.Width(70)))
             {
                 GaiaUtils.InvertAnimationCurve(ref m_stamper.m_settings.m_stamperInputImageMask.m_strengthTransformCurve);
             }
@@ -1467,12 +1466,12 @@ namespace Gaia
                 {
                     if (m_stamper.m_settings.m_absoluteHeightValue < 0 && operation != GaiaConstants.FeatureOperation.SubtractHeight)
                     {
-                        operation =  GaiaConstants.FeatureOperation.SubtractHeight;
+                        operation = GaiaConstants.FeatureOperation.SubtractHeight;
                         m_absoluteHeightOPSwitch = true;
                     }
                     if (m_stamper.m_settings.m_absoluteHeightValue > 0 && operation != GaiaConstants.FeatureOperation.AddHeight)
                     {
-                        operation =  GaiaConstants.FeatureOperation.AddHeight;
+                        operation = GaiaConstants.FeatureOperation.AddHeight;
                         m_absoluteHeightOPSwitch = true;
                     }
                     m_stamper.SetStampScaleByMeter(m_stamper.m_settings.m_absoluteHeightValue);
@@ -1483,13 +1482,13 @@ namespace Gaia
                 }
             }
 
-            
+
             if (operation == GaiaConstants.FeatureOperation.BlendHeight)
             {
                 //Value displayed in % on the UI
-                m_stamper.m_blendStrength = EditorGUILayout.Slider(GetLabel("Blend Strength %"), m_stamper.m_blendStrength * 100f, 0f, 100f) /100f;
+                m_stamper.m_blendStrength = EditorGUILayout.Slider(GetLabel("Blend Strength %"), m_stamper.m_blendStrength * 100f, 0f, 100f) / 100f;
             }
-            
+
 
 
 
@@ -1730,7 +1729,7 @@ namespace Gaia
             GUILayout.BeginHorizontal();
             EditorGUILayout.LabelField(m_editorUtils.GetContent("StampImage"), GUILayout.Width(EditorGUIUtility.labelWidth));
             m_stamper.m_settings.m_stamperInputImageMask.ImageMaskTexture = (Texture2D)EditorGUILayout.ObjectField(m_stamper.m_settings.m_stamperInputImageMask.ImageMaskTexture, typeof(Texture2D), false, GUILayout.Height(EditorGUIUtility.singleLineHeight));
-            if (GUILayout.Button(m_editorUtils.GetContent("MaskImageOpenStampButton"),GUILayout.Width(70)))
+            if (GUILayout.Button(m_editorUtils.GetContent("MaskImageOpenStampButton"), GUILayout.Width(70)))
             {
                 ImageMaskListEditor.OpenStampBrowser(m_stamper.m_settings.m_stamperInputImageMask);
             }
@@ -1748,7 +1747,7 @@ namespace Gaia
                 m_stamper.m_blendStrength = EditorGUILayout.Slider(GetLabel("Blend Strength %"), m_stamper.m_blendStrength, 0f, 1f);
             }
             m_stamper.m_settings.m_mixMidPoint = m_editorUtils.Slider("MixMidPoint", m_stamper.m_settings.m_mixMidPoint, 0f, 1f, showHelp);
-            m_stamper.m_settings.m_mixHeightStrength = m_editorUtils.Slider("MixHeightStrength", m_stamper.m_settings.m_mixHeightStrength * 100f, 0f, 200f, showHelp) /100f;
+            m_stamper.m_settings.m_mixHeightStrength = m_editorUtils.Slider("MixHeightStrength", m_stamper.m_settings.m_mixHeightStrength * 100f, 0f, 200f, showHelp) / 100f;
         }
 
         private void DrawStamperInfo(bool showHelp)
@@ -1766,7 +1765,7 @@ namespace Gaia
         private void DrawContrastControls(bool showHelp)
         {
 #if GAIA_PRO_PRESENT
-            m_stamper.m_settings.m_contrastFeatureSize = EditorGUILayout.Slider("Feature Size",m_stamper.m_settings.m_contrastFeatureSize, 1.0f, 100.0f);
+            m_stamper.m_settings.m_contrastFeatureSize = EditorGUILayout.Slider("Feature Size", m_stamper.m_settings.m_contrastFeatureSize, 1.0f, 100.0f);
             m_stamper.m_settings.m_contrastStrength = EditorGUILayout.Slider("Strength", m_stamper.m_settings.m_contrastStrength, 0.01f, 10.0f);
 #else
             EditorGUILayout.HelpBox(m_editorUtils.GetTextValue("GaiaProOperationInfo"), MessageType.Warning);
@@ -1814,7 +1813,7 @@ namespace Gaia
             if (m_ShowAdvancedUI)
             {
                 //m_ErosionSettings.m_IterationBlendScalar.DrawInspectorGUI();
-               //m_ErosionSettings.m_GravitationalConstant = EditorGUILayout.Slider(ErosionStyles.m_GravitationConstant, m_ErosionSettings.m_GravitationalConstant, 0.0f, -100.0f);
+                //m_ErosionSettings.m_GravitationalConstant = EditorGUILayout.Slider(ErosionStyles.m_GravitationConstant, m_ErosionSettings.m_GravitationalConstant, 0.0f, -100.0f);
 
                 EditorGUI.indentLevel++;
                 m_ShowThermalUI = EditorGUILayout.Foldout(m_ShowThermalUI, "Thermal Smoothing");
@@ -1862,9 +1861,9 @@ namespace Gaia
 
         private Vector2 ConvertPositonToTerrainUV(Terrain terrain, Vector2 worldSpacePosition)
         {
-            float u = (worldSpacePosition.x - terrain.transform.position.x) / terrain.terrainData.size.x; 
+            float u = (worldSpacePosition.x - terrain.transform.position.x) / terrain.terrainData.size.x;
             float v = (worldSpacePosition.y - terrain.transform.position.z) / terrain.terrainData.size.z;
-            return new Vector2(u,v);
+            return new Vector2(u, v);
         }
 
         private void OnSceneGUI()
@@ -1947,7 +1946,7 @@ namespace Gaia
         /// <summary>
         /// The tooltips
         /// </summary>
-        static Dictionary<string, string> m_tooltips = new Dictionary<string,string>
+        static Dictionary<string, string> m_tooltips = new Dictionary<string, string>
         {
             { "Stamp Preview", "Preview texture for the feature being stamped. Drag and drop preview textures here." },
             { "Transform Height", "Pre-process and modify the stamp height. Can be used to further refine stamp shapes."},
@@ -1963,7 +1962,7 @@ namespace Gaia
             { "Stencil Height", "Adjusted height in meters that a normalised stamp will be applied to the terrain."},
             { "Distance Mask", "Masks the effect of the stamp over distance from center. Left hand side of curve is centre of stamp, right hand side of curve is outer edge of stamp. Set right hand side to zero to blend edges of stamp into existing terrain."},
             { "Area Mask", "Masks the effect of the stamp using the strength of the texture or noise function provided. A value of 1 means apply full effect, a value of 0 means apply no effect. Visually this is much the same ways as a greyscale image mask. If using a terrain texture, then paint on the terrain with the selected texture, and the painted area will be used as the mask."},
-            
+
             { "Noise Seed", "The seed value for the noise function - the same seed will always generate the same noise for a given set of parameters."},
             { "Octaves", "The amount of detail in the noise - more octaves mean more detail and longer calculation time."},
             { "Persistence", "The roughness of the noise. Controls how quickly amplitudes diminish for successive octaves. 0..1."},
